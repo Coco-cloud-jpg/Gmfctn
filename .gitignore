@@ -1,0 +1,43 @@
+/Frontend/Gmfctn/node_modules
+/Backend/Gmfctn/bin
+/Backend/Gmfctn/obj
+
+/Frontend/Gmfctn/dist
+/Frontend/Gmfctn/tmp
+/Frontend/Gmfctn/out-tsc
+
+/Frontend/Gmfctn/bazel-out
+
+/Frontend/Gmfctn/chrome-profiler-events*.json
+/Frontend/Gmfctn/speed-measure-plugin*.json
+
+# IDEs and editors
+/Frontend/Gmfctn/.idea
+/Frontend/Gmfctn/.project
+/Frontend/Gmfctn/.classpath
+/Frontend/Gmfctn/.c9/
+/Frontend/Gmfctn/*.launch
+/Frontend/Gmfctn/.settings/
+/Frontend/Gmfctn/*.sublime-workspace
+
+# IDE - VSCode
+/Frontend/Gmfctn/.vscode/*
+/Frontend/Gmfctn/!.vscode/settings.json
+/Frontend/Gmfctn/!.vscode/tasks.json
+/Frontend/Gmfctn/!.vscode/launch.json
+/Frontend/Gmfctn/!.vscode/extensions.json
+/Frontend/Gmfctn/.history/*
+
+# misc
+/Frontend/Gmfctn/.sass-cache
+/Frontend/Gmfctn/connect.lock
+/Frontend/Gmfctn/coverage
+/Frontend/Gmfctn/libpeerconnection.log
+/Frontend/Gmfctn/npm-debug.log
+/Frontend/Gmfctn/yarn-error.log
+/Frontend/Gmfctn/testem.log
+/Frontend/Gmfctn/typings
+
+# System Files
+/Frontend/Gmfctn/.DS_Store
+/Frontend/Gmfctn/Thumbs.db
