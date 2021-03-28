@@ -28,6 +28,7 @@ namespace Gmfctn
         {
 
             services.AddControllers();
+            services.AddCors();
             services.AddSwaggerGen(c =>
             {
                 c.SwaggerDoc("v1", new OpenApiInfo { Title = "Gmfctn", Version = "v1" });
