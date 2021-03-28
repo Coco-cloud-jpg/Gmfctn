@@ -1,0 +1,81 @@
+.content{
+    h3{
+        display: inline-block;
+        text-transform: uppercase;
+        color: #eee;
+        font-size: 14px;
+        margin: 0 8px 8px 16px;
+        font-weight: 500;
+    }
+    >button {
+        display: inline-block;
+        margin: 16px 8px;
+        min-width: 70px;
+        line-height: 28px;
+        color: #eee;
+        background-color: #73bf0b;
+        font-size: 12px;
+        border-radius: 0;
+    }
+    .info{
+        margin: 0 16px;
+        .item{
+            margin-bottom: 8px;
+            min-width: 150px;
+            position: relative;
+            img{
+                width: 40px;
+                height: 40px;
+                border-radius: 50%;
+                border: 1px solid #73bf0b;
+            }
+            div{
+                display: inline-block;
+                font-weight: 300;
+                height: 20px;
+                position:absolute;
+                &.description{
+                    color: #eee;
+                    
+                    top: 10px;
+                    line-height: 14px;
+                    font-size: 14px;
+                    margin-left: 5px;
+                    p{
+                        height: 10px;
+                        margin-bottom: 5px;
+                        &:nth-child(2){
+                            line-height: 10px;
+                            font-size: 12px;
+                        }
+                    }
+                }
+                &.exp{
+                    right: -5px;
+                    padding-right: 10px;
+                    font-size: 12px;
+                    font-weight: 500;
+                    color: #f7ba21;
+                    padding-top: 15px;
+                    >p{
+                        height: 100%;
+                    }
+                    >p::before{
+                        content: '';
+                        display: block;
+                        position:absolute;
+                        left: -15px;
+                        top: 19px;
+                        width: 10px;
+                        height:10px;
+                        background-color: #f7ba21;
+                        border-radius: 50%;
+                    }
+                }
+            }
+        }
+
+        
+    }
+    
+}

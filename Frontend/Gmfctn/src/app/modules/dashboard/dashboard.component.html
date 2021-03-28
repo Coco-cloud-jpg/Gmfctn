@@ -1,0 +1,23 @@
+<div class="dashboard">
+  <mat-grid-list cols="5" gutterSize="10px" rowHeight="90px">
+    <mat-grid-tile class="tile" [colspan]="4" [rowspan]="1" style="background-color: rgb(115, 191, 11);">
+      <greeting [user]="user"></greeting>
+    </mat-grid-tile>
+    <mat-grid-tile class="tile" [colspan]="1" [rowspan]="7" style="background-color: rgb(82, 87, 96);">
+
+    </mat-grid-tile>
+    <mat-grid-tile class="tile" [colspan]="1" [rowspan]="3" style="background-color: rgb(82, 87, 96);">
+      <personal-achievments></personal-achievments>
+    </mat-grid-tile>
+    <mat-grid-tile class="tile" [colspan]="1" [rowspan]="3" style="background-color: rgb(82, 87, 96);">
+      <thank-you></thank-you>
+    </mat-grid-tile>
+    <mat-grid-tile class="tile" [colspan]="2" [rowspan]="3" style="background-color: rgb(82, 87, 96);">
+      <top-chart></top-chart>
+    </mat-grid-tile>
+    <mat-grid-tile class="tile" [colspan]="1" [rowspan]="3" style="background-color: rgb(82, 87, 96);">
+    </mat-grid-tile>
+    <mat-grid-tile class="tile" [colspan]="3" [rowspan]="3" style="background-color: rgb(82, 87, 96);">
+    </mat-grid-tile>
+  </mat-grid-list>
+</div>
