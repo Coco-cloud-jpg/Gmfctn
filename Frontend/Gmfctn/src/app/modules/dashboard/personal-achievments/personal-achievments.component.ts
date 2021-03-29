@@ -1,14 +1,14 @@
 import { Component, OnInit } from '@angular/core';
-import { DashboardModule } from '../dashboard.module'
-import '../../../models/achievement'
+import { DashboardModule } from '../dashboard.module';
+import '../../../models/achievement';
 @Component({
-  selector: 'personal-achievments',
+  selector: 'app-personal-achievments',
   templateUrl: './personal-achievments.component.html',
   styleUrls: ['./personal-achievments.component.scss']
 })
-export class PersonalAchievmentsComponent implements OnInit {
+export class PersonalAchievmentsComponent {
 
-  achList:Achievement[] = [{icon: '../../../../assets/phoenix.png',
+  achList: Achievement[] = [{icon: '../../../../assets/phoenix.png',
                             name: 'Exoft turbo power',
                             description: '',
                             xp: 5,
@@ -28,9 +28,5 @@ export class PersonalAchievmentsComponent implements OnInit {
                             description: '',
                             xp: 5,
                             time: new Date('March 27, 2021 22:24:00')}];
-  constructor() { }
-
-  ngOnInit(): void {
-  }
 
 }

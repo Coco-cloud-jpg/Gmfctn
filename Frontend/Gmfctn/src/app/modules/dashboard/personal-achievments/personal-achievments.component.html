@@ -1,15 +1,22 @@
 <div class="content">
+
   <h3>Personal achievments</h3>
+
   <button mat-button color="basic">Request</button>
+
   <div class="info">
+
     <div class="item" *ngFor="let item of achList"><img src={{item.icon}} alt="">
+
       <div class="description">
         <p>{{item.name}}</p>
         <p>{{item.time|howLongAgo}}</p>
       </div>
+
       <div class="exp">
         <p>+ {{item.xp}} xp</p>
       </div>
+
     </div>
   </div>
 </div>

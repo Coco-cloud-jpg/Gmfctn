@@ -1,6 +1,6 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { DashboardComponent } from './dashboard.component'
+import { DashboardComponent } from './dashboard.component';
 import { RouterModule } from '@angular/router';
 import { GreetingComponent } from './greeting/greeting.component';
 import {MaterialModule} from './../../shared/materials.module';
@@ -18,9 +18,9 @@ const routes = [
 ];
 
 @NgModule({
-  declarations: [GreetingComponent,DashboardComponent, PersonalAchievmentsComponent, HowLongAgoPipe, ThankYouComponent, TopChartComponent],
+  declarations: [GreetingComponent, DashboardComponent, PersonalAchievmentsComponent, HowLongAgoPipe, ThankYouComponent, TopChartComponent],
   imports: [
-    CommonModule, RouterModule.forChild(routes),MaterialModule
+    CommonModule, RouterModule.forChild(routes), MaterialModule
   ],
 })
 export class DashboardModule { }

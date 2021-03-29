@@ -1,16 +1,13 @@
-import { Component, OnInit, Input,NgModule} from '@angular/core';
+import { Component, OnInit, Input } from '@angular/core';
 
 @Component({
   selector: 'app-sidebar',
   templateUrl: './sidebar.component.html',
   styleUrls: ['./sidebar.component.scss']
 })
-export class SidebarComponent implements OnInit {
+export class SidebarComponent{
+  
+  @Input() user = { name: '', surname: ''};
 
-  constructor() { }
-
-  ngOnInit(): void {
-  }
-  opened: boolean = false;
-  @Input() user = {name:'',surname:''}; 
+  public opened = false;
 }

@@ -2,30 +2,42 @@
   <mat-sidenav [(opened)]="opened">
     <div class="main-content-div">
       <div class="button-div">
+
         <span>GMFCTN!</span>
+
         <button mat-icon-button (click)="opened=!opened">
           <mat-icon>menu</mat-icon>
         </button>
       </div>
       <div class="info">
+
         <div class="img">{{user.name[0]}}{{user.surname[0]}} </div>
+
         <span>{{user.name}} {{user.surname}} </span>
+
         <button mat-button color="basic">Edit profile</button>
+
         <button mat-button color="basic">Change password</button>
+
         <button mat-button color="basic">Log out</button>
 
         <div class="statistic">
+
           <div><span>Total: </span><span>4 Badges</span></div>
+
           <div><span>EXP: </span><span>70 XP</span></div>
         </div>
         <div class="menu">
+
           <a class="navigation-item" routerLink="dashboard" routerLinkActive="active"
             [routerLinkActiveOptions]="{exact:true}">
             Dashboard
           </a><br>
+
           <a class="navigation-item" routerLink="" routerLinkActive="active" [routerLinkActiveOptions]="{exact:true}">
             Badges
           </a><br>
+
           <a class="navigation-item" routerLink="c" routerLinkActive="active" [routerLinkActiveOptions]="{exact:true}">
             Order
           </a>
@@ -34,12 +46,11 @@
     </div>
   </mat-sidenav>
   <mat-sidenav-content>
+
     <app-toolbar [isOpened]="opened" (opened)="opened=!opened" [user]=user></app-toolbar>
+
     <div class="main-container">
       <router-outlet></router-outlet>
     </div>
-    <!--<button (click)="opened=!opened">
-      <mat-icon>menu</mat-icon>
-    </button>-->
   </mat-sidenav-content>
 </mat-sidenav-container>
