@@ -1,4 +1,4 @@
-interface graph {
-    Value:number;
-    Color:string;
+interface Graph {
+    Value: number;
+    Color: string;
 }

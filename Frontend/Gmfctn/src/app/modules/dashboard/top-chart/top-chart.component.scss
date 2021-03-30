@@ -1,12 +1,14 @@
 .content {
-  margin: 10px 16px;
+  margin: 1em 1.5em;
   color: #eee;
-  .main{
+
+  .main {
     display: flex;
   }
-  .main >div {
+
+  .main>div {
     display: block;
-    
+
   }
 
   h3 {
@@ -19,31 +21,36 @@
   }
 
   .topchart {
-      margin-top: 0;
-      font-size: 12px;
-      width: 60%;
+    margin-top: 0;
+    font-size: 12px;
+    width: 60%;
+
     >p {
       border-bottom: 1px solid #73bf0b;
       color: #73bf0b;
       width: 100%;
       position: relative;
+
       >span {
         font-size: 12px;
-        &:nth-child(2){
-            position:absolute;
-            right: 0;
+
+        &:nth-child(2) {
+          position: absolute;
+          right: 0;
         }
       }
     }
 
     .toplist {
-        width: 100%;
+      width: 100%;
+
       .item {
         position: relative;
         display: flex;
         align-items: center;
         margin: 0;
         height: 40px;
+
         >div {
           display: inline-block;
         }
@@ -63,9 +70,11 @@
           color: #73bf0b;
           line-height: 25px;
           overflow: hidden;
-          img{
+
+          img {
             width: 100%;
           }
+
           &:hover {
             box-shadow: rgba(0, 0, 0, 0.16) 0px 10px 36px 0px, rgba(0, 0, 0, 0.16) 0px 0px 0px 1px;
           }
@@ -77,6 +86,7 @@
           color: #eee;
           line-height: 16px;
           margin-top: 10px;
+
           >p {
             height: 10px;
             margin-bottom: 5px;
@@ -86,21 +96,24 @@
             }
           }
         }
-        .exp{
+
+        .exp {
           position: absolute;
           right: 18px;
           margin-top: 10px;
-          
+
         }
       }
     }
   }
-  .top-diagram{
+
+  .top-diagram {
     width: 100%;
     margin: 15px 15px 0 15px;
     padding-top: 30px;
     line-height: 50px;
-    .bars{
+
+    .bars {
       height: 12px;
       position: relative;
       margin-bottom: 28px;

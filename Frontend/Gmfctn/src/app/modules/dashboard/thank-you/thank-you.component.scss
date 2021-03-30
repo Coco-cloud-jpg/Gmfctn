@@ -1,5 +1,5 @@
 .content {
-  margin: 10px 16px;
+  margin: 1em 1.5em;
   color: #eee;
   text-align: center;
 
@@ -32,21 +32,25 @@
     line-height: 25px;
     font-size: 12px;
     overflow: hidden;
-    img{
-        width: 100%;
+
+    img {
+      width: 100%;
     }
-    &:hover{
-       box-shadow: rgba(0, 0, 0, 0.16) 0px 10px 36px 0px, rgba(0, 0, 0, 0.16) 0px 0px 0px 1px;
+
+    &:hover {
+      box-shadow: rgba(0, 0, 0, 0.16) 0px 10px 36px 0px, rgba(0, 0, 0, 0.16) 0px 0px 0px 1px;
     }
   }
-  .info{
-      display: flex;
-      align-items: center;
-      justify-content: center;
-    >span{
-        color: #73bf0b;
-        font-size: 12px;
-      }
+
+  .info {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    >span {
+      color: #73bf0b;
+      font-size: 12px;
+    }
   }
-  
+
 }

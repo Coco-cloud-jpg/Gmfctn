@@ -1,33 +1,45 @@
 <mat-toolbar color="primary">
+
   <button mat-icon-button (click)="open()">
     <mat-icon>menu</mat-icon>
   </button>
+
   <span>GMFCTN!</span>
 
   <div class="navigation">
+
     <a class="navigation-item" routerLink="dashboard" routerLinkActive="active"
       [routerLinkActiveOptions]="{exact:true}">
       Dashboard
     </a>
+
     <a class="navigation-item" routerLink="" routerLinkActive="active" [routerLinkActiveOptions]="{exact:true}">
       Badges
     </a>
+
     <a class="navigation-item" routerLink="c" routerLinkActive="active" [routerLinkActiveOptions]="{exact:true}">
       Order
     </a>
   </div>
+
   <div class="img">{{user.name[0]}}{{user.surname[0]}}</div>
+
   <span class="name">{{user.name}} {{user.surname}}</span>
-  <button mat-icon-button [matMenuTriggerFor]="menu" aria-label="Example icon-button with a menu">
+
+  <button mat-icon-button [matMenuTriggerFor]="menu">
     <mat-icon>arrow_drop_down</mat-icon>
   </button>
+
   <mat-menu class="customize" #menu="matMenu">
+
     <button mat-menu-item>
       <span>Edit profile</span>
     </button>
+
     <button mat-menu-item>
       <span>Change password</span>
     </button>
+
     <button mat-menu-item>
       <span>Loggout</span>
     </button>

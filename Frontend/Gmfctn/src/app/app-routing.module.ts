@@ -7,11 +7,6 @@ const routes: Routes = [
       loadChildren: () =>
           import('./modules/dashboard/dashboard.module').then(module => module.DashboardModule)
   }
-  /*{
-      path: 'reactive-form',
-      loadChildren: () =>
-          import('./modules/+reactive-forms/reactive-form.module').then(module => module.ReactiveFormModule)
-  }*/
 ];
 
 @NgModule({

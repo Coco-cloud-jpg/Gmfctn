@@ -1,6 +1,6 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { PersonalAchievmentsComponent } from './personal-achievments.component';
+import { PersonalAchievmentsComponent } from './personal-achievements.component';
 
 describe('PersonalAchievmentsComponent', () => {
   let component: PersonalAchievmentsComponent;

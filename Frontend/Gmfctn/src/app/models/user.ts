@@ -1,6 +1,6 @@
 interface User {
     name: string;
-    surname: string; 
+    surname: string;
     total: number;
-    icon: string
+    icon: string;
 }

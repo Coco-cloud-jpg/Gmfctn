@@ -6,9 +6,9 @@ import {MatInput, MatInputModule} from '@angular/material/input';
 import {MatSelectModule} from '@angular/material/select';
 import {MatSlideToggleModule} from '@angular/material/slide-toggle';
 import {MatIconModule} from '@angular/material/icon';
-import {MatSidenavModule} from '@angular/material/sidenav'
-import {MatMenuModule} from '@angular/material/menu'
-import { MatGridListModule} from '@angular/material/grid-list'
+import {MatSidenavModule} from '@angular/material/sidenav';
+import {MatMenuModule} from '@angular/material/menu';
+import { MatGridListModule} from '@angular/material/grid-list';
 @NgModule({
   declarations: [],
   imports: [

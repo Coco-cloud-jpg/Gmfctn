@@ -5,16 +5,16 @@ import { Component, OnInit, Output, EventEmitter, Input} from '@angular/core';
   templateUrl: './toolbar.component.html',
   styleUrls: ['./toolbar.component.scss']
 })
-export class ToolbarComponent implements OnInit {
+export class ToolbarComponent {
 
-  constructor() { }
+  @Input() isOpened = false;
+  @Input() user = { name: '', surname: ''};
 
-  ngOnInit(): void {
-  }
   @Output() opened = new EventEmitter<boolean>();
-  @Input() isOpened:boolean = false;
-  @Input() user = {name:'',surname:''}; 
-  open() {
+
+  public open(): void {
+
     this.opened.emit(!this.isOpened);
+
   }
 }
