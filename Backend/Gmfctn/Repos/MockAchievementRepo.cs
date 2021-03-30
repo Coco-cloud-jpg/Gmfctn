@@ -17,7 +17,7 @@ namespace Gmfctn.Repos
         };
         public Achievement GetAchievementById(int id)
         {
-            return repo.FirstOrDefault(obj=>obj.Id ==id);
+            return repo.FirstOrDefault( obj => obj.Id == id);
         }
 
         public IEnumerable<Achievement> GetAllAchievements()
