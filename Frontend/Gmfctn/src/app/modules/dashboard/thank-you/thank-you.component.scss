@@ -1,8 +1,9 @@
 .content {
   margin: 1em 1.5em;
+  height: 100%;
   color: #eee;
   text-align: center;
-
+  position: relative;
   h3 {
     text-transform: uppercase;
     text-align: left;
@@ -42,7 +43,17 @@
     }
   }
 
+  .star{
+    width: 50%;
+    margin: 0 auto;
+    img{
+      width: 100%;
+    }
+  }
   .info {
+    position: absolute;
+    width: 100%;
+    bottom: 10%;
     display: flex;
     align-items: center;
     justify-content: center;

@@ -5,16 +5,14 @@
   height: 3em;
   margin: 1em 1.5em;
   h3 {
-    //display: inline-block;
     text-transform: uppercase;
     color: #eee;
     font-size: 14px;
-    margin: 0 8px 8px 16px;
+    margin: 0 8px 8px 8px;
     font-weight: 500;
   }
 
   button {
-    //display: inline-block;
     margin: 16px 8px;
     min-width: 70px;
     line-height: 28px;
@@ -34,7 +32,7 @@
 
     .item {
       margin-bottom: 8px;
-      min-width: 150px;
+      min-width: 10%;
       position: relative;
 
       img {
@@ -46,7 +44,7 @@
 
       div {
         display: inline-block;
-        font-weight: 300;
+        font-weight: 400;
         height: 20px;
         position: absolute;
 
