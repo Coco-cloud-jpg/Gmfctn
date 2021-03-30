@@ -12,7 +12,7 @@ namespace Gmfctn.Controllers
     [ApiController]
     public class AchievementController : ControllerBase
     {
-        private IAchievementRepo repo;
+        private readonly IAchievementRepo repo;
 
         public AchievementController() {
             repo = new MockAchievementRepo();
@@ -20,18 +20,36 @@ namespace Gmfctn.Controllers
         [HttpGet]
         public ActionResult<IEnumerable<Achievement>> GetAllAchievement()
         {
-            var Items = repo.GetAllAchievements();
-            return Ok(Items);
+            IEnumerable<Achievement> Items = null;
+            try
+            {
+                Items = repo.GetAllAchievements();
+                if (Items == null)
+                    return NotFound();
+                else
+                    return Ok(Items);
+            }
+            catch(Exception exc) {
+                throw exc;
+            }
+            
         }
         [HttpGet("{id}")]
         public ActionResult<Achievement> GetAchivementById(int id)
         {
-            var Item = repo.GetAchievementById(id);
-            if (Item != null)
-            {
-                return Ok(Item);
+            try {
+                var Item = repo.GetAchievementById(id);
+                if (Item != null)
+                {
+                    return Ok(Item);
+                }
+                return NotFound();
             }
-            return NotFound();
+            catch (Exception exc)
+            {
+                throw exc;
+            }
+
         }
     }
 }

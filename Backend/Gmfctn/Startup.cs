@@ -1,3 +1,4 @@
+using Gmfctn.Repos;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.HttpsPolicy;
@@ -29,6 +30,7 @@ namespace Gmfctn
 
             services.AddControllers();
             services.AddCors();
+            services.AddTransient<IAchievementRepo, MockAchievementRepo>();
             services.AddSwaggerGen(c =>
             {
                 c.SwaggerDoc("v1", new OpenApiInfo { Title = "Gmfctn", Version = "v1" });
