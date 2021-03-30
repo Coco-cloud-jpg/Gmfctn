@@ -11,8 +11,10 @@ export class ToolbarComponent {
   @Input() user = { name: '', surname: ''};
 
   @Output() opened = new EventEmitter<boolean>();
-  
+
   public open(): void {
+
     this.opened.emit(!this.isOpened);
+
   }
 }

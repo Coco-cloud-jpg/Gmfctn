@@ -1,10 +1,9 @@
 import { Component, OnInit } from '@angular/core';
-import { DashboardModule } from '../dashboard.module';
 import '../../../models/achievement';
 @Component({
-  selector: 'app-personal-achievments',
-  templateUrl: './personal-achievments.component.html',
-  styleUrls: ['./personal-achievments.component.scss']
+  selector: 'app-personal-achievements',
+  templateUrl: './personal-achievements.component.html',
+  styleUrls: ['./personal-achievements.component.scss']
 })
 export class PersonalAchievmentsComponent {
 

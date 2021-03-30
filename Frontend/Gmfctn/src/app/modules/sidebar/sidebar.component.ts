@@ -6,7 +6,7 @@ import { Component, OnInit, Input } from '@angular/core';
   styleUrls: ['./sidebar.component.scss']
 })
 export class SidebarComponent{
-  
+
   @Input() user = { name: '', surname: ''};
 
   public opened = false;

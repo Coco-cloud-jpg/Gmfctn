@@ -9,11 +9,12 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { ToolbarComponent } from './modules/toolbar/toolbar.component';
 import { FormsModule } from '@angular/forms';
 import { SidebarComponent } from './modules/sidebar/sidebar.component';
+
 @NgModule({
   declarations: [
     AppComponent,
     ToolbarComponent,
-    SidebarComponent
+    SidebarComponent,
   ],
   imports: [
     BrowserModule,

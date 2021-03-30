@@ -51,11 +51,21 @@ export class TopChartComponent implements OnInit {
                   } ];
 
   ngOnInit(): void {
+    this.calculateGraphsLength();
+  }
+
+  private calculateGraphsLength(): void {
+
     this.users.sort(( a, b) => b.total - a.total);
+
     const maxLength = this.users[0].total;
+
     for ( let i = 0; i < this.bars.length; ++i){
+
       this.bars[i].Value = this.users[i].total * 100 / maxLength;
+
     }
+
   }
 
 }

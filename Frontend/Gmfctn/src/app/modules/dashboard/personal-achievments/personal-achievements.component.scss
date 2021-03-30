@@ -1,6 +1,11 @@
-.content {
+.head{
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  height: 3em;
+  margin: 1em 1.5em;
   h3 {
-    display: inline-block;
+    //display: inline-block;
     text-transform: uppercase;
     color: #eee;
     font-size: 14px;
@@ -8,8 +13,8 @@
     font-weight: 500;
   }
 
-  >button {
-    display: inline-block;
+  button {
+    //display: inline-block;
     margin: 16px 8px;
     min-width: 70px;
     line-height: 28px;
@@ -18,6 +23,11 @@
     font-size: 12px;
     border-radius: 0;
   }
+}
+
+.content {
+  
+  
 
   .info {
     margin: 0 16px;
@@ -90,3 +100,4 @@
   }
 
 }
+
