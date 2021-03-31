@@ -2,7 +2,6 @@
   <mat-sidenav [(opened)]="opened">
     <div class="main-content-div">
       <div class="button-div">
-
         <span>GMFCTN!</span>
 
         <button mat-icon-button (click)="opened=!opened">
@@ -10,7 +9,6 @@
         </button>
       </div>
       <div class="info">
-
         <div class="img">{{user.name[0]}}{{user.surname[0]}} </div>
 
         <span>{{user.name}} {{user.surname}} </span>
@@ -28,7 +26,6 @@
           <div><span>EXP: </span><span>70 XP</span></div>
         </div>
         <div class="menu">
-
           <a class="navigation-item" routerLink="dashboard" routerLinkActive="active"
             [routerLinkActiveOptions]="{exact:true}">
             Dashboard

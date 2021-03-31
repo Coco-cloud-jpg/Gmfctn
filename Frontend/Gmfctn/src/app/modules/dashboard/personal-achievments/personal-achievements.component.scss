@@ -1,21 +1,20 @@
 .head{
   display: flex;
-  align-items: center;
+  align-items: flex-start;
   justify-content: space-between;
-  height: 3em;
   margin: 1em 1.5em;
   h3 {
     text-transform: uppercase;
     color: #eee;
-    font-size: 14px;
-    margin: 0 8px 8px 8px;
+    font-size: 0.9vw;
     font-weight: 500;
+    line-height: 2em;
   }
 
   button {
-    margin: 16px 8px;
-    min-width: 70px;
+    text-align: center;
     line-height: 28px;
+    margin-top: 0.5em;
     color: #eee;
     background-color: #73bf0b;
     font-size: 12px;
@@ -25,19 +24,16 @@
 
 .content {
   
-  
-
   .info {
-    margin: 0 16px;
-
+    margin: 0 1vw;
     .item {
-      margin-bottom: 8px;
+      margin-bottom: 1vw;
       min-width: 10%;
       position: relative;
 
       img {
-        width: 40px;
-        height: 40px;
+        width: 2.5vw;
+        height: 2.5vw;
         border-radius: 50%;
         border: 1px solid #73bf0b;
       }
@@ -45,20 +41,20 @@
       div {
         display: inline-block;
         font-weight: 400;
-        height: 20px;
+        height: 1.2vw;
         position: absolute;
 
         &.description {
           color: #eee;
 
           top: 10px;
-          line-height: 14px;
-          font-size: 14px;
+          line-height: 1vw;
+          font-size: 1vw;
           margin-left: 5px;
 
           p {
-            height: 10px;
-            margin-bottom: 5px;
+            height: 0.8vw;
+            margin-bottom: 0.5vw;
 
             &:nth-child(2) {
               line-height: 10px;
