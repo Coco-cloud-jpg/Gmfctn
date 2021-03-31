@@ -23,8 +23,6 @@ export class GreetingComponent implements OnInit {
 
     const time = new Date().getHours();
 
-
-
     if (time < 5) {
 
       this.greeting = 'Good night';

@@ -7,17 +7,20 @@
   h3 {
     text-transform: uppercase;
     text-align: left;
-    font-size: 14px;
+    font-size: 0.9vw;
     font-weight: 500;
-    line-height: 35px;
+    line-height: 2em;
   }
-
-  p {
-    font-size: 12px;
-    margin-top: 20px;
-    margin-bottom: 30px;
+  .text{
+    position: absolute;
+    margin: 5% auto;
+    bottom: 18%;
+    width: 100%;
+    text-align: center;
+    p {
+      font-size: 0.8vw;
+    }
   }
-
   .img {
     display: inline-block;
     cursor: pointer;
@@ -31,7 +34,7 @@
     margin-right: 10px;
     color: #73bf0b;
     line-height: 25px;
-    font-size: 12px;
+    font-size: 0.7vw;
     overflow: hidden;
 
     img {
@@ -44,16 +47,18 @@
   }
 
   .star{
-    width: 50%;
+    width: 100%;
+    position:absolute;
     margin: 0 auto;
+    bottom: 40%;
     img{
-      width: 100%;
+      width: 50%;
     }
   }
   .info {
     position: absolute;
     width: 100%;
-    bottom: 10%;
+    bottom: 13%;
     display: flex;
     align-items: center;
     justify-content: center;
