@@ -10,12 +10,12 @@
   </div>
 
   <div class="info">
-    <div class="img">
-      <img src="" alt="">
+    <div class="img" (click)="openModal()">
+      <img [src]="user.icon" alt="">
 
-      <span>SB</span>
+      <span>{{user.name[0]}}{{user.surname[0]}}</span>
     </div>
 
-    <span>Some Body</span>
+    <span>{{user.name}} {{user.surname}}</span>
   </div>
 </div>

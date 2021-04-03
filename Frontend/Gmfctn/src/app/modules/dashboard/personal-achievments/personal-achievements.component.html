@@ -1,7 +1,7 @@
 <div class="head">
   <h3>Personal achievements</h3>
 
-  <button mat-button color="basic">Request</button>
+  <button mat-button color="basic" (click)="openModal()">Request</button>
 </div>
 <div class="content">
   <div class="info">
@@ -9,9 +9,9 @@
 
       <div class="description">
         <p>{{item.name}}</p>
+
         <p>{{item.time|passedTimePipe}}</p>
       </div>
-
       <div class="exp">
         <p>+ {{item.xp}} xp</p>
       </div>

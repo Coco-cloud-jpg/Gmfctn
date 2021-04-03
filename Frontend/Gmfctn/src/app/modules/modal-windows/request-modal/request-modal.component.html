@@ -1,0 +1,27 @@
+<div class="wrapper">
+  <div class="content">
+    <span class="material-icons" (click)="close()">
+      close
+    </span>
+
+    <h3>Please, leave a message and your avhievement will be assigned soon</h3>
+
+    <form [formGroup]="userForm">
+      <mat-form-field appearance="fill">
+        <mat-label>Achievement</mat-label>
+
+        <mat-select formControlName="achievement">
+          <mat-option *ngFor="let item of achList" [value]="item.name">{{item.name}}</mat-option>
+        </mat-select>
+      </mat-form-field>
+
+      <mat-form-field>
+        <mat-label class="text">Your message</mat-label>
+
+        <textarea matInput formControlName="theme" class="text"></textarea>
+      </mat-form-field>
+    </form>
+
+    <button mat-button color="basic" class="submit" (click)="submit()" [disabled]="userForm.invalid">Send</button>
+  </div>
+</div>

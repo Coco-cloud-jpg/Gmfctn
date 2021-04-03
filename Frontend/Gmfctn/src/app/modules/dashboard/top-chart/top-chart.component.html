@@ -1,13 +1,24 @@
 <div class="content">
   <h3>Top Chart</h3>
+
   <div class="main">
     <div class="topchart">
-      <p><span>Name</span><span>Total XP</span></p>
+      <p>
+        <span>Name</span>
+
+        <span>Total XP</span>
+      </p>
+
       <div class="toplist">
         <div class="item" *ngFor="let item of users">
-          <div class="img"><img [src]="item.icon" alt=""><span>{{item.name[0]}}{{item.surname[0]}}</span></div>
+          <div class="img" (click)="openModal(item)">
+            <img [src]="item.icon" alt="">
+
+            <span>{{item.name[0]}}{{item.surname[0]}}</span>
+          </div>
           <div class="description">
             <p>{{item.name}}</p>
+
             <p>{{item.surname}}</p>
           </div>
           <div class="exp">

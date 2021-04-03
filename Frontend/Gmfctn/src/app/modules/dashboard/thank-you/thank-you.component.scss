@@ -4,6 +4,7 @@
   color: #eee;
   text-align: center;
   position: relative;
+
   h3 {
     text-transform: uppercase;
     text-align: left;
@@ -11,16 +12,19 @@
     font-weight: 500;
     line-height: 2em;
   }
-  .text{
+
+  .text {
     position: absolute;
     margin: 5% auto;
     bottom: 18%;
     width: 100%;
     text-align: center;
+
     p {
       font-size: 0.8vw;
     }
   }
+
   .img {
     display: inline-block;
     cursor: pointer;
@@ -46,15 +50,17 @@
     }
   }
 
-  .star{
+  .star {
     width: 100%;
-    position:absolute;
+    position: absolute;
     margin: 0 auto;
     bottom: 40%;
-    img{
+
+    img {
       width: 50%;
     }
   }
+
   .info {
     position: absolute;
     width: 100%;
@@ -68,5 +74,4 @@
       font-size: 12px;
     }
   }
-
 }

@@ -1,6 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import '../../../models/user';
 import '../../../models/graph';
+import { MatDialog } from '@angular/material/dialog';
+import { SaythankModalComponent } from '../../modal-windows/saythank-modal/saythank-modal.component';
 @Component({
   selector: 'app-top-chart',
   templateUrl: './top-chart.component.html',
@@ -16,11 +18,11 @@ export class TopChartComponent implements OnInit {
                   name: 'Petro',
                   surname: 'Poroshenko',
                   total: 100,
-                  icon: '../../../../assets/phoenix.png'
+                  icon: '../../../../assets/5.jpg'
                 }, {
                   name: 'Shrek',
                   surname: 'Bolothnyi',
-                  total: 120,
+                  total: 190,
                   icon: ''
                 }, {
                   name: 'Mr.',
@@ -30,7 +32,7 @@ export class TopChartComponent implements OnInit {
                 }, {
                   name: 'Ihor',
                   surname: 'Da',
-                  total: 190,
+                  total: 120,
                   icon: ''
                 }];
   bars: Graph[] = [{
@@ -50,6 +52,9 @@ export class TopChartComponent implements OnInit {
                     Color: 'rgb(240,214,96)',
                   } ];
 
+
+  constructor(public dialog: MatDialog) {}
+
   ngOnInit(): void {
     this.calculateGraphsLength();
   }
@@ -68,4 +73,11 @@ export class TopChartComponent implements OnInit {
 
   }
 
+  public openModal(user: User): void{
+    const dialogConfig = this.dialog.open(SaythankModalComponent, {
+      width: '40%',
+      panelClass: 'custom-modalbox',
+      data: user
+    });
+  }
 }

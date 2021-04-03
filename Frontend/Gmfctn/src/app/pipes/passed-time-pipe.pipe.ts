@@ -5,15 +5,20 @@ import { Pipe, PipeTransform } from '@angular/core';
 })
 export class PassedTimePipePipe implements PipeTransform {
 
+  monts: number[] = [ 31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31];
+
   transform(value: Date): string {
     const result = new Date();
     let temp: number = result.getFullYear() - value.getFullYear();
+    let temp2: number;
 
     if ( temp === 0) {
 
       temp = result.getMonth() - value.getMonth();
 
-      if ( temp === 0) {
+      temp2 = result.getDate() + this.monts[value.getMonth()] - value.getDate();
+
+      if ( temp === 0 || ( temp === 1 && temp2 < this.monts[result.getMonth()] )) {
 
         temp = result.getDate() - value.getDate();
 
@@ -42,7 +47,7 @@ export class PassedTimePipePipe implements PipeTransform {
           }
         } else {
 
-          return temp === 1 ? temp + ' day ago' : temp + ' days ago';
+          return temp === 1 ? 'Yesterday' : temp < 0 ? temp2 + ' days ago' : temp + 'days ago';
 
         }
       } else {

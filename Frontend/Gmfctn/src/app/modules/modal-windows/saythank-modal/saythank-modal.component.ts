@@ -1,0 +1,110 @@
+import { Component, Inject, OnInit } from '@angular/core';
+import { MatDialog, MatDialogRef, MAT_DIALOG_DATA} from '@angular/material/dialog';
+import { LeaveTheCommentComponent } from '../leave-the-comment/leave-the-comment.component';
+import '../../../models/user';
+import '../../../models/achievement';
+@Component({
+  selector: 'app-saythank-modal',
+  templateUrl: './saythank-modal.component.html',
+  styleUrls: ['./saythank-modal.component.scss']
+})
+export class SaythankModalComponent implements OnInit {
+
+  achList: Achievement[] = [{
+    icon: '../../../../assets/phoenix.png',
+    name: 'Exoft turbo power',
+    description: '',
+    xp: 5,
+    time: new Date('December 17, 2005 03:24:00')
+  }, {
+    icon: '../../../../assets/phoenix.png',
+    name: 'Exoft skylark power',
+    description: '',
+    xp: 5,
+    time: new Date()
+  }, {
+    icon: '../../../../assets/phoenix.png',
+    name: 'Exoft corporate power',
+    description: '',
+    xp: 5,
+    time: new Date('March 27, 2021 22:24:00')
+  }, {
+    icon: '../../../../assets/phoenix.png',
+    name: 'Exoft corporate power',
+    description: '',
+    xp: 5,
+    time: new Date('March 27, 2021 22:24:00')
+  }, {
+    icon: '../../../../assets/phoenix.png',
+    name: 'Exoft owl power',
+    description: '',
+    xp: 5,
+    time: new Date('March 27, 2021 22:24:00')
+  }, {
+    icon: '../../../../assets/phoenix.png',
+    name: 'Exoft mentor power',
+    description: '',
+    xp: 5,
+    time: new Date('March 27, 2021 22:24:00')
+  }, {
+    icon: '../../../../assets/phoenix.png',
+    name: 'Exoft party power',
+    description: '',
+    xp: 5,
+    time: new Date('March 27, 2021 22:24:00')
+  }];
+
+  badgesCuantity: [Achievement, number][] = [];
+  constructor(public dialog: MatDialog, private dialogRef: MatDialogRef<SaythankModalComponent>,
+              @Inject(MAT_DIALOG_DATA) public user: User) { }
+
+  ngOnInit(): void {
+
+    this.removeLetters();
+
+    this.calculateBadges();
+
+  }
+
+  close(): void {
+
+    this.dialogRef.close();
+
+  }
+
+  public removeLetters(): void {
+
+    if ( this.user.icon.length > 4){
+
+      document.querySelector('.letters')?.remove();
+
+    }
+  }
+
+  public calculateBadges(): void {
+
+    this.achList.forEach(element => {
+
+      if ( this.badgesCuantity.find( el => el[0].name === element.name)  === undefined){
+
+        this.badgesCuantity.push([element, 1]);
+      }
+      else {
+
+        this.badgesCuantity[this.badgesCuantity.findIndex( el => el[0].name === element.name)][1]++;
+      }
+    });
+
+    console.log(this.badgesCuantity);
+  }
+
+  public openModal(): void {
+
+    const dialogConfig = this.dialog.open(LeaveTheCommentComponent, {
+      width: '20%',
+      panelClass: 'custom-modalbox'
+    });
+
+  }
+
+}

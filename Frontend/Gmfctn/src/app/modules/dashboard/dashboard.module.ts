@@ -9,7 +9,11 @@ import { PersonalAchievmentsComponent } from './personal-achievments/personal-ac
 import { PassedTimePipePipe } from '../../pipes/passed-time-pipe.pipe';
 import { ThankYouComponent } from './thank-you/thank-you.component';
 import { TopChartComponent } from './top-chart/top-chart.component';
-
+import { BadgesComponent } from './badges/badges.component';
+import { ChallengesComponent } from './challenges/challenges.component';
+import { ExoftAchievementsComponent } from './exoft-achievements/exoft-achievements.component';
+import {ReactiveFormsModule} from '@angular/forms';
+import {ModalWindowModule} from '../modal-windows/modal-window.module';
 
 const routes = [
   {
@@ -26,11 +30,15 @@ const routes = [
     PassedTimePipePipe,
     ThankYouComponent,
     TopChartComponent,
+    BadgesComponent,
+    ChallengesComponent,
+    ExoftAchievementsComponent,
   ],
   imports: [
     CommonModule,
     RouterModule.forChild(routes),
     MaterialModule,
+    ModalWindowModule,
   ],
 })
 export class DashboardModule { }

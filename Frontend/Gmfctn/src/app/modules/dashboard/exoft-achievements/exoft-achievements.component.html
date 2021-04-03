@@ -1,0 +1,24 @@
+<div class="content">
+  <div class="head">
+    <h3>Exoft achievements</h3>
+
+    <span>80</span>
+  </div>
+  <div class="info">
+    <div class="item" *ngFor="let item of dictionary">
+      <div class="img" (click)="openModal(item.user)"><img [src]="item.user.icon"
+          alt=""><span>{{item.user.name[0]}}{{item.user.surname[0]}}</span>
+      </div>
+
+      <div class="description">
+        <span>{{item.user.name}} {{item.user.surname}}</span>
+
+        <span>{{item.achievement.time|passedTimePipe}}</span>
+
+        <p>Got achievement {{item.achievement.name}}</p>
+
+        <span class="record">Records</span>
+      </div>
+    </div>
+  </div>
+</div>
