@@ -13,12 +13,10 @@ export class DashboardComponent implements OnInit {
 
   ngOnInit(): void {
     this.calculateSize();
-}
+  }
 
   calculateSize(): void {
-
     this.height = ( document.body.clientHeight - 200 ) / 7;
     this.margin = this.height / 7 + '';
-
   }
 }

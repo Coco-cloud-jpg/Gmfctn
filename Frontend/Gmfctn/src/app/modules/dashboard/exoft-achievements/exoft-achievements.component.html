@@ -5,17 +5,19 @@
     <span>80</span>
   </div>
   <div class="info">
-    <div class="item" *ngFor="let item of dictionary">
-      <div class="img" (click)="openModal(item.user)"><img [src]="item.user.icon"
-          alt=""><span>{{item.user.name[0]}}{{item.user.surname[0]}}</span>
+    <div class="item" *ngFor="let item of achList">
+      <div class="img" (click)="openModal(item)">
+        <img [src]="item.icon">
+
+        <span>{{item.name[0]}}{{item.surname[0]}}</span>
       </div>
 
       <div class="description">
-        <span>{{item.user.name}} {{item.user.surname}}</span>
+        <span>{{item.name}} {{item.surname}}</span>
 
-        <span>{{item.achievement.time|passedTimePipe}}</span>
+        <span>{{item.time|passedTimePipe}}</span>
 
-        <p>Got achievement {{item.achievement.name}}</p>
+        <p>Got achievement {{item.name}}</p>
 
         <span class="record">Records</span>
       </div>

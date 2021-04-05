@@ -12,9 +12,7 @@ export class ToolbarComponent {
 
   @Output() opened = new EventEmitter<boolean>();
 
-  public open(): void {
-
+  open(): void {
     this.opened.emit(!this.isOpened);
-
   }
 }

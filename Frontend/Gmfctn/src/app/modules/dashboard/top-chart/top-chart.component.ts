@@ -2,7 +2,8 @@ import { Component, OnInit } from '@angular/core';
 import '../../../models/user';
 import '../../../models/graph';
 import { MatDialog } from '@angular/material/dialog';
-import { SaythankModalComponent } from '../../modal-windows/saythank-modal/saythank-modal.component';
+import { SayThankModalComponent } from '../../modal-windows/say-thank-modal/say-thank-modal.component';
+
 @Component({
   selector: 'app-top-chart',
   templateUrl: './top-chart.component.html',
@@ -60,21 +61,15 @@ export class TopChartComponent implements OnInit {
   }
 
   private calculateGraphsLength(): void {
-
     this.users.sort(( a, b) => b.total - a.total);
-
     const maxLength = this.users[0].total;
-
     for ( let i = 0; i < this.bars.length; ++i){
-
       this.bars[i].Value = this.users[i].total * 100 / maxLength;
-
     }
-
   }
 
-  public openModal(user: User): void{
-    const dialogConfig = this.dialog.open(SaythankModalComponent, {
+  openModal(user: User): void{
+    this.dialog.open(SayThankModalComponent, {
       width: '40%',
       panelClass: 'custom-modalbox',
       data: user

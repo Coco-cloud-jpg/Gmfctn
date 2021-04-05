@@ -7,9 +7,9 @@
     <div class="user-info">
       <div class="user-data">
         <div class="img">
-          <img [src]="user.icon" alt="">
+          <img [src]="user.icon" *ngIf="user.icon; else letters">
 
-          <span class="letters">{{user.name[0]}}{{user.surname[0]}}</span>
+          <ng-template #letters><span class="letters">{{user.name[0]}}{{user.surname[0]}}</span></ng-template>
         </div>
 
         <div class="user-name">
@@ -19,9 +19,9 @@
         </div>
       </div>
       <div class="badges">
-        <div class="badge" *ngFor="let badge of badgesCuantity">
+        <div class="badge" *ngFor="let badge of badgesQuantity">
 
-          <div class="cuantity">{{badge[1]}}</div>
+          <div class="quantity">{{badge[1]}}</div>
 
           <div class="icon"><img [src]="badge[0].icon" alt=""></div>
 

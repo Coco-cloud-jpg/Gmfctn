@@ -8,31 +8,24 @@ import { MatDialogRef } from '@angular/material/dialog';
   styleUrls: ['./leave-the-comment.component.scss']
 })
 export class LeaveTheCommentComponent implements OnInit {
-  userForm!: FormGroup;
+  userForm: FormGroup = new FormGroup({});
   message = '';
   constructor(private readonly fb: FormBuilder, private dialogRef: MatDialogRef<LeaveTheCommentComponent>) { }
 
   ngOnInit(): void {
-
     this.userForm = this.fb.group({
       message: this.fb.control(this.message, Validators.required),
     });
-
   }
 
   submit(): void {
-
     if (this.userForm.valid) {
-
         this.message = this.userForm.value;
-        console.log(this.message);
         this.close();
-
     }
   }
 
   close(): void {
     this.dialogRef.close();
   }
-
 }

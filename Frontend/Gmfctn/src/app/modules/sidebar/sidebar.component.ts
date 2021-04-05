@@ -9,5 +9,5 @@ export class SidebarComponent{
 
   @Input() user = { name: '', surname: ''};
 
-  public opened = false;
+  opened = false;
 }

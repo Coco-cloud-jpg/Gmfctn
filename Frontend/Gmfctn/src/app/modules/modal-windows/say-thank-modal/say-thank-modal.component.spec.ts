@@ -1,20 +1,20 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { SaythankModalComponent } from './saythank-modal.component';
+import { SayThankModalComponent } from './say-thank-modal.component';
 
 describe('SaythankModalComponent', () => {
-  let component: SaythankModalComponent;
-  let fixture: ComponentFixture<SaythankModalComponent>;
+  let component: SayThankModalComponent;
+  let fixture: ComponentFixture<SayThankModalComponent>;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [ SaythankModalComponent ]
+      declarations: [ SayThankModalComponent ]
     })
     .compileComponents();
   });
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(SaythankModalComponent);
+    fixture = TestBed.createComponent(SayThankModalComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

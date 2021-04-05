@@ -5,13 +5,14 @@
 </div>
 <div class="content">
   <div class="info">
-    <div class="item" *ngFor="let item of achList"><img [src]="item.icon" alt="">
+    <div class="item" *ngFor="let item of achList"><img [src]="item.icon">
 
       <div class="description">
         <p>{{item.name}}</p>
 
         <p>{{item.time|passedTimePipe}}</p>
       </div>
+
       <div class="exp">
         <p>+ {{item.xp}} xp</p>
       </div>

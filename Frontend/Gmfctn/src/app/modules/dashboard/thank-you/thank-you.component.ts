@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
-import { SaythankModalComponent } from '../../modal-windows/saythank-modal/saythank-modal.component';
+import { SayThankModalComponent } from '../../modal-windows/say-thank-modal/say-thank-modal.component';
 import '../../../models/user';
 
 @Component({
@@ -16,10 +16,11 @@ export class ThankYouComponent{
     total: 100,
     icon: '../../../../assets/5.jpg'
   };
+
   constructor(public dialog: MatDialog) {}
 
-  public openModal(): void{
-    const dialogConfig = this.dialog.open(SaythankModalComponent, {
+  openModal(): void{
+    this.dialog.open(SayThankModalComponent, {
       width: '50%',
       panelClass: 'custom-modalbox',
       data: this.user

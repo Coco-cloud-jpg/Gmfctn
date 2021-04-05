@@ -1,7 +1,8 @@
 import {Component, NgModule, OnInit} from '@angular/core';
 import {AbstractControl, FormBuilder, FormGroup, ValidationErrors, Validators} from '@angular/forms';
 import {MatDialog, MatDialogRef, MAT_DIALOG_DATA} from '@angular/material/dialog';
-import '../../../models/request';
+import { RequestForAchievement } from '../../../models/request';
+
 @Component({
   selector: 'app-request-modal',
   templateUrl: './request-modal.component.html',
@@ -13,9 +14,7 @@ export class RequestModalComponent implements OnInit {
     achievement: '',
     theme: ''
   };
-  userForm!: FormGroup;
-
-
+  userForm: FormGroup = new FormGroup({});
 
   achList: Achievement[] = [{icon: '../../../../assets/phoenix.png',
                               name: 'Exoft turbo power',
@@ -36,30 +35,21 @@ export class RequestModalComponent implements OnInit {
   constructor(private readonly fb: FormBuilder, private dialogRef: MatDialogRef<RequestModalComponent>) {
   }
 
-
   ngOnInit(): void {
-
     this.userForm = this.fb.group({
       achievement: this.fb.control(this.request.achievement, Validators.required),
       theme: this.fb.control(this.request.theme, Validators.required),
     });
-
   }
 
-
   submit(): void {
-
     if (this.userForm.valid) {
-
         this.request = this.userForm.value;
-        console.log(this.request);
         this.close();
-
     }
   }
 
   close(): void {
-
     this.dialogRef.close();
   }
 }

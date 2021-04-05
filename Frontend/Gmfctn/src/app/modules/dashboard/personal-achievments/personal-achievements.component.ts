@@ -33,11 +33,10 @@ export class PersonalAchievmentsComponent {
 
   constructor(public dialog: MatDialog) {}
 
-  public openModal(): void{
-    const dialogConfig = this.dialog.open(RequestModalComponent, {
+  openModal(): void{
+    this.dialog.open(RequestModalComponent, {
       width: '40%',
       panelClass: 'custom-modalbox'
     });
   }
-
 }
