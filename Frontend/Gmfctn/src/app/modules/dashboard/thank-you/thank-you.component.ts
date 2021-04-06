@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { SayThankModalComponent } from '../../modal-windows/say-thank-modal/say-thank-modal.component';
 import '../../../models/user';

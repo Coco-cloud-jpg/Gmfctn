@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component } from '@angular/core';
 import '../../../models/achievement';
 import {MatDialog, MatDialogRef} from '@angular/material/dialog';
 import { RequestModalComponent } from '../../modal-windows/request-modal/request-modal.component';
