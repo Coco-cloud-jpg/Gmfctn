@@ -37,3 +37,28 @@ $Gmfctn-theme: mat-light-theme((
 
 html, body { height: 100%; }
 body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
+
+.custom-modalbox {
+  border-radius: 20px;
+  overflow: hidden;
+  mat-dialog-container {
+      padding: 0;
+      background-color: #424750;
+  }
+}
+
+::-webkit-scrollbar {
+  width: 5px;
+}
+
+::-webkit-scrollbar-track {
+  box-shadow: inset 0 0 5px #808080;
+}
+
+::-webkit-scrollbar-thumb {
+  background: #73bf0b;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: #6db30b;
+}

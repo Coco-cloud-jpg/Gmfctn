@@ -1,4 +1,4 @@
-import { Component, OnInit, Output, EventEmitter, Input} from '@angular/core';
+import { Component, Output, EventEmitter, Input} from '@angular/core';
 
 @Component({
   selector: 'app-toolbar',
@@ -12,9 +12,7 @@ export class ToolbarComponent {
 
   @Output() opened = new EventEmitter<boolean>();
 
-  public open(): void {
-
+  open(): void {
     this.opened.emit(!this.isOpened);
-
   }
 }

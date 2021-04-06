@@ -1,4 +1,4 @@
-import { Component, OnInit, Input } from '@angular/core';
+import { Component, Input } from '@angular/core';
 
 @Component({
   selector: 'app-sidebar',
@@ -9,5 +9,5 @@ export class SidebarComponent{
 
   @Input() user = { name: '', surname: ''};
 
-  public opened = false;
+  opened = false;
 }

@@ -1,5 +1,8 @@
-import { Component, OnInit } from '@angular/core';
+import { Component } from '@angular/core';
 import '../../../models/achievement';
+import {MatDialog, MatDialogRef} from '@angular/material/dialog';
+import { RequestModalComponent } from '../../modal-windows/request-modal/request-modal.component';
+
 @Component({
   selector: 'app-personal-achievements',
   templateUrl: './personal-achievements.component.html',
@@ -28,4 +31,12 @@ export class PersonalAchievmentsComponent {
                             xp: 5,
                             time: new Date('March 27, 2021 22:24:00')}];
 
+  constructor(public dialog: MatDialog) {}
+
+  openModal(): void{
+    this.dialog.open(RequestModalComponent, {
+      width: '40%',
+      panelClass: 'custom-modalbox'
+    });
+  }
 }

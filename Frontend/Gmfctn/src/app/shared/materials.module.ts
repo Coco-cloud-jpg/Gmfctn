@@ -8,7 +8,9 @@ import {MatSlideToggleModule} from '@angular/material/slide-toggle';
 import {MatIconModule} from '@angular/material/icon';
 import {MatSidenavModule} from '@angular/material/sidenav';
 import {MatMenuModule} from '@angular/material/menu';
-import { MatGridListModule} from '@angular/material/grid-list';
+import {MatGridListModule} from '@angular/material/grid-list';
+import {MatDialogModule} from '@angular/material/dialog';
+
 @NgModule({
   declarations: [],
   imports: [
@@ -24,6 +26,7 @@ import { MatGridListModule} from '@angular/material/grid-list';
     MatSidenavModule,
     MatMenuModule,
     MatGridListModule,
+    MatDialogModule,
   ]
 })
 export class MaterialModule {

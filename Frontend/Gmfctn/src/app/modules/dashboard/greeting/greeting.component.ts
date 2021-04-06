@@ -9,37 +9,22 @@ export class GreetingComponent implements OnInit {
 
   @Input() user = {name: '', surname: ''};
 
-  public greeting = '';
+  greeting = '';
 
   ngOnInit(): void {
-
     this.setGreeting();
-
   }
 
-
-
   private setGreeting(): void {
-
     const time = new Date().getHours();
-
-    if (time < 5) {
-
+    if ( time < 5) {
       this.greeting = 'Good night';
-
-    } else if (time < 12) {
-
+    } else if ( time < 12) {
       this.greeting = 'Good morning';
-
-    } else if (time < 18) {
-
+    } else if ( time < 18) {
       this.greeting = 'Good day';
-
     } else {
-
       this.greeting = 'Good evening';
-
     }
-
   }
 }

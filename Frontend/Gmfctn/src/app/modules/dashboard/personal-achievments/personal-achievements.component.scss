@@ -1,8 +1,9 @@
-.head{
+.head {
   display: flex;
   align-items: flex-start;
   justify-content: space-between;
   margin: 1em 1.5em;
+
   h3 {
     text-transform: uppercase;
     color: #eee;
@@ -13,19 +14,20 @@
 
   button {
     text-align: center;
-    line-height: 28px;
+    line-height: 2em;
     margin-top: 0.5em;
     color: #eee;
     background-color: #73bf0b;
-    font-size: 12px;
+    font-size: 0.7vw;
     border-radius: 0;
   }
 }
 
 .content {
-  
+
   .info {
     margin: 0 1vw;
+
     .item {
       margin-bottom: 1vw;
       min-width: 10%;
@@ -94,4 +96,3 @@
   }
 
 }
-

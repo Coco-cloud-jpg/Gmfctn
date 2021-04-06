@@ -4,7 +4,7 @@ mat-sidenav-container {
 
   mat-sidenav {
     background-color: #424750;
-    width: 250px;
+    width: 18%;
   }
 
   .main-content-div {
@@ -40,15 +40,15 @@ mat-sidenav-container {
       width: 100%;
 
       .img {
-        width: 150px;
-        height: 150px;
+        width: 10vw;
+        height: 10vw;
         border: 2px solid #aaa;
         border-radius: 50%;
         background-color: #525760;
         margin: 10px auto;
         color: #73bf0b;
         font-size: 28px;
-        line-height: 150px;
+        line-height: 10vw;
       }
 
       >span {
@@ -68,9 +68,9 @@ mat-sidenav-container {
       }
 
       .statistic {
-        margin-bottom: 15px;
+        margin: 15px auto;
         color: #eee;
-
+        font-size: 1vw;
         div {
           height: 20px;
         }
@@ -85,15 +85,15 @@ mat-sidenav-container {
         text-decoration: none;
         display: inline-block;
         font-weight: 400;
-        font-size: 20px;
+        font-size: 1.2vw;
         line-height: 27px;
         height: 20px;
-        padding-top: 10px;
+        padding: 0.6vw 0;
       }
 
       .active {
         color: #73bf0b;
-        border-bottom: #73bf0b 3px solid;
+        border-bottom: #73bf0b 5px solid;
       }
     }
   }

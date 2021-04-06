@@ -1,0 +1,93 @@
+.wrapper {
+  width: 100%;
+  height: 100%;
+
+  .content {
+    color: #eee;
+    margin: 15px;
+    padding-top: 40px;
+    position: relative;
+
+    h3 {
+      text-align: center;
+      font-size: 22px;
+      font-weight: 300;
+    }
+
+    span {
+      position: absolute;
+      right: 0;
+      font-size: 30px;
+      top: 0;
+      color: #73bf0b;
+      cursor: pointer;
+    }
+
+    button {
+      cursor: pointer;
+      display: block;
+      background-color: #73bf0b;
+      padding: 5px 40px;
+      line-height: 24px;
+      font-size: 18px;
+      font-weight: 300;
+      border-radius: 0;
+      margin: 0 auto;
+    }
+
+    input.mat-input-element {
+      color: #eee;
+    }
+
+    mat-form-field {
+      display: block;
+      margin: auto;
+      width: 100%;
+      font-size: 20px;
+
+      mat-label {
+        color: #eee;
+        font-family: sans-serif;
+      }
+
+      span {
+        color: #eee;
+        background-color: #fff;
+      }
+
+      .text {
+        font-weight: 300;
+        margin-left: 10px;
+      }
+
+    }
+
+    input {
+      &:focus {
+        outline: none;
+      }
+    }
+
+  }
+}
+
+::ng-deep.mat-form-field-underline {
+  background-color: #888 !important;
+}
+
+::ng-deep.mat-form-field-ripple {
+  background-color: #eee !important;
+}
+
+::ng-deep.mat-select-value {
+  color: #eee;
+  font-weight: 300;
+}
+
+::ng-deep .mat-form-field-appearance-fill .mat-form-field-flex {
+  background-color: transparent;
+}
+
+::ng-deep.mat-form-field.mat-focused.mat-primary .mat-select-arrow {
+  color: #eee;
+}
