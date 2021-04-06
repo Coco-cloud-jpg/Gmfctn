@@ -16,7 +16,10 @@ export class DashboardComponent implements OnInit {
   }
 
   calculateSize(): void {
-    this.height = ( document.body.clientHeight - 200 ) / 7;
-    this.margin = this.height / 7 + '';
+    const toolbarHeight = 200;
+    const rowsCount = 7;
+
+    this.height = ( document.body.clientHeight - toolbarHeight ) / rowsCount;
+    this.margin = this.height / rowsCount + '';
   }
 }
