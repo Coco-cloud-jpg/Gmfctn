@@ -1,6 +1,9 @@
 /Frontend/Gmfctn/node_modules
 /Backend/Gmfctn/bin
 /Backend/Gmfctn/obj
+/Backend/Data_/obj
+/Backend/Data_/bin
+/Backend/Gmfctn/.vs
 
 /Frontend/Gmfctn/dist
 /Frontend/Gmfctn/tmp
