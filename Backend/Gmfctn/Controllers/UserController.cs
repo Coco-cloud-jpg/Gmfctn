@@ -1,47 +1,52 @@
 ﻿using AutoMapper;
 using Data_;
 using Data_.Dtos;
+using Data_.Entities;
 using Data_.Interfaces;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
 
 namespace Gmfctn.Controllers
 {
-    [Route("api/achievement")]
+    [Route("api/user")]
     [ApiController]
-    public class AchievementController : ControllerBase
+    public class UserController : ControllerBase
     {
         private IUnitOfWork unitOfWork;
         private readonly IMapper _mapper;
-        public AchievementController(GmfctnContext context, IMapper mapper) {
+        public UserController(GmfctnContext context, IMapper mapper)
+        {
             unitOfWork = new UnitOfWork(context);
             _mapper = mapper;
         }
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<Achievement>>> GetAllAchievement()
+        public async Task<ActionResult<IEnumerable<User>>> GetAllAchievement()
         {
-            IEnumerable<Achievement> Items = null;
+            IEnumerable<User> Items = null;
             try
             {
-                Items = await unitOfWork.AchievementRepository.GetAll();
+                Items = await unitOfWork.UserRepository.GetAll();
                 if (Items == null)
                     return NotFound();
                 else
                     return Ok(Items);
             }
-            catch(Exception exc) {
+            catch (Exception exc)
+            {
                 throw exc;
             }
-            
+
         }
         [HttpGet("{id}")]
-        public async Task<ActionResult<Achievement>> GetAchivementById(Guid id)
+        public async Task<ActionResult<User>> GetAchivementById(Guid id)
         {
-            try {
-                var Item = await unitOfWork.AchievementRepository.GetById(id);
+            try
+            {
+                var Item = await unitOfWork.UserRepository.GetById(id);
                 if (Item != null)
                 {
                     return Ok(Item);
@@ -54,14 +59,14 @@ namespace Gmfctn.Controllers
             }
         }
         [HttpPost]
-        public async Task<ActionResult> CreateAchievement(AchievementCreateDTO element)
+        public async Task<ActionResult> CreateUser(UserCreateDTO element)
         {
             try
             {
-                var achievement = _mapper.Map<Achievement>(element);
+                var achievement = _mapper.Map<User>(element);
                 achievement.Id = new Guid();
-                await unitOfWork.AchievementRepository.Create(achievement);
-                await unitOfWork.AchievementRepository.SaveChanges();
+                await unitOfWork.UserRepository.Create(achievement);
+                await unitOfWork.UserRepository.SaveChanges();
                 return Ok();
             }
             catch (DbUpdateException exc)
@@ -74,12 +79,12 @@ namespace Gmfctn.Controllers
             }
         }
         [HttpDelete("{id}")]
-        public async Task<ActionResult> DeleteAchievement(Guid id)
+        public async Task<ActionResult> DeleteUser(Guid id)
         {
             try
             {
-                await unitOfWork.AchievementRepository.Delete(id);
-                await unitOfWork.AchievementRepository.SaveChanges();
+                await unitOfWork.UserRepository.Delete(id);
+                await unitOfWork.UserRepository.SaveChanges();
                 return Ok();
             }
             catch (ArgumentException exc)
@@ -92,18 +97,18 @@ namespace Gmfctn.Controllers
             }
         }
         [HttpPut("{id}")]
-        public async Task<ActionResult> UpdateAchievement(Guid id, AchievementUpdateDTO achievement)
+        public async Task<ActionResult> UpdateUser(Guid id, UserUpdateDTO achievement)
         {
             try
             {
-                var result = await unitOfWork.AchievementRepository.dbSet.FirstOrDefaultAsync(item => item.Id == id);
+                var result = await unitOfWork.UserRepository.dbSet.FirstOrDefaultAsync(item => item.Id == id);
                 _mapper.Map(achievement, result);
-                await unitOfWork.AchievementRepository.SaveChanges();
+                await unitOfWork.UserRepository.SaveChanges();
                 return Ok();
             }
             catch (DbUpdateException exc)
             {
-                throw new ArgumentException();
+                throw new ArgumentException(exc.Message);
             }
             catch (Exception exc)
             {
