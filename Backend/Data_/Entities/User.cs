@@ -20,6 +20,8 @@ namespace Data_.Entities
         [Required]
         [MaxLength(32)]
         public string UserName { get; set; }
+        [Required]
+        [RegularExpression(@"^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])[0-9a-zA-Z]{8,32}$")]
         public string Password { get; set; }
         [MaxLength(250)]
         public string Status { get; set; }

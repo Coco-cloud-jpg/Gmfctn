@@ -3,46 +3,48 @@ using Data_.Interfaces;
 using System;
 using System.Collections.Generic;
 using System.Text;
+using System.Threading;
+using System.Threading.Tasks;
 
 namespace Data_
 {
     public class UnitOfWork: IUnitOfWork
     {
-        private readonly GmfctnContext context;
-        private GenericRepository<Achievement> achievementRepository;
-        private GenericRepository<User> userRepository;
+        private readonly GmfctnContext _Context;
+        private GenericRepository<Achievement> _AchievementRepository;
+        private GenericRepository<User> _UserRepository;
 
-        public UnitOfWork(GmfctnContext context)
+        public UnitOfWork(GmfctnContext Context)
         {
-            this.context = context;
+            this._Context = Context;
         }
 
         public GenericRepository<Achievement> AchievementRepository
         {
             get
             {
-                if (this.achievementRepository == null)
+                if (this._AchievementRepository == null)
                 {
-                    this.achievementRepository = new GenericRepository<Achievement>(context);
+                    this._AchievementRepository = new GenericRepository<Achievement>(_Context);
                 }
-                return achievementRepository;
+                return _AchievementRepository;
             }
         }
         public GenericRepository<User> UserRepository
         {
             get
             {
-                if (this.userRepository == null)
+                if (this._UserRepository == null)
                 {
-                    this.userRepository = new GenericRepository<User>(context);
+                    this._UserRepository = new GenericRepository<User>(_Context);
                 }
-                return userRepository;
+                return _UserRepository;
             }
         }
 
-        public void SaveChanges()
+        public async Task SaveChangesAsync(CancellationToken Cancel)
         {
-            context.SaveChanges();
+            await _Context.SaveChangesAsync(Cancel);
         }
     }
 }

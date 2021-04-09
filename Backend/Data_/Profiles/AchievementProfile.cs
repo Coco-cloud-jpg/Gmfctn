@@ -8,8 +8,9 @@ namespace Data_.Profiles
     {
         public AchievementProfile()
         {
-            CreateMap<AchievementCreateDTO, Achievement>()
-                .ForMember("Xp", opt => opt.MapFrom(src => src.Xp<=0? 1: src.Xp));
+            CreateMap<AchievementCreateDTO, Achievement>();
+            CreateMap<AchievementCreateDTO, AchievementUpdateDTO>();
+            CreateMap<AchievementUpdateDTO, AchievementCreateDTO>();
             CreateMap<AchievementUpdateDTO, Achievement>();
         }
         

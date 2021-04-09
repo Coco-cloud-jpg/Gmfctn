@@ -1,5 +1,7 @@
 ﻿using Data_;
 using Data_.Entities;
+using System.Threading;
+using System.Threading.Tasks;
 
 namespace Data_.Interfaces
 {
@@ -8,6 +10,6 @@ namespace Data_.Interfaces
         GenericRepository<Achievement> AchievementRepository { get; }
         GenericRepository<User> UserRepository { get; }
 
-        void SaveChanges();
+        Task SaveChangesAsync(CancellationToken cancel);
     }
 }

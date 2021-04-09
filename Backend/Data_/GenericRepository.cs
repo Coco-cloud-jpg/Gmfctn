@@ -1,52 +1,51 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
+using System.Threading;
 using System.Threading.Tasks;
 
 namespace Data_
 {
     public class GenericRepository<TEntity> where TEntity : BaseEntity
     {
-        public GmfctnContext context;
-        public DbSet<TEntity> dbSet;
+        public GmfctnContext Context;
+        public DbSet<TEntity> DbSet;
 
-        public GenericRepository(GmfctnContext context)
+        public GenericRepository(GmfctnContext Context)
         {
-            this.context = context;
-            dbSet = context.Set<TEntity>();
+            this.Context = Context;
+            DbSet = Context.Set<TEntity>();
         }
 
-        public async Task<IEnumerable<TEntity>> GetAll() {
-            return await dbSet.ToListAsync<TEntity>();
+        public async Task<IEnumerable<TEntity>> GetAll(CancellationToken Cancel) {
+            return await DbSet.ToListAsync<TEntity>(Cancel);
         }
-        public async Task<TEntity> GetById(Guid id) {
-            return await dbSet.FirstOrDefaultAsync(item => item.Id == id);
+        public async Task<TEntity> GetById(Guid Id, CancellationToken Cancel) {
+            return await DbSet.FirstOrDefaultAsync(Item => Item.Id == Id, Cancel);
         }
-        public async Task Create(TEntity element)
+        public async Task Create(TEntity Element, CancellationToken Cancel)
         {
-            if (element == null)
+            if (Element == null)
             {
-                throw new ArgumentNullException(nameof(element));
+                throw new ArgumentNullException(nameof(Element));
             }
-            await dbSet.AddAsync(element);
+            await DbSet.AddAsync(Element, Cancel);
         }
 
-        public async Task Delete(Guid id)
+        public async Task Delete(Guid Id, CancellationToken Cancel)
         {
-            var element = await dbSet.FirstOrDefaultAsync(item => item.Id == id);
-            if (element == null)
+            var Element = await DbSet.FirstOrDefaultAsync(Item => Item.Id == Id, Cancel);
+            if (Element == null)
             {
-                throw new ArgumentException(nameof(id));
+                throw new ArgumentException(nameof(Id));
             }
-            dbSet.Remove(element);
+            DbSet.Remove(Element);
         }
 
-        public async Task Update(Guid id,TEntity element)
+        public void Update(TEntity Element)
         {
-        }
-        public async Task<bool> SaveChanges()
-        {
-            return ((await context.SaveChangesAsync()) >= 0);
+            DbSet.Attach(Element);
+            Context.Entry(Element).State = EntityState.Modified;
         }
     }
 }
