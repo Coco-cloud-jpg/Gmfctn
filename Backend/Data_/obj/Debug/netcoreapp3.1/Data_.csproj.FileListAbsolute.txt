@@ -1,0 +1,9 @@
+C:\Users\Acer\Desktop\Trainee_project\Gmfctn\Backend\Data_\bin\Debug\netcoreapp3.1\Data_.deps.json
+C:\Users\Acer\Desktop\Trainee_project\Gmfctn\Backend\Data_\bin\Debug\netcoreapp3.1\Data_.dll
+C:\Users\Acer\Desktop\Trainee_project\Gmfctn\Backend\Data_\bin\Debug\netcoreapp3.1\Data_.pdb
+C:\Users\Acer\Desktop\Trainee_project\Gmfctn\Backend\Data_\obj\Debug\netcoreapp3.1\Data_.AssemblyInfoInputs.cache
+C:\Users\Acer\Desktop\Trainee_project\Gmfctn\Backend\Data_\obj\Debug\netcoreapp3.1\Data_.AssemblyInfo.cs
+C:\Users\Acer\Desktop\Trainee_project\Gmfctn\Backend\Data_\obj\Debug\netcoreapp3.1\Data_.csproj.CoreCompileInputs.cache
+C:\Users\Acer\Desktop\Trainee_project\Gmfctn\Backend\Data_\obj\Debug\netcoreapp3.1\Data_.dll
+C:\Users\Acer\Desktop\Trainee_project\Gmfctn\Backend\Data_\obj\Debug\netcoreapp3.1\Data_.pdb
+C:\Users\Acer\Desktop\Trainee_project\Gmfctn\Backend\Data_\obj\Debug\netcoreapp3.1\Data_.csprojAssemblyReference.cache
