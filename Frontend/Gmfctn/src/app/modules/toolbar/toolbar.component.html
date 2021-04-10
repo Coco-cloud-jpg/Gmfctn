@@ -11,7 +11,7 @@
       Dashboard
     </a>
 
-    <a class="navigation-item" routerLink="" routerLinkActive="active" [routerLinkActiveOptions]="{exact:true}">
+    <a class="navigation-item" routerLink="badges" routerLinkActive="active" [routerLinkActiveOptions]="{exact:true}">
       Badges
     </a>
 
@@ -20,8 +20,11 @@
     </a>
   </div>
 
-  <div class="img">{{user.name[0]}}{{user.surname[0]}}</div>
+  <div class="img">
+    <img [src]="user.icon" *ngIf="user.icon; else letters">
 
+    <ng-template #letters><span class="letters">{{user.name[0]}}{{user.surname[0]}}</span></ng-template>
+  </div>
   <span class="name">{{user.name}} {{user.surname}}</span>
 
   <button mat-icon-button [matMenuTriggerFor]="menu">
@@ -30,7 +33,7 @@
 
   <mat-menu class="customize" #menu="matMenu">
     <button mat-menu-item>
-      <span>Edit profile</span>
+      <span (click)="editProfile()">Edit profile</span>
     </button>
 
     <button mat-menu-item>

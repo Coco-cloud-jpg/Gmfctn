@@ -9,11 +9,15 @@
         </button>
       </div>
       <div class="info">
-        <div class="img">{{user.name[0]}}{{user.surname[0]}} </div>
+        <div class="img">
+          <img [src]="user.icon" *ngIf="user.icon; else letters">
+
+          <ng-template #letters><span class="letters">{{user.name[0]}}{{user.surname[0]}}</span></ng-template>
+        </div>
 
         <span>{{user.name}} {{user.surname}} </span>
 
-        <button mat-button color="basic">Edit profile</button>
+        <button mat-button color="basic" (click)="editProfile()">Edit profile</button>
 
         <button mat-button color="basic">Change password</button>
 
@@ -31,7 +35,8 @@
             Dashboard
           </a><br>
 
-          <a class="navigation-item" routerLink="" routerLinkActive="active" [routerLinkActiveOptions]="{exact:true}">
+          <a class="navigation-item" routerLink="badges" routerLinkActive="active"
+            [routerLinkActiveOptions]="{exact:true}">
             Badges
           </a><br>
 

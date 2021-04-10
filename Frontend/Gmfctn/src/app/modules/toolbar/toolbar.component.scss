@@ -39,6 +39,11 @@
     margin-right: 10px;
     color: #73bf0b;
     line-height: 35px;
+    overflow: hidden;
+
+    img {
+      width: 100%;
+    }
   }
 
 }

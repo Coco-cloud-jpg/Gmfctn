@@ -1,12 +1,11 @@
 import { Component, OnInit } from '@angular/core';
-import '../../models/user';
 
 @Component({
-  selector: 'app-dashboard',
-  templateUrl: './dashboard.component.html',
-  styleUrls: ['./dashboard.component.scss']
+  selector: 'app-badges',
+  templateUrl: './badges.component.html',
+  styleUrls: ['./badges.component.scss']
 })
-export class DashboardComponent implements OnInit {
+export class BadgesComponent implements OnInit {
   public height = 0;
   public margin = '';
   public user: User = {name: 'Aezakmi', surname: 'Houston', total: 0, icon: '', status: '', email: 'asdqweqw@gmail.com'};
@@ -17,7 +16,7 @@ export class DashboardComponent implements OnInit {
 
   calculateSize(): void {
     const toolbarHeight = 75;
-    const rowsCount = 7;
+    const rowsCount = 2;
     const offsetForMargin = 10;
 
     this.height = ( document.body.clientHeight - toolbarHeight ) / rowsCount - 2 * offsetForMargin;

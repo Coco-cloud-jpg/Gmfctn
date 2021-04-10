@@ -90,7 +90,7 @@ export class SayThankModalComponent implements OnInit {
 
   openModal(): void {
     this.dialog.open(LeaveTheCommentComponent, {
-      width: '20%',
+      width: '21%',
       panelClass: 'custom-modalbox',
     });
   }

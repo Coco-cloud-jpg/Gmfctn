@@ -7,8 +7,6 @@ import { Component } from '@angular/core';
 })
 export class AppComponent {
   private title = 'Gmfctn';
-  public user = {
-    name: 'Aezakmi',
-    surname: 'Houston',
-  };
+  isSignedIn = false;
+  public user: User = {name: 'Aezakmi', surname: 'Houston', total: 0, icon: '../assets/1.jpg', status: '',  email: 'asdqweqw@gmail.com'};
 }

@@ -1,11 +1,12 @@
 .wrapper {
   width: 100%;
   height: 100%;
-
+  background-color: #424750;
   .content {
     color: #eee;
-    margin: 15px;
+    margin: 0 15px 0 15px ;
     padding-top: 40px;
+    padding-bottom: 10px;
     position: relative;
 
     h3 {
@@ -18,7 +19,7 @@
       position: absolute;
       right: 0;
       font-size: 30px;
-      top: 0;
+      top: 15px;
       color: #73bf0b;
       cursor: pointer;
     }

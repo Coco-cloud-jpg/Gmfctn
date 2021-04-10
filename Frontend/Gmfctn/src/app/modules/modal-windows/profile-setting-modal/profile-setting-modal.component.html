@@ -1,0 +1,36 @@
+<div class="wrapper">
+  <div class="head">
+    <span class="material-icons" (click)="close()">
+      arrow_back
+    </span>
+    <span>Profile settings</span>
+
+  </div>
+  <div class="content">
+    <div class="img">
+      <img [src]="user.icon" *ngIf="user.icon; else letters">
+
+      <ng-template #letters><span class="letters">{{user.name[0]}}{{user.surname[0]}}</span></ng-template>
+    </div>
+    <form [formGroup]="userForm">
+      <mat-form-field>
+        <mat-label>First name</mat-label>
+        <input matInput formControlName="firstName" class="text">
+      </mat-form-field>
+      <mat-form-field>
+        <mat-label>Last name</mat-label>
+        <input matInput formControlName="lastName" class="text">
+      </mat-form-field>
+      <mat-form-field>
+        <mat-label>Email addres</mat-label>
+        <input matInput formControlName="email" class="text">
+      </mat-form-field>
+      <mat-form-field>
+        <mat-label>Status</mat-label>
+        <input matInput formControlName="status" class="text">
+      </mat-form-field>
+    </form>
+  </div>
+
+  <button mat-button color="basic" [disabled]="userForm.invalid" (click)="updateUser()">Save changes</button>
+</div>

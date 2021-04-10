@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, Input, OnInit } from '@angular/core';
 import '../../../models/achievement';
 import {MatDialog, MatDialogRef} from '@angular/material/dialog';
 import { RequestModalComponent } from '../../modal-windows/request-modal/request-modal.component';
@@ -8,10 +8,12 @@ import { RequestModalComponent } from '../../modal-windows/request-modal/request
   templateUrl: './personal-achievements.component.html',
   styleUrls: ['./personal-achievements.component.scss']
 })
-export class PersonalAchievmentsComponent {
+export class PersonalAchievmentsComponent implements OnInit {
+  headText = 'Last achievements';
+  @Input() isForDashboard = false;
 
   achList: Achievement[] = [{icon: '../../../../assets/phoenix.png',
-                            name: 'Exoft turbo power',
+                            name: 'Exoft turbo power ',
                             description: '',
                             xp: 5,
                             time: new Date('December 17, 2005 03:24:00')},
@@ -29,9 +31,27 @@ export class PersonalAchievmentsComponent {
                             name: 'Exoft corporate power',
                             description: '',
                             xp: 5,
-                            time: new Date('March 27, 2021 22:24:00')}];
+                            time: new Date('March 27, 2021 22:24:00')},
+                            {icon: '../../../../assets/phoenix.png',
+                            name: 'Exoft corporate power',
+                            description: '',
+                            xp: 5,
+                            time: new Date('March 27, 2021 22:24:00')}
+                          ];
 
   constructor(public dialog: MatDialog) {}
+
+  ngOnInit(): void {
+    if ( this.isForDashboard ) {
+      this.dislayFourAchievements();
+      this.headText = 'Personal achievements';
+    }
+    this.achList.sort( (a, b) => b.time.getTime() - a.time.getTime());
+  }
+
+  dislayFourAchievements(): void {
+    this.achList.pop();
+  }
 
   openModal(): void{
     this.dialog.open(RequestModalComponent, {

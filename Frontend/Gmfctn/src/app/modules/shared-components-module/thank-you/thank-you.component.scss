@@ -4,7 +4,6 @@
   color: #eee;
   text-align: center;
   position: relative;
-
   h3 {
     text-transform: uppercase;
     text-align: left;
@@ -52,12 +51,13 @@
 
   .star {
     width: 100%;
-    position: absolute;
     margin: 0 auto;
-    bottom: 40%;
-
+    height: 45%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
     img {
-      width: 50%;
+      width: 40%;
     }
   }
 

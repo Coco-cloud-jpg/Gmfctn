@@ -1,0 +1,21 @@
+<div class="content">
+  <h3>Full list of achievements</h3>
+
+  <p>
+    <span>Achievement</span>
+
+    <span>EXP points</span>
+
+    <span>Date</span>
+  </p>
+
+  <div class="item" *ngFor="let item of achList">
+    <div class="img"><img [src]="item.icon"></div>
+
+    <div class="name">{{item.name}}</div>
+
+    <div class="points">+{{item.xp}} XP</div>
+
+    <div class="date">{{item.time|passedTimePipe}}</div>
+  </div>
+</div>

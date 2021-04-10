@@ -46,9 +46,18 @@ mat-sidenav-container {
         border-radius: 50%;
         background-color: #525760;
         margin: 10px auto;
-        color: #73bf0b;
         font-size: 28px;
         line-height: 10vw;
+        overflow: hidden;
+
+        img {
+          width: 100%;
+        }
+
+        .letters {
+          color: #eee;
+          font-size: 3em;
+        }
       }
 
       >span {
@@ -71,6 +80,7 @@ mat-sidenav-container {
         margin: 15px auto;
         color: #eee;
         font-size: 1vw;
+
         div {
           height: 20px;
         }

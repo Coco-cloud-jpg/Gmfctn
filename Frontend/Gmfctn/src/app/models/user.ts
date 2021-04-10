@@ -3,4 +3,6 @@ interface User {
     surname: string;
     total: number;
     icon: string;
+    email: string;
+    status: string;
 }

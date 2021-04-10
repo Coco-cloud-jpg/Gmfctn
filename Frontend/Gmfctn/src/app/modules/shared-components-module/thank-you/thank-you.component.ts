@@ -14,12 +14,14 @@ export class ThankYouComponent{
     name: 'Petro',
     surname: 'Poroshenko',
     total: 100,
-    icon: '../../../../assets/5.jpg'
+    icon: '../../../../assets/5.jpg',
+    status: '',
+    email: 'asdqweqw@gmail.com',
   };
 
   constructor(public dialog: MatDialog) {}
 
-  openModal(): void{
+  openModal(): void {
     this.dialog.open(SayThankModalComponent, {
       width: '50%',
       panelClass: 'custom-modalbox',

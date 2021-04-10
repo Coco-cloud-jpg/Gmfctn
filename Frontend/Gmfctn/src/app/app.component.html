@@ -1,1 +1,4 @@
-<app-sidebar [user]="user"></app-sidebar>
+<app-sidebar [user]="user" *ngIf="isSignedIn; else signIn"></app-sidebar>
+<ng-template #signIn>
+  <app-sign-in-window (isSigned)="isSignedIn = true"></app-sign-in-window>
+</ng-template>

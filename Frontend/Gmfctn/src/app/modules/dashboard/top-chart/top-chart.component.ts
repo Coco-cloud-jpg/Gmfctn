@@ -14,27 +14,37 @@ export class TopChartComponent implements OnInit {
                   name: 'Pepe',
                   surname: 'Jodgi',
                   total: 10,
-                  icon: '../../../../assets/phoenix.png'
+                  icon: '../../../../assets/phoenix.png',
+                  status: '',
+                  email: 'asdqweqw@gmail.com'
                 }, {
                   name: 'Petro',
                   surname: 'Poroshenko',
                   total: 100,
-                  icon: '../../../../assets/5.jpg'
+                  icon: '../../../../assets/5.jpg',
+                  status: '',
+                  email: 'asdqweqw@gmail.com'
                 }, {
                   name: 'Shrek',
                   surname: 'Bolothnyi',
                   total: 190,
-                  icon: ''
+                  icon: '',
+                  status: '',
+                  email: 'asdqweqw@gmail.com'
                 }, {
                   name: 'Mr.',
                   surname: 'Heisenberg',
                   total: 15,
-                  icon: ''
+                  icon: '',
+                  status: '',
+                  email: 'asdqweqw@gmail.com'
                 }, {
                   name: 'Ihor',
                   surname: 'Da',
                   total: 120,
-                  icon: ''
+                  icon: '',
+                  status: '',
+                  email: 'asdqweqw@gmail.com'
                 }];
   bars: Graph[] = [{
                     Value: 0,

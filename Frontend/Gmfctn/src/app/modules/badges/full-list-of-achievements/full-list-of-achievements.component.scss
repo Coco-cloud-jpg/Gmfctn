@@ -1,0 +1,75 @@
+.content {
+  margin-left: 1.5em;
+  height: 100%;
+  color: #eee;
+  text-align: center;
+  overflow-y: scroll;
+
+  h3 {
+    text-transform: uppercase;
+    text-align: center;
+    font-size: 1.3vw;
+    letter-spacing: 3px;
+    font-weight: 300;
+    line-height: 2em;
+    margin-bottom: 2em;
+  }
+
+  .item,
+  p {
+    display: flex;
+    justify-content: flex-start;
+    font-size: 1.5em;
+    font-weight: 300;
+    margin-bottom: 1em;
+
+    span:nth-child(1) {
+      display: inline-block;
+      text-align: left;
+      padding-left: 3%;
+      width: 57%;
+    }
+
+    span:nth-child(2) {
+      display: inline-block;
+      width: 15%;
+    }
+
+    span:nth-child(3) {
+      display: inline-block;
+      width: 15%;
+    }
+
+    &.item {
+      font-size: 1em;
+      font-weight: 400;
+
+      .img {
+        width: 10%;
+
+        img {
+          width: 2.5vw;
+          height: 2.5vw;
+          border-radius: 50%;
+          border: 1px solid #73bf0b;
+        }
+      }
+
+      .name {
+        width: 50%;
+        text-align: left;
+        line-height: 2.5vw;
+      }
+
+      .points {
+        width: 15%;
+        line-height: 2.5vw;
+      }
+
+      .date {
+        width: 15%;
+        line-height: 2.5vw;
+      }
+    }
+  }
+}
