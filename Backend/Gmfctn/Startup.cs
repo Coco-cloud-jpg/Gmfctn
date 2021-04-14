@@ -9,8 +9,9 @@ using Data_;
 using Data_.Interfaces;
 using AutoMapper;
 using Data_.Profiles;
-using System;
+using Services;
 using Data_.Entities;
+using Services.Interfaces;
 
 namespace Gmfctn
 {
@@ -27,16 +28,7 @@ namespace Gmfctn
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddDbContext<GmfctnContext>(options => options.UseSqlServer(Configuration.GetConnectionString("MyConnection"), b => b.MigrationsAssembly("Gmfctn")));
-            services.AddControllers();
-            services.AddCors();
-            services.AddSwaggerGen(c =>
-            {
-                c.SwaggerDoc("v1", new OpenApiInfo { Title = "Gmfctn", Version = "v1" });
-            });
-            services.AddScoped<GenericRepository<Achievement>>();
-            services.AddScoped<GenericRepository<User>>();
 
-            services.AddTransient<IUnitOfWork, UnitOfWork>();
             var mapperConfig = new MapperConfiguration(mc =>
             {
                 mc.AddProfile(new AchievementProfile());
@@ -45,7 +37,29 @@ namespace Gmfctn
 
             IMapper mapper = mapperConfig.CreateMapper();
             services.AddSingleton(mapper);
-            
+
+            services.AddTransient<IAchievementService, AchievementService>();
+            services.AddTransient<IUserService, UserService>();
+
+            services.AddControllersWithViews()
+                .AddNewtonsoftJson(options =>
+                options.SerializerSettings.ReferenceLoopHandling = Newtonsoft.Json.ReferenceLoopHandling.Ignore
+            );
+            services.AddScoped<GenericRepository<Achievement>>();
+            services.AddScoped<GenericRepository<Role>>();
+            services.AddScoped<GenericRepository<User>>();
+            services.AddTransient<IUnitOfWork, UnitOfWork>();
+
+            services.AddControllers();
+            services.AddCors();
+
+            services.AddSwaggerGen(c =>
+            {
+                c.SwaggerDoc("v1", new OpenApiInfo { Title = "Gmfctn", Version = "v1" });
+            });
+
+
+
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

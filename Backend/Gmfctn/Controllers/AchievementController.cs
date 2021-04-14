@@ -9,6 +9,8 @@ using System;
 using System.Collections.Generic;
 using System.Threading;
 using System.Threading.Tasks;
+using Services;
+using Services.Interfaces;
 
 namespace Gmfctn.Controllers
 {
@@ -16,38 +18,50 @@ namespace Gmfctn.Controllers
     [ApiController]
     public class AchievementController : ControllerBase
     {
-        private IUnitOfWork UnitOfWork;
-        private readonly IMapper _Mapper;
-        public AchievementController(GmfctnContext Context, IMapper Mapper) {
-            UnitOfWork = new UnitOfWork(Context);
-            _Mapper = Mapper;
+        private readonly IMapper Mapper;
+
+        private readonly IAchievementService AchievementService;
+
+        public AchievementController(IAchievementService _AchievementService, IMapper _Mapper)
+        {
+            AchievementService = _AchievementService;
+            Mapper = _Mapper;
         }
         [HttpGet]
         public async Task<ActionResult<IEnumerable<Achievement>>> GetAllAchievement(CancellationToken Cancel)
         {
             try
             {
-                var Achievements = await UnitOfWork.AchievementRepository.GetAll(Cancel);
+                var Achievements = await AchievementService.GetAllAchievements(Cancel);
                 if (Achievements == null)
+                {
                     return NotFound();
-                else
-                    return Ok(Achievements);
+                }
+                return Ok(Achievements);
             }
-            catch(Exception Exc) {
+            catch (TaskCanceledException Exc)
+            {
+                return Ok(Exc.Data);
+            }
+            catch (Exception Exc) {
                 throw Exc;
             }
             
         }
-        [HttpGet("{id}")]
-        public async Task<ActionResult<Achievement>> GetAchivementById(Guid Id, CancellationToken Cancel)
+        [HttpGet("{Id}")]
+        public async Task<ActionResult<Achievement>> GetAchivementById( Guid Id, CancellationToken Cancel)
         {
             try {
-                var Achievement = await UnitOfWork.AchievementRepository.GetById(Id, Cancel);
+                var Achievement = await AchievementService.GetAchievementById(Id, Cancel);
                 if (Achievement != null)
                 {
                     return Ok(Achievement);
                 }
                 return NotFound();
+            }
+            catch (TaskCanceledException Exc)
+            {
+                return Ok(Exc.Data);
             }
             catch (Exception Exc)
             {
@@ -59,17 +73,15 @@ namespace Gmfctn.Controllers
         {
             try
             {
-                if (!ModelsValidator.AchievementIsValid(Achievement))
-                    ModelState.AddModelError("achievement", "Contains errors in parametrs.");
-                if (ModelState.IsValid) 
+                if (await AchievementService.CreateAchievement(Achievement, Cancel))
                 {
-                    var _Achievement = _Mapper.Map<Achievement>(Achievement);
-                    _Achievement.Id = new Guid();
-                    await UnitOfWork.AchievementRepository.Create(_Achievement, Cancel);
-                    await UnitOfWork.SaveChangesAsync(Cancel);
                     return Ok();
                 }
-                return BadRequest(ModelState);
+                return BadRequest();
+            }
+            catch (TaskCanceledException Exc)
+            {
+                return Ok(Exc.Data);
             }
             catch (DbUpdateException Exc)
             {
@@ -80,14 +92,20 @@ namespace Gmfctn.Controllers
                 throw Exc;
             }
         }
-        [HttpDelete("{id}")]
+        [HttpDelete("{Id}")]
         public async Task<ActionResult> DeleteAchievement(Guid Id, CancellationToken Cancel)
         {
             try
             {
-                await UnitOfWork.AchievementRepository.Delete(Id, Cancel);
-                await UnitOfWork.SaveChangesAsync(Cancel);
-                return Ok();
+                if (await AchievementService.DeleteAchievement(Id, Cancel))
+                {
+                    return Ok();
+                }
+                return NotFound();
+            }
+            catch (TaskCanceledException Exc)
+            {
+                return Ok(Exc.Data);
             }
             catch (ArgumentException Exc)
             {
@@ -98,25 +116,20 @@ namespace Gmfctn.Controllers
                 throw Exc;
             }
         }
-        [HttpPut("{id}")]
+        [HttpPut("{Id}")]
         public async Task<ActionResult> UpdateAchievement(Guid Id, AchievementUpdateDTO Achievement, CancellationToken Cancel)
         {
             try
             {
-                if (!ModelsValidator.AchievementIsValid(_Mapper.Map<AchievementCreateDTO>(Achievement)))
-                    ModelState.AddModelError("achievement", "Contains errors in parametrs.");
-                if (ModelState.IsValid)
+                if (await AchievementService.UpdateAchievement(Id, Achievement, Cancel))
                 {
-                    var _Achievement = await UnitOfWork.AchievementRepository.DbSet.FirstOrDefaultAsync(item => item.Id == Id);
-                    _Mapper.Map(Achievement, _Achievement);
-                    UnitOfWork.AchievementRepository.Update(_Achievement); 
-                    await UnitOfWork.SaveChangesAsync(Cancel);
                     return Ok();
                 }
-                else 
-                {
-                    return BadRequest(ModelState);
-                }
+                return BadRequest();
+            }
+            catch (TaskCanceledException Exc)
+            {
+                return Ok(Exc.Data);
             }
             catch (DbUpdateException Exc)
             {

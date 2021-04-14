@@ -10,10 +10,10 @@ namespace Data_
 {
     public class UnitOfWork: IUnitOfWork
     {
-        private readonly GmfctnContext _Context;
+        public readonly GmfctnContext _Context;
         private GenericRepository<Achievement> _AchievementRepository;
         private GenericRepository<User> _UserRepository;
-
+        private GenericRepository<Role> _RoleRepository;
         public UnitOfWork(GmfctnContext Context)
         {
             this._Context = Context;
@@ -39,6 +39,17 @@ namespace Data_
                     this._UserRepository = new GenericRepository<User>(_Context);
                 }
                 return _UserRepository;
+            }
+        }
+        public GenericRepository<Role> RoleRepository
+        {
+            get
+            {
+                if (this._RoleRepository == null)
+                {
+                    this._RoleRepository = new GenericRepository<Role>(_Context);
+                }
+                return _RoleRepository;
             }
         }
 

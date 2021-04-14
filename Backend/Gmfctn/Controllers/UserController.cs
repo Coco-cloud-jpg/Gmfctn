@@ -1,15 +1,10 @@
-﻿using AutoMapper;
-using Data_;
-using Data_.Dtos;
+﻿using Data_.Dtos;
 using Data_.Entities;
-using Data_.Interfaces;
-using Data_.Validators;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using Services.Interfaces;
 using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text.RegularExpressions;
 using System.Threading;
 using System.Threading.Tasks;
 
@@ -19,21 +14,19 @@ namespace Gmfctn.Controllers
     [ApiController]
     public class UserController : ControllerBase
     {
-        private IUnitOfWork UnitOfWork;
-        private readonly IMapper _Mapper;
-        
-        public UserController(GmfctnContext Context, IMapper Mapper)
+        private readonly IUserService UserService;
+
+        public UserController(IUserService _UserService)
         {
-            UnitOfWork = new UnitOfWork(Context);
-            _Mapper = Mapper;
+            UserService = _UserService;
         }
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<User>>> GetAllUsers(CancellationToken Cancel)
+        public async Task<ActionResult<IEnumerable<UserReadDTO>>> GetAllUsers(CancellationToken Cancel)
         {
            
             try
             {
-                var Users = await UnitOfWork.UserRepository.GetAll(Cancel);
+                var Users = await UserService.GetAllUsers(Cancel);
                 if (Users == null)
                     return NotFound();
                 else
@@ -49,12 +42,12 @@ namespace Gmfctn.Controllers
             }
 
         }
-        [HttpGet("{id}")]
-        public async Task<ActionResult<User>> GetUserById(Guid Id, CancellationToken Cancel)
+        [HttpGet("{Id}")]
+        public async Task<ActionResult<UserReadDTO>> GetUserById(Guid Id, CancellationToken Cancel)
         {
             try
             {
-                var User = await UnitOfWork.UserRepository.GetById(Id, Cancel);
+                var User = await UserService.GetUserById(Id, Cancel);
                 if (User != null)
                 {
                     return Ok(User);
@@ -75,25 +68,15 @@ namespace Gmfctn.Controllers
         {
             try
             {
-                if (!ModelsValidator.UserCreateIsValid(NewUser))
-                    ModelState.AddModelError("user", "Contains errors in parametrs.");
-                
-                if (ModelState.IsValid)
+                if (await UserService.CreateUser(NewUser, Cancel))
                 {
-                    var User = _Mapper.Map<User>(NewUser);
-                    User.Id = new Guid();
-                    await UnitOfWork.UserRepository.Create(User, Cancel);
-                    await UnitOfWork.SaveChangesAsync(Cancel);
                     return Ok();
                 }
-                else
-                {
-                    return BadRequest(ModelState);
-                }
+                return BadRequest();
             }
             catch (TaskCanceledException Exc)
             {
-                throw new Exception("Task was canceled");
+                return Ok(Exc.Data);
             }
             catch (DbUpdateException Exc)
             {
@@ -104,14 +87,20 @@ namespace Gmfctn.Controllers
                 throw Exc;
             }
         }
-        [HttpDelete("{id}")]
+        [HttpDelete("{Id}")]
         public async Task<ActionResult> DeleteUser(Guid Id, CancellationToken Cancel)
         {
             try
             {
-                await UnitOfWork.UserRepository.Delete(Id, Cancel);
-                await UnitOfWork.SaveChangesAsync(Cancel);
-                return Ok();
+                if (await UserService.DeleteUser(Id, Cancel))
+                {
+                    return Ok();
+                }
+                return NotFound();
+            }
+            catch (TaskCanceledException Exc)
+            {
+                return Ok(Exc.Data);
             }
             catch (ArgumentException Exc)
             {
@@ -122,18 +111,20 @@ namespace Gmfctn.Controllers
                 throw Exc;
             }
         }
-        [HttpPut("{id}")]
+        [HttpPut("{Id}")]
         public async Task<ActionResult> UpdateUser(Guid Id, UserUpdateDTO User, CancellationToken Cancel)
         {
             try
             {
-                if (!ModelsValidator.UserUpdateIsValid(User))
-                    ModelState.AddModelError("user", "Contains errors in parametrs.");
-                var UserToUpdate = await UnitOfWork.UserRepository.DbSet.FirstOrDefaultAsync(item => item.Id == Id);
-                _Mapper.Map(User, UserToUpdate);
-                UnitOfWork.UserRepository.Update(UserToUpdate);
-                await UnitOfWork.SaveChangesAsync(Cancel);
-                return Ok();
+                if (await UserService.UpdateUser(Id, User, Cancel))
+                {
+                    return Ok();
+                }
+                return BadRequest();
+            }
+            catch (TaskCanceledException Exc)
+            {
+                return Ok(Exc.Data);
             }
             catch (DbUpdateException Exc)
             {
