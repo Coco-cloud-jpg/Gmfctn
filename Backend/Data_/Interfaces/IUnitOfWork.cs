@@ -10,7 +10,7 @@ namespace Data_.Interfaces
         GenericRepository<Achievement> AchievementRepository { get; }
         GenericRepository<User> UserRepository { get; }
         GenericRepository<Role> RoleRepository { get; }
-
+        GenericRepository<Thank> ThankRepository { get; }
         Task SaveChangesAsync(CancellationToken cancel);
     }
 }

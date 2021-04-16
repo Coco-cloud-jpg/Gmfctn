@@ -15,12 +15,13 @@ namespace Data_.Profiles
             CreateMap<UserUpdateDTO, User>();
             CreateMap<User, UserUpdateDTO>();
             CreateMap<User, UserReadDTO>().ForMember("Roles", src =>
-                    src.MapFrom(opt => Convert(opt)));
+                    src.MapFrom(opt => ConvertRoles(opt)));
+            CreateMap<User, UserReadShortDTO>();
         }
-        private ICollection<string> Convert(User User)
+        private ICollection<string> ConvertRoles(User User)
         {
             var Result = new List<string>();
-            foreach (var Item in User.UserRoles)
+            foreach (var Item in User?.UserRoles)
             {
                 Result.Add(Item.Role.RoleName.ToString());
             }

@@ -10,6 +10,7 @@ using Services.Interfaces;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Security.Cryptography;
 using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
@@ -65,14 +66,21 @@ namespace Services
                 {
                     var _User = Mapper.Map<User>(User);
                     _User.Id = new Guid();
+                    using (SHA256 Sha256Hash = SHA256.Create())
+                    {
+                        var ByteArray = Sha256Hash.ComputeHash(Encoding.ASCII.GetBytes(_User.Password));
+                        _User.Password = Encoding.UTF8.GetString(ByteArray, 0, ByteArray.Length);
+                    }
                     await UnitOfWork.UserRepository.Create(_User, Cancel);
                     if (_User.UserRoles == null)
                         _User.UserRoles = new List<UserRole>();
-                    foreach(var Role in User.Roles) 
+                    if (_User.UserAchievements == null)
+                        _User.UserAchievements = new List<UserAchievement>();
+                    foreach (var Role in User.Roles) 
                     {
                         _User.UserRoles.Add(await GenerateUserRole(_User, Role, Cancel));
                     }
-                    
+                   
 
                     await UnitOfWork.SaveChangesAsync(Cancel);
                     return true;
@@ -117,6 +125,8 @@ namespace Services
             return Mapper.Map<UserReadDTO>(await ((UnitOfWork)UnitOfWork)._Context.Users
                 .Include(User => User.UserRoles)
                 .ThenInclude(UserRole => UserRole.Role)
+                .Include(User => User.UserAchievements)
+                .ThenInclude(UserAchievement => UserAchievement.Achievement)
                 .FirstOrDefaultAsync(User => User.Id == Id , Cancel));
         }
 
@@ -125,7 +135,24 @@ namespace Services
             return Mapper.Map< IEnumerable<UserReadDTO>>(await ((UnitOfWork)UnitOfWork)._Context.Users
                 .Include(User => User.UserRoles)
                 .ThenInclude(UserRole => UserRole.Role)
+                .Include(User => User.UserAchievements)
+                .ThenInclude(UserAchievement => UserAchievement.Achievement)
                 .ToListAsync(Cancel));
+        }
+
+        public async Task<IEnumerable<UserReadShortDTO>> GetAllUsersInfo(CancellationToken Cancel)
+        {
+            return Mapper.Map<IEnumerable<UserReadShortDTO>>(await((UnitOfWork)UnitOfWork)._Context.Users
+               .Include(User => User.UserRoles)
+               .ThenInclude(UserRole => UserRole.Role)
+               .ToListAsync(Cancel));
+        }
+        public async Task<UserReadShortDTO> GetUserInfoById(Guid Id, CancellationToken Cancel)
+        {
+            return Mapper.Map<UserReadShortDTO>(await ((UnitOfWork)UnitOfWork)._Context.Users
+                .Include(User => User.UserRoles)
+                .ThenInclude(UserRole => UserRole.Role)
+                .FirstOrDefaultAsync(User => User.Id == Id, Cancel));
         }
 
         public async Task<bool> UpdateUser(Guid Id, UserUpdateDTO User, CancellationToken Cancel)

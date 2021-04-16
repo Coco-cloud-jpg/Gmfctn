@@ -12,6 +12,8 @@ namespace Services.Interfaces
     {
         Task<UserReadDTO> GetUserById(Guid Id, CancellationToken Cancel);
         Task<IEnumerable<UserReadDTO>> GetAllUsers(CancellationToken Cancel);
+        Task<IEnumerable<UserReadShortDTO>> GetAllUsersInfo(CancellationToken Cancel);
+        Task<UserReadShortDTO> GetUserInfoById(Guid Id, CancellationToken Cancel);
         Task<bool> DeleteUser(Guid Id, CancellationToken Cancel);
         Task<bool> UpdateUser(Guid Id, UserUpdateDTO User, CancellationToken Cancel);
         Task<bool> CreateUser(UserCreateDTO User, CancellationToken Cancel);

@@ -15,6 +15,8 @@ namespace Data_
         public DbSet<UserAchievement> UserAchievements { get; set; }
         public DbSet<UserRole> UserRoles { get; set; }
         public DbSet<Role> Roles { get; set; }
+        public DbSet<RefreshToken> RTokens { get; set; }
+        public DbSet<Thank> Thanks { get; set; }
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             modelBuilder.Entity<Achievement>().ToTable("Achievements");

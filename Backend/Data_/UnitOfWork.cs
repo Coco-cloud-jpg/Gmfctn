@@ -14,6 +14,7 @@ namespace Data_
         private GenericRepository<Achievement> _AchievementRepository;
         private GenericRepository<User> _UserRepository;
         private GenericRepository<Role> _RoleRepository;
+        private GenericRepository<Thank> _ThankRepository;
         public UnitOfWork(GmfctnContext Context)
         {
             this._Context = Context;
@@ -28,6 +29,17 @@ namespace Data_
                     this._AchievementRepository = new GenericRepository<Achievement>(_Context);
                 }
                 return _AchievementRepository;
+            }
+        }
+        public GenericRepository<Thank> ThankRepository
+        {
+            get
+            {
+                if (this._ThankRepository == null)
+                {
+                    this._ThankRepository = new GenericRepository<Thank>(_Context);
+                }
+                return _ThankRepository;
             }
         }
         public GenericRepository<User> UserRepository

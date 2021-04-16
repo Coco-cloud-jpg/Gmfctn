@@ -12,6 +12,11 @@ using Data_.Profiles;
 using Services;
 using Data_.Entities;
 using Services.Interfaces;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.IdentityModel.Tokens;
+using System.Text;
+using System;
+using System.Threading.Tasks;
 
 namespace Gmfctn
 {
@@ -35,20 +40,44 @@ namespace Gmfctn
                 mc.AddProfile(new UserProfile());
             });
 
+
             IMapper mapper = mapperConfig.CreateMapper();
             services.AddSingleton(mapper);
 
             services.AddTransient<IAchievementService, AchievementService>();
             services.AddTransient<IUserService, UserService>();
 
-            services.AddControllersWithViews()
-                .AddNewtonsoftJson(options =>
-                options.SerializerSettings.ReferenceLoopHandling = Newtonsoft.Json.ReferenceLoopHandling.Ignore
-            );
-            services.AddScoped<GenericRepository<Achievement>>();
-            services.AddScoped<GenericRepository<Role>>();
-            services.AddScoped<GenericRepository<User>>();
+            var TokenValidationParameters = new TokenValidationParameters
+            {
+                ValidateAudience = false,
+                ValidateIssuer = false,
+                ValidateIssuerSigningKey = true,
+                IssuerSigningKey = new SymmetricSecurityKey(Encoding.ASCII.GetBytes(Configuration.GetSection("JWTToken")["TokenSecretString"])),
+                ValidateLifetime = true,
+                RequireExpirationTime = false,
+                ClockSkew = TimeSpan.Zero,
+            };
+            services.AddSingleton(TokenValidationParameters);
+            services.AddAuthentication(Options =>
+           {
+               Options.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
+               Options.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
+           }).AddJwtBearer(Options =>
+           {
+               Options.RequireHttpsMetadata = false;
+               Options.SaveToken = true;
+               Options.TokenValidationParameters = TokenValidationParameters;
+           });
+
+            services.AddTransient<GenericRepository<Achievement>>();
+            services.AddTransient<GenericRepository<Role>>();
+            services.AddTransient<GenericRepository<User>>();
+            services.AddTransient<GenericRepository<Thank>>();
+
             services.AddTransient<IUnitOfWork, UnitOfWork>();
+            services.AddTransient<IJwtAuthenticationService, JwtAuthenticationService>();
+            services.AddTransient<IThankService, ThankService>();
+            services.AddTransient<IProfileService, ProfileService>();
 
             services.AddControllers();
             services.AddCors();
@@ -56,8 +85,31 @@ namespace Gmfctn
             services.AddSwaggerGen(c =>
             {
                 c.SwaggerDoc("v1", new OpenApiInfo { Title = "Gmfctn", Version = "v1" });
-            });
 
+                c.AddSecurityDefinition("Bearer", new OpenApiSecurityScheme
+                {
+                    Description = "JWT Authorization header using the Bearer scheme (Example: 'Bearer 12345abcdef')",
+                    Name = "Authorization",
+                    In = ParameterLocation.Header,
+                    Type = SecuritySchemeType.ApiKey,
+                    Scheme = "Bearer"
+                });
+
+                c.AddSecurityRequirement(new OpenApiSecurityRequirement
+            {
+                {
+                    new OpenApiSecurityScheme
+                    {
+                        Reference = new OpenApiReference
+                        {
+                            Type = ReferenceType.SecurityScheme,
+                            Id = "Bearer"
+                        }
+                    },
+                    Array.Empty<string>()
+                }
+            });
+            });
 
 
         }
@@ -77,6 +129,8 @@ namespace Gmfctn
             app.UseRouting();
 
             app.UseCors(builder => builder.AllowAnyOrigin());
+
+            app.UseAuthentication();
 
             app.UseAuthorization();
 

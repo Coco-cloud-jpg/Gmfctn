@@ -1,8 +1,6 @@
 ﻿using AutoMapper;
 using Data_;
 using Data_.Dtos;
-using Data_.Interfaces;
-using Data_.Validators;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using System;
@@ -11,11 +9,13 @@ using System.Threading;
 using System.Threading.Tasks;
 using Services;
 using Services.Interfaces;
+using Microsoft.AspNetCore.Authorization;
 
 namespace Gmfctn.Controllers
 {
     [Route("api/achievement")]
     [ApiController]
+    [Authorize]
     public class AchievementController : ControllerBase
     {
         private readonly IMapper Mapper;
@@ -28,6 +28,7 @@ namespace Gmfctn.Controllers
             Mapper = _Mapper;
         }
         [HttpGet]
+        [Authorize(Roles = "User")]
         public async Task<ActionResult<IEnumerable<Achievement>>> GetAllAchievement(CancellationToken Cancel)
         {
             try
@@ -49,6 +50,7 @@ namespace Gmfctn.Controllers
             
         }
         [HttpGet("{Id}")]
+        [Authorize(Roles = "User")]
         public async Task<ActionResult<Achievement>> GetAchivementById( Guid Id, CancellationToken Cancel)
         {
             try {
@@ -69,6 +71,7 @@ namespace Gmfctn.Controllers
             }
         }
         [HttpPost]
+        [Authorize(Roles = "Admin")]
         public async Task<ActionResult> CreateAchievement(AchievementCreateDTO Achievement, CancellationToken Cancel)
         {
             try
@@ -93,6 +96,7 @@ namespace Gmfctn.Controllers
             }
         }
         [HttpDelete("{Id}")]
+        [Authorize(Roles = "Admin")]
         public async Task<ActionResult> DeleteAchievement(Guid Id, CancellationToken Cancel)
         {
             try
@@ -117,6 +121,7 @@ namespace Gmfctn.Controllers
             }
         }
         [HttpPut("{Id}")]
+        [Authorize(Roles = "Admin")]
         public async Task<ActionResult> UpdateAchievement(Guid Id, AchievementUpdateDTO Achievement, CancellationToken Cancel)
         {
             try
