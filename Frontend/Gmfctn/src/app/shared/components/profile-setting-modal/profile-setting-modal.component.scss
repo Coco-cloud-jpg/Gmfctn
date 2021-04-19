@@ -1,0 +1,114 @@
+@import '../../styles/common.scss';
+
+.wrapper {
+  width: 100%;
+  height: 35em;
+  color: #eee;
+
+  .head {
+    color: #eee;
+    font-size: 1.8em;
+    margin: 1.5em 0;
+    position: relative;
+
+    span:nth-child(1) {
+      color: #aaa;
+      position: absolute;
+      cursor: pointer;
+      font-size: 1.2em;
+      top: -5px;
+    }
+
+    span:nth-child(2) {
+      margin-left: 1.5em;
+    }
+  }
+
+  .content {
+    color: #eee;
+    margin: 0;
+    padding-top: 40px;
+    background-color: #424750;
+    border-radius: 20px 20px 0 0;
+    position: relative;
+
+    .img {
+      position: absolute;
+      top: -5em;
+      right: 2em;
+      width: 10em;
+      height: 10em;
+      text-align: center;
+      line-height: 10em;
+      margin: 0 auto;
+      border-radius: 50%;
+      background-color: #45494f;
+      border: 2px solid $base-color;
+      overflow: hidden;
+
+      span {
+        color: #eee;
+        font-size: 4em;
+      }
+
+      img {
+        width: 100%;
+      }
+    }
+
+    form {
+      margin: 0 1.5em;
+      padding-bottom: 4em;
+      padding-top: 1.5em;
+
+      mat-form-field {
+        display: inline-block;
+        margin: auto;
+        width: 50%;
+        font-size: 20px;
+
+        &:nth-child(3),
+        &:nth-child(4) {
+          width: 100%;
+        }
+
+        mat-label {
+          color: #eee;
+          text-transform: uppercase;
+          font-size: 0.7em;
+        }
+
+        span {
+          color: #eee;
+          background-color: #fff;
+        }
+
+        .text {
+          font-weight: 300;
+          margin-left: 10px;
+        }
+      }
+    }
+  }
+
+
+  button {
+    background-color: $base-color;
+    display: block;
+    cursor: pointer;
+    width: 100%;
+    border-radius: 0 0 20px 20px;
+    text-transform: uppercase;
+    font-size: 1.4em;
+    line-height: 3.6em;
+    font-weight: 300;
+  }
+}
+
+::ng-deep.mat-form-field-underline {
+  background-color: #aaa !important;
+}
+
+::ng-deep.mat-form-field-ripple {
+  background-color: #eee !important;
+}

@@ -1,0 +1,21 @@
+<div class="content">
+  <h3>Thank you</h3>
+
+  <div class="star">
+    <img src="../../../../assets/star-big-image.png" alt="Star">
+  </div>
+
+  <div class="text">
+    <p>Hey, hey, hey. Thank you for your help!!!</p>
+  </div>
+
+  <div class="info">
+    <div class="img" (click)="openModal()">
+      <img [src]="user.avatarId">
+
+      <span>{{user.firstName[0]}}{{user.lastName[0]}}</span>
+    </div>
+
+    <span>{{user.firstName}} {{user.lastName}}</span>
+  </div>
+</div>

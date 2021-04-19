@@ -1,0 +1,35 @@
+<div class="content">
+  <h3>Top Chart</h3>
+
+  <div class="main">
+    <div class="topchart">
+      <p>
+        <span>Name</span>
+
+        <span>Total XP</span>
+      </p>
+
+      <div class="toplist">
+        <div class="item" *ngFor="let item of users">
+          <div class="img" (click)="openModal(item)">
+            <img [src]="item.avatarId">
+
+            <span>{{item.firstName[0]}}{{item.lastName[0]}}</span>
+          </div>
+          <div class="description">
+            <p>{{item.firstName}}</p>
+
+            <p>{{item.lastName}}</p>
+          </div>
+          <div class="exp">
+            <p>{{item.xp}}XP</p>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="top-diagram">
+      <div class="bars" *ngFor="let item of bars" [ngStyle]="{'width': item.Value+'%', 'background-color':item.Color}">
+      </div>
+    </div>
+  </div>
+</div>

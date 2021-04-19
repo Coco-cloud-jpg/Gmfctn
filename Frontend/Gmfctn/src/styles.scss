@@ -1,6 +1,7 @@
 // Custom Theming for Angular Material
 // For more information: https://material.angular.io/guide/theming
 @import '~@angular/material/theming';
+@import './app/shared/styles/common.scss';
 // Plus imports for other components in your app.
 
 // Include the common styles for Angular Material. We include this here so that you only
@@ -67,9 +68,9 @@ body {
 }
 
 ::-webkit-scrollbar-thumb {
-  background: #73bf0b;
+  background: $base-color;
 }
 
 ::-webkit-scrollbar-thumb:hover {
-  background: #6db30b;
+  background: $base-color;
 }

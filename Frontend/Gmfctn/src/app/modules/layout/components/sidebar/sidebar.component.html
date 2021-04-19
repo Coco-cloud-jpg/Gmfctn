@@ -1,0 +1,58 @@
+<mat-sidenav-container color="primary">
+  <mat-sidenav [(opened)]="opened">
+    <div class="main-content-div">
+      <div class="button-div">
+        <span>GMFCTN!</span>
+
+        <button mat-icon-button (click)="opened=!opened">
+          <mat-icon>menu</mat-icon>
+        </button>
+      </div>
+      <div class="info">
+        <div class="img">
+          <img [src]="user.avatarId" *ngIf="user.avatarId; else letters">
+
+          <ng-template #letters><span class="letters">{{user.firstName[0]}}{{user.lastName[0]}}</span></ng-template>
+        </div>
+
+        <span>{{user.firstName}} {{user.lastName}} </span>
+
+        <button mat-button color="basic" (click)="editProfile()">Edit profile</button>
+
+        <button mat-button color="basic">Change password</button>
+
+        <button mat-button color="basic">Log out</button>
+
+        <div class="statistic">
+
+          <div><span>Total: </span><span>{{user.badges}} Badges</span></div>
+
+          <div><span>EXP: </span><span>{{user.xp}} XP</span></div>
+        </div>
+        <div class="menu">
+          <a class="navigation-item" routerLink="dashboard" routerLinkActive="active"
+            [routerLinkActiveOptions]="{exact:true}">
+            Dashboard
+          </a><br>
+
+          <a class="navigation-item" routerLink="badges" routerLinkActive="active"
+            [routerLinkActiveOptions]="{exact:true}">
+            Badges
+          </a><br>
+
+          <a class="navigation-item" routerLink="c" routerLinkActive="active" [routerLinkActiveOptions]="{exact:true}">
+            Order
+          </a>
+        </div>
+      </div>
+    </div>
+  </mat-sidenav>
+  <mat-sidenav-content>
+
+    <app-toolbar [isOpened]="opened" (opened)="opened=!opened" [user]=user></app-toolbar>
+
+    <div class="main-container">
+      <router-outlet></router-outlet>
+    </div>
+  </mat-sidenav-content>
+</mat-sidenav-container>
