@@ -81,7 +81,7 @@ namespace Gmfctn
 
             services.AddControllers();
             services.AddCors();
-
+            services.AddAuthorization();
             services.AddSwaggerGen(c =>
             {
                 c.SwaggerDoc("v1", new OpenApiInfo { Title = "Gmfctn", Version = "v1" });
@@ -128,7 +128,7 @@ namespace Gmfctn
 
             app.UseRouting();
 
-            app.UseCors(builder => builder.AllowAnyOrigin());
+            app.UseCors(builder => builder.AllowAnyOrigin().AllowAnyHeader().AllowAnyMethod());
 
             app.UseAuthentication();
 

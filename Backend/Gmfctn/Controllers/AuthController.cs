@@ -22,24 +22,37 @@ namespace Gmfctn.Controllers
             JwtAuthenticationService = _JwtAuthenticationService;
         }
         [HttpPost("login")]
-        public async Task<ActionResult<List<string>>> AuthenticateWithUserName(string Login, string Password, CancellationToken Cancel)
+        public async Task<ActionResult<List<string>>> AuthenticateWithUserName(Credentials Credentials, CancellationToken Cancel)
         {
-            var Tokens = await JwtAuthenticationService.Authenticate(Login, Password, Cancel);
-            if (Tokens.Item1 == null || Tokens.Item2 == null)
-                return Unauthorized();
+            try
+            {
+                var Tokens = await JwtAuthenticationService.Authenticate(Credentials.Login, Credentials.Password, Cancel);
+                if (Tokens.Item1 == null || Tokens.Item2 == null || Tokens.Item3 == null)
+                    return Unauthorized();
 
-            return Ok(new List<string> { Tokens.Item1, Tokens.Item2 });
+                return Ok(new List<string> { Tokens.Item1, Tokens.Item2, Tokens.Item3 });
+            }
+            catch
+            {
+                return BadRequest();
+            }
         }
         [HttpPost("refresh")]
-        public async Task<ActionResult<List<string>>> Refresh( string Token, string RefreshToken, CancellationToken Cancel)
+        public async Task<ActionResult<List<string>>> Refresh(Tokens Tokens, CancellationToken Cancel)
         {
-            var Tokens = await JwtAuthenticationService.RefreshToken(Token, RefreshToken, Cancel);
-            if(Tokens.Item1 == null || Tokens.Item2 == null)
+            try
+            {
+                var newTokens = await JwtAuthenticationService.RefreshToken(Tokens.AccessToken, Tokens.RefreshToken, Cancel);
+                if (newTokens.Item1 == null || newTokens.Item2 == null || newTokens.Item3 == null)
+                    return BadRequest();
+
+                return Ok(new List<string> { newTokens.Item1, newTokens.Item2, newTokens.Item3 });
+            }
+            catch 
+            {
                 return BadRequest();
-
-            return Ok(new List<string> { Tokens.Item1, Tokens.Item2 });
+            }
         }
-
     }
 }
 

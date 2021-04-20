@@ -35,15 +35,15 @@ namespace Services
             Key = Config.GetSection("JWTToken")["TokenSecretString"];
             TimeToLive = Config.GetSection("JWTToken")["TokenLifetime"];
         }
-        public async Task<(string , string)> Authenticate(string Login, string Password, CancellationToken Cancel, bool isHashed = false)
+        public async Task<(string, string, string)> Authenticate(string Login, string Password, CancellationToken Cancel, bool isHashed = false)
         {
-            if(!isHashed)
+            if (!isHashed)
                 Password = HashData(Password);
 
             UserReadDTO User = await GetUserFromDB(Login, Cancel);
 
             if (User == null || User.Password != Password)
-                return (null, null);
+                return (null, null, null);
 
             var TokenHandler = new JwtSecurityTokenHandler();
             var TokenKey = Encoding.ASCII.GetBytes(Key);
@@ -65,10 +65,10 @@ namespace Services
                 CreatedTime = DateTime.UtcNow,
                 ExpiryDate = DateTime.UtcNow.AddYears(1)
             };
-            await ((UnitOfWork)UnitOfWork)._Context.RTokens.AddAsync(RefreshToken, Cancel);
+            await UnitOfWork.UserRepository.Context.RTokens.AddAsync(RefreshToken, Cancel);
             await UnitOfWork.SaveChangesAsync(Cancel);
 
-            return (TokenHandler.WriteToken(Token), RefreshToken.Token);
+            return (TokenHandler.WriteToken(Token), Token.ValidTo.ToUniversalTime().ToString("yyyy-MM-ddTHH:mm:ssZ"), RefreshToken.Token);
         }
         private Claim[] GetClaims(UserReadDTO User)
         {
@@ -97,12 +97,12 @@ namespace Services
                                .FirstOrDefaultAsync(_User => _User.Email == Login || _User.UserName == Login, Cancel));
         }
 
-        public async Task<(string, string)> RefreshToken(string Token, string RefreshToken, CancellationToken Cancel)
+        public async Task<(string, string, string)> RefreshToken(string Token, string RefreshToken, CancellationToken Cancel)
         {
              var Claims = HelperService.GetClaimsFromToken(Token, Key);
              if (Claims == null) 
              {
-                 return (null, null);
+                 return (null, null, null);
              }
 
              var ExpiryDate = long.Parse(Claims.FirstOrDefault(Claim =>
@@ -113,7 +113,7 @@ namespace Services
 
              if (ExpiryDateTime > DateTime.UtcNow)
              {
-                 return (null, null);
+                 return (null, null, null);
              }
 
             var UserId = Claims.FirstOrDefault(Claim =>
@@ -121,13 +121,13 @@ namespace Services
 
             await DeleteUnUsedRefreshTokens(RefreshToken, UserId, Cancel); 
 
-            var StoredRefreshToken = await ((UnitOfWork)UnitOfWork)._Context.RTokens.FirstOrDefaultAsync(Token => Token.Token == RefreshToken);
+            var StoredRefreshToken = await UnitOfWork.UserRepository.Context.RTokens.FirstOrDefaultAsync(Token => Token.Token == RefreshToken);
 
             if ( IsNotValidRefreshToken(StoredRefreshToken) || (StoredRefreshToken.UserId.ToString() != Claims.FirstOrDefault(Claim =>
                                              Claim.Type == JwtRegisteredClaimNames.Sub).Value))
-                return (null, null);
+                return (null, null, null);
 
-             ((UnitOfWork)UnitOfWork)._Context.RTokens.Remove(StoredRefreshToken);
+            UnitOfWork.UserRepository.Context.RTokens.Remove(StoredRefreshToken);
              await UnitOfWork.SaveChangesAsync(Cancel);
 
              var User =await  UnitOfWork.UserRepository.GetById(StoredRefreshToken.UserId, Cancel);
@@ -136,16 +136,16 @@ namespace Services
         }
         private async Task DeleteUnUsedRefreshTokens(string RefreshToken, string UserId, CancellationToken Cancel)
         {
-            var Quanttity = await ((UnitOfWork)UnitOfWork)._Context.RTokens.CountAsync(Token => Token.UserId.ToString() == UserId);
+            var Quanttity = await UnitOfWork.UserRepository.Context.RTokens.CountAsync(Token => Token.UserId.ToString() == UserId);
 
             if (Quanttity > 1)
             {
-                var AllTokens = await ((UnitOfWork)UnitOfWork)._Context.RTokens.ToListAsync();
+                var AllTokens = await UnitOfWork.UserRepository.Context.RTokens.ToListAsync();
                 foreach (var RToken in AllTokens)
                 {
                     if ((RToken.UserId.ToString() == UserId) && (RToken.Token != RefreshToken ))
                     {
-                        ((UnitOfWork)UnitOfWork)._Context.RTokens.Remove(RToken);
+                        UnitOfWork.UserRepository.Context.RTokens.Remove(RToken);
                     }
                 }
                 await UnitOfWork.SaveChangesAsync(Cancel);

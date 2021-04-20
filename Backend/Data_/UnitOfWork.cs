@@ -10,7 +10,7 @@ namespace Data_
 {
     public class UnitOfWork: IUnitOfWork
     {
-        public readonly GmfctnContext _Context;
+        private readonly GmfctnContext _Context;
         private GenericRepository<Achievement> _AchievementRepository;
         private GenericRepository<User> _UserRepository;
         private GenericRepository<Role> _RoleRepository;

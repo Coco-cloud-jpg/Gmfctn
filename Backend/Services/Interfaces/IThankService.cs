@@ -9,7 +9,7 @@ namespace Services.Interfaces
 {
     public interface IThankService
     {
-        Task<bool> SayThank(string Token,string Text, Guid ToUserId, CancellationToken Cancel);
+        Task SayThank(string Token,string Text, Guid ToUserId, CancellationToken Cancel);
         Task<Thank> GetThank(string Token, CancellationToken Cancel);
     }
 }

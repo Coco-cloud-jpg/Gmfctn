@@ -20,29 +20,21 @@ namespace Services
 
         public AchievementService(GmfctnContext Context, IMapper _Mapper)
         {
-            UnitOfWork = new UnitOfWork(Context); ;
+            UnitOfWork = new UnitOfWork(Context);
             Mapper = _Mapper;
         }
-        public async Task<bool> DeleteAchievement(Guid Id, CancellationToken Cancel)
+        public async Task DeleteAchievement(Guid Id, CancellationToken Cancel)
         {
-            try
+            if ((await UnitOfWork.AchievementRepository
+                   .DbSet.FirstOrDefaultAsync(item => item.Id == Id)) != null)
             {
-                if ((await UnitOfWork.AchievementRepository
-                .DbSet.FirstOrDefaultAsync(item => item.Id == Id)) != null)
-                {
-                    await UnitOfWork.AchievementRepository.Delete(Id, Cancel);
-                    await UnitOfWork.SaveChangesAsync(Cancel);
-                    return true;
-                }
-                else 
-                {
-                    return false;
-                }
+                await UnitOfWork.AchievementRepository.Delete(Id, Cancel);
+                await UnitOfWork.SaveChangesAsync(Cancel);
+                return;
             }
-            catch (Exception exc)
+            else
             {
-
-                throw exc;
+                throw new ArgumentNullException();
             }
         }
 
@@ -56,53 +48,39 @@ namespace Services
             return await UnitOfWork.AchievementRepository.GetAll(Cancel);   
         }
 
-        public async Task<bool> CreateAchievement(AchievementCreateDTO Achievement, CancellationToken Cancel)
+        public async Task CreateAchievement(AchievementCreateDTO Achievement, CancellationToken Cancel)
         {
-            try
-            {
                 if (ModelsValidator.AchievementIsValid((Mapper.Map<AchievementUpdateDTO>(Achievement))))
                 {
                     var _Achievement = Mapper.Map<Achievement>(Achievement);
                     _Achievement.Id = new Guid();
                     await UnitOfWork.AchievementRepository.Create(_Achievement, Cancel);
                     await UnitOfWork.SaveChangesAsync(Cancel);
-                    return true;
+                    return;
                 }
                 else
                 {
-                    return false;
-                }
-                
-            }
-            catch (Exception exc)
-            {
-                throw exc;
-            }
-            
+                    throw new ArgumentException();
+                }            
         }
 
-        public async Task<bool> UpdateAchievement(Guid Id, AchievementUpdateDTO Achievement, CancellationToken Cancel)
+        public async Task UpdateAchievement(Guid Id, AchievementUpdateDTO Achievement, CancellationToken Cancel)
         {
-            try
-            {
-                if (ModelsValidator.AchievementIsValid(Achievement) && (await UnitOfWork.AchievementRepository
-                    .DbSet.FirstOrDefaultAsync(item => item.Id == Id)) != null)
-                {
+                if (ModelsValidator.AchievementIsValid(Achievement))
+                { 
+                    if ((await UnitOfWork.AchievementRepository
+                    .DbSet.FirstOrDefaultAsync(item => item.Id == Id)) == null)
+                        throw new ArgumentNullException();
                     var _Achievement = await UnitOfWork.AchievementRepository.DbSet.FirstOrDefaultAsync(item => item.Id == Id);
                     Mapper.Map(Achievement, _Achievement);
                     UnitOfWork.AchievementRepository.Update(_Achievement);
                     await UnitOfWork.SaveChangesAsync(Cancel);
-                    return true;
+                    return;
                 }
                 else
                 {
-                    return false;
+                    throw new ArgumentException();
                 }
-            }
-            catch (Exception exc)
-            {
-                throw exc;
-            }
         }
     }
 }

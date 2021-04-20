@@ -27,24 +27,18 @@ namespace Gmfctn.Controllers
         [Authorize(Roles = "Admin")]
         public async Task<ActionResult<IEnumerable<UserReadDTO>>> GetAllUsers(CancellationToken Cancel)
         {
-
             try
             {
                 var Users = await UserService.GetAllUsers(Cancel);
                 if (Users == null)
-                    return NotFound();
+                    return NoContent();
                 else
                     return Ok(Users);
             }
-            catch (TaskCanceledException Exc)
+            catch
             {
-                return Ok(Exc.Data);
+                return BadRequest();
             }
-            catch (Exception Exc)
-            {
-                throw Exc;
-            }
-
         }
         [HttpGet("get_user/{Id}")]
         [Authorize(Roles ="Admin")]
@@ -53,19 +47,15 @@ namespace Gmfctn.Controllers
             try
             {
                 var User = await UserService.GetUserById(Id, Cancel);
-                if (User != null)
+                if (User == null)
                 {
-                    return Ok(User);
+                    return NoContent();
                 }
-                return NotFound();
+                return Ok(User);
             }
-            catch (TaskCanceledException Exc)
+            catch 
             {
-                return Ok(Exc.Data);
-            }
-            catch (Exception Exc)
-            {
-                throw Exc;
+                return BadRequest();
             }
         }
         [HttpGet("get_all_users_info")]
@@ -75,19 +65,15 @@ namespace Gmfctn.Controllers
             try
             {
                 var User = await UserService.GetAllUsersInfo(Cancel);
-                if (User != null)
+                if (User == null)
                 {
-                    return Ok(User);
+                    return NoContent();
                 }
-                return NotFound();
+                return Ok(User);
             }
-            catch (TaskCanceledException Exc)
+            catch
             {
-                return Ok(Exc.Data);
-            }
-            catch (Exception Exc)
-            {
-                throw Exc;
+                return BadRequest();
             }
         }
         [HttpGet("get_user_info/{Id}")]
@@ -99,17 +85,13 @@ namespace Gmfctn.Controllers
                 var User = await UserService.GetUserInfoById(Id, Cancel);
                 if (User != null)
                 {
-                    return Ok(User);
+                    return NotFound();
                 }
-                return NotFound();
+                return Ok(User);
             }
-            catch (TaskCanceledException Exc)
+            catch
             {
-                return Ok(Exc.Data);
-            }
-            catch (Exception Exc)
-            {
-                throw Exc;
+                return BadRequest();
             }
         }
         [HttpPost]
@@ -118,23 +100,12 @@ namespace Gmfctn.Controllers
         {
             try
             {
-                if (await UserService.CreateUser(NewUser, Cancel))
-                {
-                    return Ok();
-                }
+                await UserService.CreateUser(NewUser, Cancel);
+                return Ok();
+            }
+            catch
+            {
                 return BadRequest();
-            }
-            catch (TaskCanceledException Exc)
-            {
-                return Ok(Exc.Data);
-            }
-            catch (DbUpdateException Exc)
-            {
-                throw new ArgumentException();
-            }
-            catch (Exception Exc)
-            {
-                throw Exc;
             }
         }
         [HttpDelete("{Id}")]
@@ -142,23 +113,16 @@ namespace Gmfctn.Controllers
         {
             try
             {
-                if (await UserService.DeleteUser(Id, Cancel))
-                {
-                    return Ok();
-                }
-                return NotFound();
+                await UserService.DeleteUser(Id, Cancel);
+                return NoContent();
             }
-            catch (TaskCanceledException Exc)
-            {
-                return Ok(Exc.Data);
-            }
-            catch (ArgumentException Exc)
+            catch (ArgumentException ArgExp)
             {
                 return NotFound();
             }
-            catch (Exception Exc)
+            catch
             {
-                throw Exc;
+                return BadRequest();
             }
         }
         [HttpPut("{Id}")]
@@ -166,23 +130,16 @@ namespace Gmfctn.Controllers
         {
             try
             {
-                if (await UserService.UpdateUser(Id, User, Cancel))
-                {
-                    return Ok();
-                }
+                await UserService.UpdateUser(Id, User, Cancel);
+                return Ok();
+            }
+            catch (ArgumentNullException ArgExp)
+            {
+                return NotFound();
+            }
+            catch
+            {
                 return BadRequest();
-            }
-            catch (TaskCanceledException Exc)
-            {
-                return Ok(Exc.Data);
-            }
-            catch (DbUpdateException Exc)
-            {
-                throw new ArgumentException(Exc.Message);
-            }
-            catch (Exception Exc)
-            {
-                throw Exc;
             }
         }
     }

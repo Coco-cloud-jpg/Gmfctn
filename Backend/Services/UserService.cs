@@ -32,11 +32,11 @@ namespace Services
         {
             RoleName _RoleName = (Role == "Admin" ? RoleName.Admin : RoleName.User);
             Guid _RoleId = ( await
-                            ((UnitOfWork)UnitOfWork)
-                            ._Context.Roles
+                            UnitOfWork
+                            .RoleRepository
+                            .DbSet
                             .AsNoTracking()
-                            .ToListAsync())
-                            .FirstOrDefault(Item => Item.RoleName == _RoleName).Id;
+                            .FirstOrDefaultAsync(Item => Item.RoleName == _RoleName)).Id;
             var _Role = new Role()
             {
                 RoleName = _RoleName,
@@ -58,10 +58,8 @@ namespace Services
                     Item == RoleName.Admin.ToString() ||
                     Item == RoleName.User.ToString());
         }
-        public async Task<bool> CreateUser(UserCreateDTO User, CancellationToken Cancel)
+        public async Task CreateUser(UserCreateDTO User, CancellationToken Cancel)
         {
-            try
-            {
                 if ( ModelsValidator.UserCreateIsValid(User) && IsCorrectRole(User))
                 {
                     var _User = Mapper.Map<User>(User);
@@ -76,6 +74,7 @@ namespace Services
                         _User.UserRoles = new List<UserRole>();
                     if (_User.UserAchievements == null)
                         _User.UserAchievements = new List<UserAchievement>();
+
                     foreach (var Role in User.Roles) 
                     {
                         _User.UserRoles.Add(await GenerateUserRole(_User, Role, Cancel));
@@ -83,46 +82,31 @@ namespace Services
                    
 
                     await UnitOfWork.SaveChangesAsync(Cancel);
-                    return true;
                 }
                 else
                 {
-                    return false;
+                    throw new ArgumentException();
                 }
-                
-            }
-            catch (Exception exc)
-            {
-                throw exc;
-            }
         }
 
-        public async Task<bool> DeleteUser(Guid Id, CancellationToken Cancel)
+        public async Task DeleteUser(Guid Id, CancellationToken Cancel)
         {
-            try
-            {
                 if ((await UnitOfWork.UserRepository
                 .DbSet.FirstOrDefaultAsync(item => item.Id == Id)) != null)
                 {
                     await UnitOfWork.UserRepository.Delete(Id, Cancel);
                     await UnitOfWork.SaveChangesAsync(Cancel);
-                    return true;
                 }
                 else
                 {
-                    return false;
+                    throw new ArgumentException();
                 }
-            }
-            catch (Exception exc)
-            {
-
-                throw exc;
-            }
         }
 
         public async Task<UserReadDTO> GetUserById(Guid Id, CancellationToken Cancel)
         {
-            return Mapper.Map<UserReadDTO>(await ((UnitOfWork)UnitOfWork)._Context.Users
+            return Mapper.Map<UserReadDTO>(await UnitOfWork.UserRepository.DbSet
+                .AsNoTracking()
                 .Include(User => User.UserRoles)
                 .ThenInclude(UserRole => UserRole.Role)
                 .Include(User => User.UserAchievements)
@@ -132,7 +116,8 @@ namespace Services
 
         public async Task<IEnumerable<UserReadDTO>> GetAllUsers(CancellationToken Cancel)
         {
-            return Mapper.Map< IEnumerable<UserReadDTO>>(await ((UnitOfWork)UnitOfWork)._Context.Users
+            return Mapper.Map< IEnumerable<UserReadDTO>>(await UnitOfWork.UserRepository.DbSet
+                .AsNoTracking()
                 .Include(User => User.UserRoles)
                 .ThenInclude(UserRole => UserRole.Role)
                 .Include(User => User.UserAchievements)
@@ -142,41 +127,37 @@ namespace Services
 
         public async Task<IEnumerable<UserReadShortDTO>> GetAllUsersInfo(CancellationToken Cancel)
         {
-            return Mapper.Map<IEnumerable<UserReadShortDTO>>(await((UnitOfWork)UnitOfWork)._Context.Users
+            return Mapper.Map<IEnumerable<UserReadShortDTO>>(await UnitOfWork.UserRepository.DbSet
+                .AsNoTracking()
                .Include(User => User.UserRoles)
                .ThenInclude(UserRole => UserRole.Role)
                .ToListAsync(Cancel));
         }
         public async Task<UserReadShortDTO> GetUserInfoById(Guid Id, CancellationToken Cancel)
         {
-            return Mapper.Map<UserReadShortDTO>(await ((UnitOfWork)UnitOfWork)._Context.Users
+            return Mapper.Map<UserReadShortDTO>(await UnitOfWork.UserRepository.DbSet
+                .AsNoTracking()
                 .Include(User => User.UserRoles)
                 .ThenInclude(UserRole => UserRole.Role)
                 .FirstOrDefaultAsync(User => User.Id == Id, Cancel));
         }
 
-        public async Task<bool> UpdateUser(Guid Id, UserUpdateDTO User, CancellationToken Cancel)
+        public async Task UpdateUser(Guid Id, UserUpdateDTO User, CancellationToken Cancel)
         {
-            try
-            {
-                if ( ModelsValidator.UserUpdateIsValid(User) && (await UnitOfWork.UserRepository
-                    .DbSet.FirstOrDefaultAsync(item => item.Id == Id)) != null)
+                if ( ModelsValidator.UserUpdateIsValid(User))
                 {
+                    if ((await UnitOfWork.UserRepository
+                    .DbSet.FirstOrDefaultAsync(item => item.Id == Id)) == null)
+                        throw new ArgumentNullException();
                     var _User = await UnitOfWork.UserRepository.DbSet.FirstOrDefaultAsync(item => item.Id == Id);
                     Mapper.Map(User, _User);
                     UnitOfWork.UserRepository.Update(_User);
                     await UnitOfWork.SaveChangesAsync(Cancel);
-                    return true;
                 }
                 else
                 {
-                    return false;
+                    throw new ArgumentException();
                 }
-            }
-            catch (Exception exc)
-            {
-                throw exc;
-            }
         }
     }
 }

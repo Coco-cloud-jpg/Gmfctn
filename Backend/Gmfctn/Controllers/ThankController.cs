@@ -27,16 +27,33 @@ namespace Gmfctn.Controllers
         [HttpPost]
         public async Task<ActionResult<string>> SayThank(string Text, Guid ToUserId, CancellationToken Cancel)
         {
-           var AccessToken = Request.Headers[HeaderNames.Authorization].ToString().Substring("Bearer".Length + 1);
-            if (await ThankService.SayThank(AccessToken, Text, ToUserId, Cancel))
-                return Ok();
-            return BadRequest();
+            try
+            {
+                var AccessToken = Request.Headers[HeaderNames.Authorization].ToString().Substring("Bearer".Length + 1);
+                await ThankService.SayThank(AccessToken, Text, ToUserId, Cancel);
+                    return Ok();
+            }
+            catch
+            {
+                return BadRequest();
+            }
         }
         [HttpGet]
         public async Task<ActionResult<Thank>> GetThank( CancellationToken Cancel)
         {
-            var AccessToken = Request.Headers[HeaderNames.Authorization].ToString().Substring("Bearer".Length + 1);
-            return await ThankService.GetThank(AccessToken, Cancel);
+            try
+            {
+                var AccessToken = Request.Headers[HeaderNames.Authorization].ToString().Substring("Bearer".Length + 1);
+                return await ThankService.GetThank(AccessToken, Cancel);
+            }
+            catch(ArgumentNullException ArgExp)
+            {
+                return NotFound();
+            }
+            catch
+            {
+                return BadRequest();
+            }
         }
 
     }

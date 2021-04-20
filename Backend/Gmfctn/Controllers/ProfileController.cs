@@ -26,18 +26,31 @@ namespace Gmfctn.Controllers
         [HttpGet("user_info")]
         public async Task<ActionResult<UserReadDTO>> GetCurrentUser(CancellationToken Cancel)
         {
-            var AccessToken = Request.Headers[HeaderNames.Authorization].ToString().Substring("Bearer".Length + 1);
-            return await ProfileService.GetCurrentUser(AccessToken, Cancel);
+            try
+            {
+                var AccessToken = Request.Headers[HeaderNames.Authorization].ToString().Substring("Bearer".Length + 1);
+                return await ProfileService.GetCurrentUser(AccessToken, Cancel);
+            }
+            catch
+            {
+                return BadRequest();
+            }
         }
         [HttpGet("user_achievements")]
         public async Task<ActionResult<ICollection<Achievement>>> GetCurrentUserAchievements(CancellationToken Cancel)
         {
-            var AccessToken = Request.Headers[HeaderNames.Authorization].ToString().Substring("Bearer".Length + 1);
-            var Achievements = await ProfileService.GetCurrentUserAchievements(AccessToken, Cancel);
-            if (Achievements == null)
-                return NoContent();
-            return Ok(Achievements);
-
+            try
+            {
+                var AccessToken = Request.Headers[HeaderNames.Authorization].ToString().Substring("Bearer".Length + 1);
+                var Achievements = await ProfileService.GetCurrentUserAchievements(AccessToken, Cancel);
+                if (Achievements == null)
+                    return NoContent();
+                return Ok(Achievements);
+            }
+            catch
+            {
+                return  BadRequest();
+            }
         }
 
     }

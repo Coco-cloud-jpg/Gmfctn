@@ -12,8 +12,8 @@ namespace Services.Interfaces
     {
         Task<Achievement> GetAchievementById(Guid Id, CancellationToken Cancel);
         Task<IEnumerable<Achievement>> GetAllAchievements(CancellationToken Cancel);
-        Task<bool> DeleteAchievement(Guid Id, CancellationToken Cancel);
-        Task<bool> UpdateAchievement(Guid Id, AchievementUpdateDTO Achievement, CancellationToken Cancel);
-        Task<bool> CreateAchievement(AchievementCreateDTO Achievement, CancellationToken Cancel);
+        Task DeleteAchievement(Guid Id, CancellationToken Cancel);
+        Task UpdateAchievement(Guid Id, AchievementUpdateDTO Achievement, CancellationToken Cancel);
+        Task CreateAchievement(AchievementCreateDTO Achievement, CancellationToken Cancel);
     }
 }

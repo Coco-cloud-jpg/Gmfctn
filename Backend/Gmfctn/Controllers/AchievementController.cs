@@ -18,14 +18,11 @@ namespace Gmfctn.Controllers
     [Authorize]
     public class AchievementController : ControllerBase
     {
-        private readonly IMapper Mapper;
-
         private readonly IAchievementService AchievementService;
 
-        public AchievementController(IAchievementService _AchievementService, IMapper _Mapper)
+        public AchievementController(IAchievementService _AchievementService)
         {
             AchievementService = _AchievementService;
-            Mapper = _Mapper;
         }
         [HttpGet]
         [Authorize(Roles = "User")]
@@ -40,14 +37,11 @@ namespace Gmfctn.Controllers
                 }
                 return Ok(Achievements);
             }
-            catch (TaskCanceledException Exc)
+            catch
             {
-                return Ok(Exc.Data);
+                return BadRequest();
             }
-            catch (Exception Exc) {
-                throw Exc;
-            }
-            
+
         }
         [HttpGet("{Id}")]
         [Authorize(Roles = "User")]
@@ -61,13 +55,9 @@ namespace Gmfctn.Controllers
                 }
                 return NotFound();
             }
-            catch (TaskCanceledException Exc)
+            catch
             {
-                return Ok(Exc.Data);
-            }
-            catch (Exception Exc)
-            {
-                throw Exc;
+                return BadRequest();
             }
         }
         [HttpPost]
@@ -76,23 +66,12 @@ namespace Gmfctn.Controllers
         {
             try
             {
-                if (await AchievementService.CreateAchievement(Achievement, Cancel))
-                {
-                    return Ok();
-                }
+                await AchievementService.CreateAchievement(Achievement, Cancel);
+                return Ok();
+            }
+            catch
+            {
                 return BadRequest();
-            }
-            catch (TaskCanceledException Exc)
-            {
-                return Ok(Exc.Data);
-            }
-            catch (DbUpdateException Exc)
-            {
-                throw new ArgumentException();
-            }
-            catch (Exception Exc)
-            {
-                throw Exc;
             }
         }
         [HttpDelete("{Id}")]
@@ -101,23 +80,16 @@ namespace Gmfctn.Controllers
         {
             try
             {
-                if (await AchievementService.DeleteAchievement(Id, Cancel))
-                {
-                    return Ok();
-                }
-                return NotFound();
+                await AchievementService.DeleteAchievement(Id, Cancel);
+                return NoContent();
             }
-            catch (TaskCanceledException Exc)
-            {
-                return Ok(Exc.Data);
-            }
-            catch (ArgumentException Exc)
+            catch (ArgumentNullException ArgExp)
             {
                 return NotFound();
             }
-            catch (Exception Exc)
+            catch
             {
-                throw Exc;
+                return BadRequest();
             }
         }
         [HttpPut("{Id}")]
@@ -126,23 +98,16 @@ namespace Gmfctn.Controllers
         {
             try
             {
-                if (await AchievementService.UpdateAchievement(Id, Achievement, Cancel))
-                {
-                    return Ok();
-                }
+                await AchievementService.UpdateAchievement(Id, Achievement, Cancel);
+                 return Ok();
+            }
+            catch (ArgumentNullException ArgExp)
+            {
+                return NotFound();
+            }
+            catch
+            {
                 return BadRequest();
-            }
-            catch (TaskCanceledException Exc)
-            {
-                return Ok(Exc.Data);
-            }
-            catch (DbUpdateException Exc)
-            {
-                throw new ArgumentException();
-            }
-            catch (Exception Exc)
-            {
-                throw Exc;
             }
         }
     }

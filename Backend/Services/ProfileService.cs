@@ -31,48 +31,39 @@ namespace Services
         }
         public async Task<UserReadDTO> GetCurrentUser(string Token, CancellationToken Cancel)
         {
-            try
-            {
                 var Claims = HelperService.GetClaimsFromToken(Token, Key);
 
                 var UserId = HelperService.GetIdFromToken(Claims);
                 if (UserId == null)
                 {
-                    return null;
+                    throw new ArgumentNullException();
                 }
                 return await UserService.GetUserById(new Guid(UserId),Cancel);
-            }
-            catch
-            {
-                return null;
-            }
         }
 
         public async Task<ICollection<Achievement>> GetCurrentUserAchievements(string Token, CancellationToken Cancel)
         {
-            try
-            {
                 var Claims = HelperService.GetClaimsFromToken(Token, Key);
 
                 var UserId = HelperService.GetIdFromToken(Claims);
-                var User = await ((UnitOfWork)UnitOfWork)._Context.Users
+                if (UserId == null)
+                {
+                    throw new ArgumentNullException();
+                }
+                var User = await UnitOfWork.UserRepository.DbSet
                     .Include(User => User.UserRoles)
                     .ThenInclude(UserRole => UserRole.Role)
                     .Include(User => User.UserAchievements)
                     .ThenInclude(UserAchievement => UserAchievement.Achievement)
                     .FirstOrDefaultAsync(User => User.Id == new Guid(UserId), Cancel);
+
                 var Achievements = new List<Achievement>();
+
                 foreach (var UserAchievement in User?.UserAchievements)
                 {
                     Achievements.Add(UserAchievement.Achievement);
                 }
                 return Achievements;
-            }
-            catch (Exception Exc)
-            {
-                throw Exc;
-            }
-            
         }
     }
 }

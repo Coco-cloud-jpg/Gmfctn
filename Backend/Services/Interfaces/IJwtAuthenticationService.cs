@@ -11,7 +11,7 @@ namespace Services.Interfaces
 {
     public interface IJwtAuthenticationService
     {
-        Task<(string, string)>  Authenticate(string Login, string Password, CancellationToken Cancel, bool isHashed = false);
-        Task<(string, string)> RefreshToken(string Token, string RefreshToken, CancellationToken Cancel);
+        Task<(string, string, string)>  Authenticate(string Login, string Password, CancellationToken Cancel, bool isHashed = false);
+        Task<(string, string, string)> RefreshToken(string Token, string RefreshToken, CancellationToken Cancel);
     }
 }
