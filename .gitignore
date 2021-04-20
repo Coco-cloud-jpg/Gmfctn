@@ -4,7 +4,8 @@
 /Backend/Data_/obj
 /Backend/Data_/bin
 /Backend/Gmfctn/.vs
-
+/Backend/Services/obj
+/Backend/Services/bin
 /Frontend/Gmfctn/dist
 /Frontend/Gmfctn/tmp
 /Frontend/Gmfctn/out-tsc

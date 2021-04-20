@@ -1,130 +1,113 @@
 ﻿using AutoMapper;
 using Data_;
 using Data_.Dtos;
-using Data_.Interfaces;
-using Data_.Validators;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Threading;
 using System.Threading.Tasks;
+using Services;
+using Services.Interfaces;
+using Microsoft.AspNetCore.Authorization;
 
 namespace Gmfctn.Controllers
 {
     [Route("api/achievement")]
     [ApiController]
+    [Authorize]
     public class AchievementController : ControllerBase
     {
-        private IUnitOfWork UnitOfWork;
-        private readonly IMapper _Mapper;
-        public AchievementController(GmfctnContext Context, IMapper Mapper) {
-            UnitOfWork = new UnitOfWork(Context);
-            _Mapper = Mapper;
+        private readonly IAchievementService AchievementService;
+
+        public AchievementController(IAchievementService _AchievementService)
+        {
+            AchievementService = _AchievementService;
         }
         [HttpGet]
+        [Authorize(Roles = "User")]
         public async Task<ActionResult<IEnumerable<Achievement>>> GetAllAchievement(CancellationToken Cancel)
         {
             try
             {
-                var Achievements = await UnitOfWork.AchievementRepository.GetAll(Cancel);
+                var Achievements = await AchievementService.GetAllAchievements(Cancel);
                 if (Achievements == null)
+                {
                     return NotFound();
-                else
-                    return Ok(Achievements);
+                }
+                return Ok(Achievements);
             }
-            catch(Exception Exc) {
-                throw Exc;
+            catch
+            {
+                return BadRequest();
             }
-            
+
         }
-        [HttpGet("{id}")]
-        public async Task<ActionResult<Achievement>> GetAchivementById(Guid Id, CancellationToken Cancel)
+        [HttpGet("{Id}")]
+        [Authorize(Roles = "User")]
+        public async Task<ActionResult<Achievement>> GetAchivementById( Guid Id, CancellationToken Cancel)
         {
             try {
-                var Achievement = await UnitOfWork.AchievementRepository.GetById(Id, Cancel);
+                var Achievement = await AchievementService.GetAchievementById(Id, Cancel);
                 if (Achievement != null)
                 {
                     return Ok(Achievement);
                 }
                 return NotFound();
             }
-            catch (Exception Exc)
+            catch
             {
-                throw Exc;
+                return BadRequest();
             }
         }
         [HttpPost]
+        [Authorize(Roles = "Admin")]
         public async Task<ActionResult> CreateAchievement(AchievementCreateDTO Achievement, CancellationToken Cancel)
         {
             try
             {
-                if (!ModelsValidator.AchievementIsValid(Achievement))
-                    ModelState.AddModelError("achievement", "Contains errors in parametrs.");
-                if (ModelState.IsValid) 
-                {
-                    var _Achievement = _Mapper.Map<Achievement>(Achievement);
-                    _Achievement.Id = new Guid();
-                    await UnitOfWork.AchievementRepository.Create(_Achievement, Cancel);
-                    await UnitOfWork.SaveChangesAsync(Cancel);
-                    return Ok();
-                }
-                return BadRequest(ModelState);
+                await AchievementService.CreateAchievement(Achievement, Cancel);
+                return Ok();
             }
-            catch (DbUpdateException Exc)
+            catch
             {
-                throw new ArgumentException();
-            }
-            catch (Exception Exc)
-            {
-                throw Exc;
+                return BadRequest();
             }
         }
-        [HttpDelete("{id}")]
+        [HttpDelete("{Id}")]
+        [Authorize(Roles = "Admin")]
         public async Task<ActionResult> DeleteAchievement(Guid Id, CancellationToken Cancel)
         {
             try
             {
-                await UnitOfWork.AchievementRepository.Delete(Id, Cancel);
-                await UnitOfWork.SaveChangesAsync(Cancel);
-                return Ok();
+                await AchievementService.DeleteAchievement(Id, Cancel);
+                return NoContent();
             }
-            catch (ArgumentException Exc)
+            catch (ArgumentNullException ArgExp)
             {
                 return NotFound();
             }
-            catch (Exception Exc)
+            catch
             {
-                throw Exc;
+                return BadRequest();
             }
         }
-        [HttpPut("{id}")]
+        [HttpPut("{Id}")]
+        [Authorize(Roles = "Admin")]
         public async Task<ActionResult> UpdateAchievement(Guid Id, AchievementUpdateDTO Achievement, CancellationToken Cancel)
         {
             try
             {
-                if (!ModelsValidator.AchievementIsValid(_Mapper.Map<AchievementCreateDTO>(Achievement)))
-                    ModelState.AddModelError("achievement", "Contains errors in parametrs.");
-                if (ModelState.IsValid)
-                {
-                    var _Achievement = await UnitOfWork.AchievementRepository.DbSet.FirstOrDefaultAsync(item => item.Id == Id);
-                    _Mapper.Map(Achievement, _Achievement);
-                    UnitOfWork.AchievementRepository.Update(_Achievement); 
-                    await UnitOfWork.SaveChangesAsync(Cancel);
-                    return Ok();
-                }
-                else 
-                {
-                    return BadRequest(ModelState);
-                }
+                await AchievementService.UpdateAchievement(Id, Achievement, Cancel);
+                 return Ok();
             }
-            catch (DbUpdateException Exc)
+            catch (ArgumentNullException ArgExp)
             {
-                throw new ArgumentException();
+                return NotFound();
             }
-            catch (Exception Exc)
+            catch
             {
-                throw Exc;
+                return BadRequest();
             }
         }
     }

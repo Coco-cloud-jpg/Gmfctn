@@ -1,15 +1,11 @@
-﻿using AutoMapper;
-using Data_;
-using Data_.Dtos;
+﻿using Data_.Dtos;
 using Data_.Entities;
-using Data_.Interfaces;
-using Data_.Validators;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using Services.Interfaces;
 using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text.RegularExpressions;
 using System.Threading;
 using System.Threading.Tasks;
 
@@ -17,131 +13,133 @@ namespace Gmfctn.Controllers
 {
     [Route("api/user")]
     [ApiController]
+    [Authorize]
+
     public class UserController : ControllerBase
     {
-        private IUnitOfWork UnitOfWork;
-        private readonly IMapper _Mapper;
-        
-        public UserController(GmfctnContext Context, IMapper Mapper)
+        private readonly IUserService UserService;
+        public UserController(IUserService _UserService)
         {
-            UnitOfWork = new UnitOfWork(Context);
-            _Mapper = Mapper;
+            UserService = _UserService;
         }
-        [HttpGet]
-        public async Task<ActionResult<IEnumerable<User>>> GetAllUsers(CancellationToken Cancel)
+
+        [HttpGet("get_all_users")]
+        [Authorize(Roles = "Admin")]
+        public async Task<ActionResult<IEnumerable<UserReadDTO>>> GetAllUsers(CancellationToken Cancel)
         {
-           
             try
             {
-                var Users = await UnitOfWork.UserRepository.GetAll(Cancel);
+                var Users = await UserService.GetAllUsers(Cancel);
                 if (Users == null)
-                    return NotFound();
+                    return NoContent();
                 else
                     return Ok(Users);
             }
-            catch (TaskCanceledException Exc)
+            catch
             {
-                return Ok(Exc.Data);
+                return BadRequest();
             }
-            catch (Exception Exc)
-            {
-                throw Exc;
-            }
-
         }
-        [HttpGet("{id}")]
-        public async Task<ActionResult<User>> GetUserById(Guid Id, CancellationToken Cancel)
+        [HttpGet("get_user/{Id}")]
+        [Authorize(Roles ="Admin")]
+        public async Task<ActionResult<UserReadDTO>> GetUserById(Guid Id, CancellationToken Cancel)
         {
             try
             {
-                var User = await UnitOfWork.UserRepository.GetById(Id, Cancel);
+                var User = await UserService.GetUserById(Id, Cancel);
+                if (User == null)
+                {
+                    return NoContent();
+                }
+                return Ok(User);
+            }
+            catch 
+            {
+                return BadRequest();
+            }
+        }
+        [HttpGet("get_all_users_info")]
+        [Authorize(Roles = "User")]
+        public async Task<ActionResult<UserReadShortDTO>> GetAllUsersInfo(CancellationToken Cancel)
+        {
+            try
+            {
+                var User = await UserService.GetAllUsersInfo(Cancel);
+                if (User == null)
+                {
+                    return NoContent();
+                }
+                return Ok(User);
+            }
+            catch
+            {
+                return BadRequest();
+            }
+        }
+        [HttpGet("get_user_info/{Id}")]
+        [Authorize(Roles = "User")]
+        public async Task<ActionResult<UserReadShortDTO>> GetUserInfoById(Guid Id, CancellationToken Cancel)
+        {
+            try
+            {
+                var User = await UserService.GetUserInfoById(Id, Cancel);
                 if (User != null)
                 {
-                    return Ok(User);
+                    return NotFound();
                 }
-                return NotFound();
+                return Ok(User);
             }
-            catch (TaskCanceledException Exc)
+            catch
             {
-                return Ok(Exc.Data);
-            }
-            catch (Exception Exc)
-            {
-                throw Exc;
+                return BadRequest();
             }
         }
         [HttpPost]
+        [Authorize(Roles = "Admin")]
         public async Task<ActionResult> CreateUser(UserCreateDTO NewUser, CancellationToken Cancel)
         {
             try
             {
-                if (!ModelsValidator.UserCreateIsValid(NewUser))
-                    ModelState.AddModelError("user", "Contains errors in parametrs.");
-                
-                if (ModelState.IsValid)
-                {
-                    var User = _Mapper.Map<User>(NewUser);
-                    User.Id = new Guid();
-                    await UnitOfWork.UserRepository.Create(User, Cancel);
-                    await UnitOfWork.SaveChangesAsync(Cancel);
-                    return Ok();
-                }
-                else
-                {
-                    return BadRequest(ModelState);
-                }
+                await UserService.CreateUser(NewUser, Cancel);
+                return Ok();
             }
-            catch (TaskCanceledException Exc)
+            catch
             {
-                throw new Exception("Task was canceled");
-            }
-            catch (DbUpdateException Exc)
-            {
-                throw new ArgumentException();
-            }
-            catch (Exception Exc)
-            {
-                throw Exc;
+                return BadRequest();
             }
         }
-        [HttpDelete("{id}")]
+        [HttpDelete("{Id}")]
         public async Task<ActionResult> DeleteUser(Guid Id, CancellationToken Cancel)
         {
             try
             {
-                await UnitOfWork.UserRepository.Delete(Id, Cancel);
-                await UnitOfWork.SaveChangesAsync(Cancel);
-                return Ok();
+                await UserService.DeleteUser(Id, Cancel);
+                return NoContent();
             }
-            catch (ArgumentException Exc)
+            catch (ArgumentException ArgExp)
             {
                 return NotFound();
             }
-            catch (Exception Exc)
+            catch
             {
-                throw Exc;
+                return BadRequest();
             }
         }
-        [HttpPut("{id}")]
+        [HttpPut("{Id}")]
         public async Task<ActionResult> UpdateUser(Guid Id, UserUpdateDTO User, CancellationToken Cancel)
         {
             try
             {
-                if (!ModelsValidator.UserUpdateIsValid(User))
-                    ModelState.AddModelError("user", "Contains errors in parametrs.");
-                var UserToUpdate = await UnitOfWork.UserRepository.DbSet.FirstOrDefaultAsync(item => item.Id == Id);
-                _Mapper.Map(User, UserToUpdate);
-                UnitOfWork.UserRepository.Update(UserToUpdate);
-                await UnitOfWork.SaveChangesAsync(Cancel);
+                await UserService.UpdateUser(Id, User, Cancel);
                 return Ok();
             }
-            catch (DbUpdateException Exc)
+            catch (ArgumentNullException ArgExp)
             {
-                throw new ArgumentException(Exc.Message);
+                return NotFound();
             }
-            catch (Exception Exc)
+            catch
             {
-                throw Exc;
+                return BadRequest();
             }
         }
     }

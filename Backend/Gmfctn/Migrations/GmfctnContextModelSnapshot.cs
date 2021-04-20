@@ -49,6 +49,27 @@ namespace Gmfctn.Migrations
                     b.ToTable("Achievements");
                 });
 
+            modelBuilder.Entity("Data_.Entities.RefreshToken", b =>
+                {
+                    b.Property<string>("Token")
+                        .HasColumnType("nvarchar(450)");
+
+                    b.Property<DateTime>("CreatedTime")
+                        .HasColumnType("datetime2");
+
+                    b.Property<DateTime>("ExpiryDate")
+                        .HasColumnType("datetime2");
+
+                    b.Property<Guid>("UserId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.HasKey("Token");
+
+                    b.HasIndex("UserId");
+
+                    b.ToTable("RTokens");
+                });
+
             modelBuilder.Entity("Data_.Entities.Role", b =>
                 {
                     b.Property<Guid>("Id")
@@ -61,6 +82,31 @@ namespace Gmfctn.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("Roles");
+                });
+
+            modelBuilder.Entity("Data_.Entities.Thank", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<DateTime>("AddedTime")
+                        .HasColumnType("datetime2");
+
+                    b.Property<Guid?>("FromUserId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<string>("Text")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<Guid>("ToUserId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("FromUserId");
+
+                    b.ToTable("Thanks");
                 });
 
             modelBuilder.Entity("Data_.Entities.User", b =>
@@ -145,6 +191,26 @@ namespace Gmfctn.Migrations
                     b.HasIndex("RoleId");
 
                     b.ToTable("UserRoles");
+                });
+
+            modelBuilder.Entity("Data_.Entities.RefreshToken", b =>
+                {
+                    b.HasOne("Data_.Entities.User", "User")
+                        .WithMany()
+                        .HasForeignKey("UserId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("User");
+                });
+
+            modelBuilder.Entity("Data_.Entities.Thank", b =>
+                {
+                    b.HasOne("Data_.Entities.User", "FromUser")
+                        .WithMany()
+                        .HasForeignKey("FromUserId");
+
+                    b.Navigation("FromUser");
                 });
 
             modelBuilder.Entity("Data_.Entities.UserAchievement", b =>
