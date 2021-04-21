@@ -80,10 +80,8 @@ export class SayThankModalComponent implements OnInit {
 
   private calculateBadges(): void {
     this.achList.forEach((element) => {
-
       if ( this.badgesQuantity.find((el) => el[0].name === element.name) === undefined ) {
         this.badgesQuantity.push([element, 1]);
-
       } else {
         this.badgesQuantity[ this.badgesQuantity.findIndex((el) => el[0].name === element.name) ][1]++;
       }

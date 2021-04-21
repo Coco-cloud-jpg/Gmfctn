@@ -13,7 +13,6 @@ export class SignInGuard implements CanActivate {
 
   canActivate(): Observable<boolean | UrlTree> {
     return this.authenticateService.tokens$.pipe(take(1), map(tokens => {
-
       return !!tokens ? true : this.router.createUrlTree(['/auth/sign-in']);
     }));
   }

@@ -2,8 +2,8 @@ import { HttpClient, HttpErrorResponse } from '@angular/common/http';
 import { Injectable, OnDestroy } from '@angular/core';
 import { BehaviorSubject, Observable, of, Subject } from 'rxjs';
 import { catchError, take, tap } from 'rxjs/operators';
-
 import { Tokens } from '../../../shared/models/token';
+import { apiUrl } from 'src/app/shared/environment/api-connection-string';
 
 @Injectable({
   providedIn: 'root'
@@ -11,7 +11,6 @@ import { Tokens } from '../../../shared/models/token';
 export class AuthenticateService implements OnDestroy{
   tokens$: BehaviorSubject<Tokens> = new BehaviorSubject(null as unknown as Tokens);
   isErrorInAuthorization$: BehaviorSubject<boolean> = new BehaviorSubject(null as unknown as boolean);
-  private apiUrl = 'https://localhost:44349/';
 
   constructor(private httpClient: HttpClient) { }
 
@@ -21,8 +20,9 @@ export class AuthenticateService implements OnDestroy{
   }
 
   authenticate(Login: string, Password: string): Observable<string[]> {
+    const body = {Login: Login, Password: Password};
     return this.httpClient
-      .post<string[]>(`${this.apiUrl}api/auth/login?Login=${Login}&Password=${Password}`, '')
+      .post<string[]>(`${apiUrl}api/auth/login`, body)
       .pipe(tap(tokens => {
 
         const newTokens: Tokens = {token: tokens[0], aTTL: tokens[1], refreshToken: tokens[2]};

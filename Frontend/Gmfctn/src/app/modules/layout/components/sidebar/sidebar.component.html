@@ -1,6 +1,6 @@
 <mat-sidenav-container color="primary">
   <mat-sidenav [(opened)]="opened">
-    <div class="main-content-div">
+    <div class="main-content-div" *ngIf="!!user">
       <div class="button-div">
         <span>GMFCTN!</span>
 
@@ -12,10 +12,11 @@
         <div class="img">
           <img [src]="user.avatarId" *ngIf="user.avatarId; else letters">
 
-          <ng-template #letters><span class="letters">{{user.firstName[0]}}{{user.lastName[0]}}</span></ng-template>
+          <ng-template #letters><span class="letters">{{user.firstName[0]}}{{user.lastName[0]}}</span>
+          </ng-template>
         </div>
 
-        <span>{{user.firstName}} {{user.lastName}} </span>
+        <span>{{user?.firstName}} {{user?.lastName}} </span>
 
         <button mat-button color="basic" (click)="editProfile()">Edit profile</button>
 
@@ -49,7 +50,7 @@
   </mat-sidenav>
   <mat-sidenav-content>
 
-    <app-toolbar [isOpened]="opened" (opened)="opened=!opened" [user]=user></app-toolbar>
+    <app-toolbar [isOpened]="opened" (opened)="opened=!opened"></app-toolbar>
 
     <div class="main-container">
       <router-outlet></router-outlet>

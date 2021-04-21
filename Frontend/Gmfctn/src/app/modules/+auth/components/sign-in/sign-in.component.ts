@@ -11,39 +11,37 @@ import { AuthenticateService } from '../../services/authenticate.service';
   styleUrls: ['./sign-in.component.scss'],
 })
 export class SignInComponent implements OnInit, OnDestroy {
-  @Output() isSigned = new EventEmitter<boolean>();
-  state = '';
+  errorMessage = '';
   loading = false;
-  subscribtion$: Subscription = new Subscription;
-  subscribtionForCorrectness$: Subscription = new Subscription;
-  userForm: FormGroup = new FormGroup({});
-  user: {userName: string, password: string} = {userName: '', password: ''};
+  subscription$ = new Subscription();
+  initialFormData = new FormGroup({});
+  user = {userName: '', password: ''};
 
 
   constructor(private readonly fb: FormBuilder, private authenticateService: AuthenticateService, private router: Router) { }
 
   ngOnInit(): void {
-    this.subscribtionForCorrectness$ = this.authenticateService
+    this.subscription$.add(this.authenticateService
                                       .isErrorInAuthorization$
-                                      .subscribe( val => this.state = val ? 'Username or password are incorrect' : '' );
+                                      .subscribe( val => this.errorMessage = val ? 'Username or password are incorrect' : '' ));
 
-    this.userForm = this.fb.group({
+    this.initialFormData = this.fb.group({
       userName: this.fb.control(this.user.userName, Validators.required),
       password: this.fb.control(this.user.password, Validators.required),
     });
   }
 
   ngOnDestroy(): void {
-    this.subscribtion$.unsubscribe();
-    this.subscribtionForCorrectness$.unsubscribe();
+    this.subscription$.unsubscribe();
   }
 
   signIn(): void {
       this.loading = true;
-      this.subscribtion$ = this.authenticateService
-      .authenticate(this.userForm.value.userName, this.userForm.value.password)
-      .pipe(take(1), finalize(() => this.loading = false)).subscribe(() => {
-          this.router.navigate(['/home']);
-      });
+      this.subscription$.add(this.authenticateService
+        .authenticate(this.initialFormData.value.userName, this.initialFormData.value.password)
+        .pipe(take(1), finalize(() => this.loading = false)).subscribe(() => {
+            this.router.navigate(['/home']);
+      }));
+      this.loading = false;
   }
 }

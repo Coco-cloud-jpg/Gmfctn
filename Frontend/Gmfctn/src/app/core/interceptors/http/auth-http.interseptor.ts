@@ -2,12 +2,12 @@ import { HttpErrorResponse, HttpEvent, HttpHandler, HttpInterceptor, HttpRequest
 import { Injectable } from '@angular/core';
 import { Router } from '@angular/router';
 import { Observable, of, throwError } from 'rxjs';
-import { catchError, switchMap } from 'rxjs/operators';
+import { catchError, skip, switchMap, take } from 'rxjs/operators';
 import { AuthenticateService } from 'src/app/modules/+auth/services/authenticate.service';
 
 
 @Injectable()
-export class MainHttpInterceptor implements HttpInterceptor {
+export class AuthHttpInterceptor implements HttpInterceptor {
   constructor(private authenticateService: AuthenticateService, private router: Router) { }
 
   private handleAuthError(err: HttpErrorResponse): Observable<any> {
@@ -16,12 +16,13 @@ export class MainHttpInterceptor implements HttpInterceptor {
         this.router.navigateByUrl(`/auth/sign-in`);
         return of(err.message);
     }
+
     return throwError(err);
 }
 
   intercept(req: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
     this.authenticateService.isErrorInAuthorization$.next(false);
-    return this.authenticateService.tokens$.pipe(switchMap((tokens) => {
+    return this.authenticateService.tokens$.pipe(take(1),switchMap((tokens) => {
       if (!tokens) {
         return next.handle(req).pipe(catchError(x => this.handleAuthError(x)));
       }

@@ -10,7 +10,7 @@ import { SharedModule } from './shared/shared.module';
 import { AuthModule } from './modules/+auth/auth.module';
 import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 import { SignInGuard } from './core/guards/sign-in.guard';
-import { MainHttpInterceptor } from './core/interceptors/http/main-http.interseptor';
+import { AuthHttpInterceptor } from './core/interceptors/http/auth-http.interseptor';
 @NgModule({
   declarations: [
     AppComponent,
@@ -30,7 +30,7 @@ import { MainHttpInterceptor } from './core/interceptors/http/main-http.intersep
     SignInGuard,
     {
       provide: HTTP_INTERCEPTORS,
-      useClass: MainHttpInterceptor,
+      useClass: AuthHttpInterceptor,
       multi: true
     }
   ],

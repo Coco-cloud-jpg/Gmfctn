@@ -1,8 +1,8 @@
 <div class="wrapper">
   <div class="content">
     <div class="form">
-      <mat-error *ngIf="state!=''">{{state}}</mat-error>
-      <form [formGroup]="userForm">
+      <mat-error *ngIf="!!errorMessage">{{errorMessage}}</mat-error>
+      <form [formGroup]="initialFormData">
         <mat-form-field>
           <mat-label>User name</mat-label>
 
@@ -18,7 +18,7 @@
 
       <a href="#">Forgot password ?</a>
 
-      <button mat-button color="basic" [disabled]="userForm.invalid||loading" (click)="signIn()">Sign
+      <button mat-button color="basic" [disabled]="initialFormData.invalid || loading" (click)="signIn()">Sign
         in</button>
     </div>
     <div class="logo">

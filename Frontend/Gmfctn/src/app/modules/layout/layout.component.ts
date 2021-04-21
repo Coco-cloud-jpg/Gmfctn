@@ -12,9 +12,8 @@ import { defaultUser } from 'src/app/shared/models/dafault-user';
   providers: [ProfileService]
 })
 export class LayoutComponent implements OnInit, OnDestroy{
-  isSignedIn = false;
   subscribtion: Subscription = new Subscription;
-  user: User =  defaultUser;
+  user!: User;
 
   constructor(private profileService: ProfileService) { }
 

@@ -14,9 +14,25 @@ const routes: Routes = [
   },
   {
       path: 'home',
-      loadChildren: () =>
-        import('./modules/layout/layout.module').then(module => module.LayoutModule),
-      canActivate: [SignInGuard]
+      component: LayoutComponent,
+      children: [
+        {
+        path : 'dashboard',
+        loadChildren: () =>
+            import('./modules/+dashboard/dashboard.module').then(module => module.DashboardModule),
+        },
+        {
+            path : 'badges',
+            loadChildren: () =>
+            import('./modules/+badges/badges.module').then(module => module.BadgesModule),
+        },
+        {
+            path : '',
+            redirectTo: 'dashboard',
+            pathMatch: 'full'
+        },
+      ],
+      canActivate: [SignInGuard]  
   },
   {
     path : '',

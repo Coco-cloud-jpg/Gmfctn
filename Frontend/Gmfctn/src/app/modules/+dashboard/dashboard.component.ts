@@ -13,13 +13,13 @@ export class DashboardComponent implements OnInit, OnDestroy {
   subscription$: Subscription = new Subscription();
   height = 0;
   margin = '';
-  user: User = defaultUser;
+  user!: User;
 
   constructor(private profileService: ProfileService) {}
 
   ngOnInit(): void {
     this.calculateSize();
-    this.subscription$ = this.profileService.currentUser$.subscribe( user => this.user = user);
+    this.subscription$.add(this.profileService.currentUser$.subscribe( user => this.user = user));
   }
 
   ngOnDestroy(): void {

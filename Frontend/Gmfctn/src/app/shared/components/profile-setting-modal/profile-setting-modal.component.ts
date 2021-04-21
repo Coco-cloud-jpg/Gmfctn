@@ -31,12 +31,12 @@ export class ProfileSettingModalComponent implements OnInit {
 
   updateUser(): void {
     if (this.userForm.valid) {
-      this.user = { ...this.userForm.value };
-      this.close();
+      this.user = {...this.user, ...this.userForm.value }
+      this.dialogRef.close(this.user);
     }
   }
 
   close(): void {
-    this.dialogRef.close();
+    this.dialogRef.close(this.user);
   }
 }
