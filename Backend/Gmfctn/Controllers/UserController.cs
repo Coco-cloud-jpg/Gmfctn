@@ -25,7 +25,7 @@ namespace Gmfctn.Controllers
 
         [HttpGet("get_all_users")]
         [Authorize(Roles = "Admin")]
-        public async Task<ActionResult<IEnumerable<UserReadDTO>>> GetAllUsers(CancellationToken Cancel)
+        public async Task<ActionResult<IEnumerable<User>>> GetAllUsers(CancellationToken Cancel)
         {
             try
             {
@@ -42,7 +42,7 @@ namespace Gmfctn.Controllers
         }
         [HttpGet("get_user/{Id}")]
         [Authorize(Roles ="Admin")]
-        public async Task<ActionResult<UserReadDTO>> GetUserById(Guid Id, CancellationToken Cancel)
+        public async Task<ActionResult<UserWithAchievementsDTO>> GetUserById(Guid Id, CancellationToken Cancel)
         {
             try
             {
@@ -83,7 +83,7 @@ namespace Gmfctn.Controllers
             try
             {
                 var User = await UserService.GetUserInfoById(Id, Cancel);
-                if (User != null)
+                if (User == null)
                 {
                     return NotFound();
                 }

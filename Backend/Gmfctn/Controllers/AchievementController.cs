@@ -41,7 +41,35 @@ namespace Gmfctn.Controllers
             {
                 return BadRequest();
             }
+        }
+        [HttpGet("get-user-achievements")]
+        [Authorize(Roles = "User")]
+        public async Task<ActionResult<IEnumerable<Achievement>>> GetUserAchievementsById(Guid UserId, CancellationToken Cancel)
+        {
+            try
+            {
+               var Achievements =  await AchievementService.GetAchievementsByUserId(UserId, Cancel);
+                return Ok(Achievements);
+            }
+            catch
+            {
+                return BadRequest();
+            }
+        }
 
+        [HttpGet("get-user-achievement")]
+        [Authorize(Roles = "User")]
+        public async Task<ActionResult<IEnumerable<Achievement>>> GetUserAchievementById(Guid UserId, Guid AchievementId, CancellationToken Cancel)
+        {
+            try
+            {
+                var Achievements = await AchievementService.GetAchievementByUserId(UserId, AchievementId, Cancel);
+                return Ok(Achievements);
+            }
+            catch
+            {
+                return BadRequest();
+            }
         }
         [HttpGet("{Id}")]
         [Authorize(Roles = "User")]
@@ -104,6 +132,20 @@ namespace Gmfctn.Controllers
             catch (ArgumentNullException ArgExp)
             {
                 return NotFound();
+            }
+            catch
+            {
+                return BadRequest();
+            }
+        }
+        [HttpPost("add")]
+        [Authorize(Roles = "Admin")]
+        public async Task<ActionResult> AddAchievementToUser(Guid AchievementId, Guid UserId, CancellationToken Cancel)
+        {
+            try
+            {
+                await AchievementService.AddAchievementToUser(AchievementId, UserId, Cancel);
+                return Ok();
             }
             catch
             {

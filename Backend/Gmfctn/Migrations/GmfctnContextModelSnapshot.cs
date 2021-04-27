@@ -49,6 +49,62 @@ namespace Gmfctn.Migrations
                     b.ToTable("Achievements");
                 });
 
+            modelBuilder.Entity("Data_.Entities.Event", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<DateTime>("CreatedTime")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("Description")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<int>("Type")
+                        .HasColumnType("int");
+
+                    b.Property<Guid>("UserId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("UserId");
+
+                    b.ToTable("Events");
+                });
+
+            modelBuilder.Entity("Data_.Entities.File", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<string>("Url")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Files");
+                });
+
+            modelBuilder.Entity("Data_.Entities.PasswordResetRequest", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<string>("Email")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Hash")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("PasswordResetRequests");
+                });
+
             modelBuilder.Entity("Data_.Entities.RefreshToken", b =>
                 {
                     b.Property<string>("Token")
@@ -68,6 +124,30 @@ namespace Gmfctn.Migrations
                     b.HasIndex("UserId");
 
                     b.ToTable("RTokens");
+                });
+
+            modelBuilder.Entity("Data_.Entities.RequestAchievement", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<Guid>("AchievementId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<string>("Message")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<Guid>("UserId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("AchievementId");
+
+                    b.HasIndex("UserId");
+
+                    b.ToTable("RequestAchievements");
                 });
 
             modelBuilder.Entity("Data_.Entities.Role", b =>
@@ -168,10 +248,13 @@ namespace Gmfctn.Migrations
                     b.Property<Guid>("AchievementId")
                         .HasColumnType("uniqueidentifier");
 
+                    b.Property<Guid>("Id")
+                        .HasColumnType("uniqueidentifier");
+
                     b.Property<DateTime>("AddedTime")
                         .HasColumnType("datetime2");
 
-                    b.HasKey("UserId", "AchievementId");
+                    b.HasKey("UserId", "AchievementId", "Id");
 
                     b.HasIndex("AchievementId");
 
@@ -193,6 +276,17 @@ namespace Gmfctn.Migrations
                     b.ToTable("UserRoles");
                 });
 
+            modelBuilder.Entity("Data_.Entities.Event", b =>
+                {
+                    b.HasOne("Data_.Entities.User", "User")
+                        .WithMany("Events")
+                        .HasForeignKey("UserId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("User");
+                });
+
             modelBuilder.Entity("Data_.Entities.RefreshToken", b =>
                 {
                     b.HasOne("Data_.Entities.User", "User")
@@ -200,6 +294,25 @@ namespace Gmfctn.Migrations
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
+
+                    b.Navigation("User");
+                });
+
+            modelBuilder.Entity("Data_.Entities.RequestAchievement", b =>
+                {
+                    b.HasOne("Data_.Achievement", "Achievement")
+                        .WithMany()
+                        .HasForeignKey("AchievementId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("Data_.Entities.User", "User")
+                        .WithMany()
+                        .HasForeignKey("UserId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Achievement");
 
                     b.Navigation("User");
                 });
@@ -263,6 +376,8 @@ namespace Gmfctn.Migrations
 
             modelBuilder.Entity("Data_.Entities.User", b =>
                 {
+                    b.Navigation("Events");
+
                     b.Navigation("UserAchievements");
 
                     b.Navigation("UserRoles");

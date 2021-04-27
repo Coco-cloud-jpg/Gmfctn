@@ -10,8 +10,8 @@ namespace Services.Interfaces
 {
     public interface IUserService
     {
-        Task<UserReadDTO> GetUserById(Guid Id, CancellationToken Cancel);
-        Task<IEnumerable<UserReadDTO>> GetAllUsers(CancellationToken Cancel);
+        Task<UserWithAchievementsDTO> GetUserById(Guid Id, CancellationToken Cancel);
+        Task<IEnumerable<UserWithAchievementsDTO>> GetAllUsers(CancellationToken Cancel);
         Task<IEnumerable<UserReadShortDTO>> GetAllUsersInfo(CancellationToken Cancel);
         Task<UserReadShortDTO> GetUserInfoById(Guid Id, CancellationToken Cancel);
         Task DeleteUser(Guid Id, CancellationToken Cancel);

@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 using System.Text;
 
 namespace Data_.Entities
@@ -30,5 +31,6 @@ namespace Data_.Entities
         [Required]
         public ICollection<UserRole> UserRoles { get; set; }
         public ICollection<UserAchievement> UserAchievements { get; set; }
+        public ICollection<Event> Events { get; set; }
     }
 }

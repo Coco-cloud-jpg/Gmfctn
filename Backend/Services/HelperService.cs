@@ -28,6 +28,7 @@ namespace Services
                 if ((ValidatedToken is JwtSecurityToken JwtToken)
                                           && (JwtToken.Header.Alg.Equals(SecurityAlgorithms.HmacSha256, StringComparison.InvariantCultureIgnoreCase)))
                     return JwtToken.Claims;
+
                 return null;
             }
             catch

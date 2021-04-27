@@ -26,10 +26,12 @@ namespace Services
         {
                 var Claims = HelperService.GetClaimsFromToken(Token, Key);
                 var UserId = HelperService.GetIdFromToken(Claims);
+                
                 if (UserId == null)
                 {
                     new ArgumentNullException();
                 }
+                
                 return await UnitOfWork.ThankRepository.DbSet
                                         .Where(Item => Item.ToUserId == new Guid(UserId))
                                         .OrderByDescending(Item => Item.AddedTime)
@@ -40,6 +42,7 @@ namespace Services
         {
                 var Claims = HelperService.GetClaimsFromToken(Token, Key);
                 var UserId = HelperService.GetIdFromToken(Claims);
+                
                 if (UserId == null)
                 {
                     throw new ArgumentNullException();
@@ -51,7 +54,7 @@ namespace Services
                     Text = Text,
                     ToUserId = ToUserId,
                     Id = new Guid(),
-                    AddedTime = DateTime.Now
+                    AddedTime = DateTime.Now.ToUniversalTime()
                 };
                 await UnitOfWork.ThankRepository.Create(ThankBody, Cancel);
                 await UnitOfWork.SaveChangesAsync(Cancel);

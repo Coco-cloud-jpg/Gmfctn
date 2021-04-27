@@ -13,10 +13,15 @@ namespace Data_
         public DbSet<Achievement> Achievements { get; set; }
         public DbSet<User> Users { get; set; }
         public DbSet<UserAchievement> UserAchievements { get; set; }
+        public DbSet<RequestAchievement> RequestAchievements { get; set; }
         public DbSet<UserRole> UserRoles { get; set; }
         public DbSet<Role> Roles { get; set; }
         public DbSet<RefreshToken> RTokens { get; set; }
+        public DbSet<Event> Events { get; set; }
+        public DbSet<File> Files { get; set; }
         public DbSet<Thank> Thanks { get; set; }
+        public DbSet<PasswordResetRequest> PasswordResetRequests{ get; set; }
+        
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             modelBuilder.Entity<Achievement>().ToTable("Achievements");
@@ -34,7 +39,7 @@ namespace Data_
                .IsUnique();
 
             modelBuilder.Entity<UserAchievement>()
-            .HasKey(bc => new { bc.UserId, bc.AchievementId });
+            .HasKey(bc => new { bc.UserId, bc.AchievementId, bc.Id});
                 modelBuilder.Entity<UserAchievement>()
                     .HasOne(bc => bc.User)
                     .WithMany(b => b.UserAchievements)
@@ -53,8 +58,16 @@ namespace Data_
             modelBuilder.Entity<UserRole>()
                 .HasOne(bc => bc.Role)
                 .WithMany(c => c.UserRoles)
-                .HasForeignKey(bc => bc.RoleId);
-        }
+                .HasForeignKey(bc => bc.RoleId); 
 
+            modelBuilder.Entity<RequestAchievement>().HasKey(item => item.Id);
+
+            modelBuilder.Entity<Event>().HasKey(item => item.Id);
+            modelBuilder.Entity<Event>().HasOne(Event => Event.User).WithMany(User => User.Events).HasForeignKey(Event => Event.UserId);
+
+            modelBuilder.Entity<File>().ToTable("Files");
+            modelBuilder.Entity<PasswordResetRequest>().ToTable("PasswordResetRequests");
+
+        }
     }
 }

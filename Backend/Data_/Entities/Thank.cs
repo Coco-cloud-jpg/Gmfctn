@@ -8,7 +8,6 @@ namespace Data_.Entities
 {
     public class Thank: BaseEntity
     {
-
         [ForeignKey(nameof(ToUserId))]
         public Guid ToUserId { get; set; }
         public User FromUser { get; set; }
