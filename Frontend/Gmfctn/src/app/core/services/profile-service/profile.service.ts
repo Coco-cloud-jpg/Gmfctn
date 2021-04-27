@@ -3,6 +3,7 @@ import { Injectable, OnDestroy } from '@angular/core';
 import { BehaviorSubject, Observable } from 'rxjs';
 import { tap } from 'rxjs/operators';
 import { User } from 'src/app/shared/models/user';
+import { apiUrl } from 'src/environments/environment';
 
 @Injectable({
   providedIn: 'root'
@@ -10,13 +11,12 @@ import { User } from 'src/app/shared/models/user';
 export class ProfileService implements OnDestroy {
   currentUser$: BehaviorSubject<User> = new BehaviorSubject(null as unknown as User);
 
-  private apiUrl = 'https://localhost:44349/';
 
   constructor(private httpClient: HttpClient) { }
 
   getUserInfo(): Observable<User> {
     return this.httpClient
-      .get<User>(`${this.apiUrl}api/profile/user_info`)
+      .get<User>(`${apiUrl}api/profile/user_info`)
       .pipe(tap(user => {
         this.currentUser$.next(user);
       }));

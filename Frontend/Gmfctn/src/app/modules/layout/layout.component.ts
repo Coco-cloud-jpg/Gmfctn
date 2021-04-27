@@ -12,16 +12,16 @@ import { defaultUser } from 'src/app/shared/models/dafault-user';
   providers: [ProfileService]
 })
 export class LayoutComponent implements OnInit, OnDestroy{
-  subscribtion: Subscription = new Subscription;
+  subscribtion: Subscription = new Subscription();
   user!: User;
 
   constructor(private profileService: ProfileService) { }
 
   ngOnInit(): void {
-    this.subscribtion = this.profileService
+    this.subscribtion.add(this.profileService
           .getUserInfo().pipe(take(1)).subscribe(user => {
               this.user = user;
-          });
+          }));
   }
 
   ngOnDestroy(): void {

@@ -13,7 +13,7 @@ import { AuthenticateService } from '../../services/authenticate.service';
 export class SignInComponent implements OnInit, OnDestroy {
   errorMessage = '';
   loading = false;
-  subscription$ = new Subscription();
+  subscription = new Subscription();
   initialFormData = new FormGroup({});
   user = {userName: '', password: ''};
 
@@ -21,7 +21,7 @@ export class SignInComponent implements OnInit, OnDestroy {
   constructor(private readonly fb: FormBuilder, private authenticateService: AuthenticateService, private router: Router) { }
 
   ngOnInit(): void {
-    this.subscription$.add(this.authenticateService
+    this.subscription.add(this.authenticateService
                                       .isErrorInAuthorization$
                                       .subscribe( val => this.errorMessage = val ? 'Username or password are incorrect' : '' ));
 
@@ -32,12 +32,12 @@ export class SignInComponent implements OnInit, OnDestroy {
   }
 
   ngOnDestroy(): void {
-    this.subscription$.unsubscribe();
+    this.subscription.unsubscribe();
   }
 
   signIn(): void {
       this.loading = true;
-      this.subscription$.add(this.authenticateService
+      this.subscription.add(this.authenticateService
         .authenticate(this.initialFormData.value.userName, this.initialFormData.value.password)
         .pipe(take(1), finalize(() => this.loading = false)).subscribe(() => {
             this.router.navigate(['/home']);

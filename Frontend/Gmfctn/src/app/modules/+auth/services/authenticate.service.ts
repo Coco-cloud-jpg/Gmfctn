@@ -2,8 +2,9 @@ import { HttpClient, HttpErrorResponse } from '@angular/common/http';
 import { Injectable, OnDestroy } from '@angular/core';
 import { BehaviorSubject, Observable, of, Subject } from 'rxjs';
 import { catchError, take, tap } from 'rxjs/operators';
+import { apiUrl } from 'src/environments/environment';
 import { Tokens } from '../../../shared/models/token';
-import { apiUrl } from 'src/app/shared/environment/api-connection-string';
+
 
 @Injectable({
   providedIn: 'root'
@@ -21,6 +22,7 @@ export class AuthenticateService implements OnDestroy{
 
   authenticate(Login: string, Password: string): Observable<string[]> {
     const body = {Login: Login, Password: Password};
+
     return this.httpClient
       .post<string[]>(`${apiUrl}api/auth/login`, body)
       .pipe(tap(tokens => {

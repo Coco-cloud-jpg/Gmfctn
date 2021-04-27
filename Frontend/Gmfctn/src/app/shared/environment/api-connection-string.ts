@@ -1,1 +1,0 @@
-export const apiUrl:string = 'https://localhost:44349/';

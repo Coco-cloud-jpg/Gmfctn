@@ -10,7 +10,7 @@ import { defaultUser } from 'src/app/shared/models/dafault-user';
   styleUrls: ['./badges.component.scss']
 })
 export class BadgesComponent implements OnInit, OnDestroy {
-  subscription$ = new Subscription();
+  subscription = new Subscription();
   height = 0;
   margin = '';
   user!: User;
@@ -18,11 +18,11 @@ export class BadgesComponent implements OnInit, OnDestroy {
 
   ngOnInit(): void {
     this.calculateSize();
-    this.subscription$.add(this.profileService.currentUser$.subscribe( user => this.user = {...user}));
+    this.subscription.add(this.profileService.currentUser$.subscribe( user => this.user = {...user}));
   }
 
   ngOnDestroy(): void {
-    this.subscription$.unsubscribe();
+    this.subscription.unsubscribe();
   }
 
   calculateSize(): void {
