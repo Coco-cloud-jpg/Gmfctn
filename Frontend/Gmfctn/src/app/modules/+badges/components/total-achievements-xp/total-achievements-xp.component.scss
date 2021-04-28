@@ -1,0 +1,68 @@
+@import '../../../../shared/styles/common.scss';
+
+.content {
+  margin: 1em 1.5em;
+  height: 100%;
+  color: #eee;
+  text-align: center;
+  position: relative;
+
+  h3 {
+    text-transform: uppercase;
+    text-align: left;
+    font-size: 0.9vw;
+    font-weight: 500;
+    line-height: 2em;
+    margin-bottom: 6em;
+  }
+
+  .number {
+    height: 50%;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+
+    span:nth-child(2) {
+      font-size: 1.5vw;
+      font-weight: 400;
+    }
+
+    .xp {
+      height: 60%;
+
+      .total-xp {
+        font-size: 7vw;
+        height: 70%;
+        color: $base-color;
+        margin: 0 auto;
+      }
+    }
+
+    .badges {
+      height: 35%;
+
+      .quantity {
+        font-size: 2.5vw;
+        color: $base-color;
+        height: 50%;
+      }
+
+      span {
+        text-transform: uppercase;
+        font-size: 1.2vw;
+      }
+    }
+  }
+
+  .info {
+    width: 100%;
+    display: flex;
+    position: absolute;
+    bottom: 10%;
+    justify-content: space-around;
+
+    span {
+      font-size: 0.7vw;
+    }
+  }
+}

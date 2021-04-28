@@ -1,0 +1,118 @@
+@import '../../../../shared/styles/common.scss';
+
+mat-sidenav-container {
+  height: 100%;
+  padding: 0;
+
+  mat-sidenav {
+    background-color: #424750;
+    width: 18%;
+  }
+
+  .main-content-div {
+    position: relative;
+    margin: 0;
+    height: 60px;
+
+    text-align: center;
+
+    .button-div {
+      line-height: 60px;
+
+      span {
+        color: #eee;
+        font-size: 16px;
+      }
+
+      >button {
+        position: absolute;
+        right: 10px;
+        top: 10px;
+
+        .mat-icon {
+          color: #eee;
+          font-size: 18px;
+
+        }
+      }
+    }
+
+    .info {
+      margin-right: 5px;
+      width: 100%;
+
+      .img {
+        width: 10vw;
+        height: 10vw;
+        border: 2px solid #aaa;
+        border-radius: 50%;
+        background-color: #525760;
+        margin: 10px auto;
+        font-size: 28px;
+        line-height: 10vw;
+        overflow: hidden;
+
+        img {
+          width: 100%;
+        }
+
+        .letters {
+          color: #eee;
+          font-size: 3em;
+        }
+      }
+
+      >span {
+        color: #eee;
+        font-size: 26px;
+        margin-bottom: 5px;
+      }
+
+      button {
+        display: block;
+        margin: 8px auto;
+        min-width: 150px;
+        line-height: 28px;
+        color: #eee;
+        background-color: $base-color;
+        font-size: 14px;
+      }
+
+      .statistic {
+        margin: 15px auto;
+        color: #eee;
+        font-size: 1vw;
+
+        div {
+          height: 20px;
+        }
+
+        div :nth-child(1) {
+          color: $base-color;
+        }
+      }
+
+      a {
+        color: #eee;
+        text-decoration: none;
+        display: inline-block;
+        font-weight: 400;
+        font-size: 1.2vw;
+        line-height: 27px;
+        height: 20px;
+        padding: 0.6vw 0;
+      }
+
+      .active {
+        color: $base-color;
+        border-bottom: $base-color 5px solid;
+      }
+    }
+  }
+
+}
+
+.mat-sidenav-content {
+  background-color: #343537;
+  overflow-x: hidden;
+}

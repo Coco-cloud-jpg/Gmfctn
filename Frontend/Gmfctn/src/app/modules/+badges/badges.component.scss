@@ -1,0 +1,22 @@
+.badges {
+
+  height: 100%;
+
+  .mat-grid-list {
+    margin: 1%;
+  }
+
+  .mat-grid-tile {
+    background-color: rgb(82, 87, 96);
+    border-radius: 3px;
+  }
+
+  app-personal-achievements,
+  app-thank-you,
+  app-total-achievements-xp,
+  app-user-block,
+  app-full-list-of-achievements {
+    width: 100%;
+    height: 100%;
+  }
+}

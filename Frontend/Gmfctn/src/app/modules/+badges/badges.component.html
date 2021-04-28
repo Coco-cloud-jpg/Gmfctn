@@ -1,0 +1,24 @@
+<div class="badges">
+  <mat-grid-list cols="3" [gutterSize]="margin" [rowHeight]="height">
+
+    <mat-grid-tile class="tile" [colspan]="1" [rowspan]="1">
+      <app-personal-achievements></app-personal-achievements>
+    </mat-grid-tile>
+
+    <mat-grid-tile class="tile" [colspan]="1" [rowspan]="1">
+      <app-total-achievements-xp [userBadges]="0" [userXp]="user.xp"></app-total-achievements-xp>
+    </mat-grid-tile>
+
+    <mat-grid-tile class="tile" [colspan]="1" [rowspan]="1">
+      <app-user-block [user]="user"></app-user-block>
+    </mat-grid-tile>
+
+    <mat-grid-tile class="tile" [colspan]="2" [rowspan]="1">
+      <app-full-list-of-achievements></app-full-list-of-achievements>
+    </mat-grid-tile>
+
+    <mat-grid-tile class="tile" [colspan]="1" [rowspan]="1">
+      <app-thank-you></app-thank-you>
+    </mat-grid-tile>
+  </mat-grid-list>
+</div>

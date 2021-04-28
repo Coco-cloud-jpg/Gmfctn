@@ -1,0 +1,60 @@
+@import '../../../../shared/styles/common.scss';
+
+.content {
+  margin: 1em 1.5em;
+  height: 100%;
+  color: #eee;
+  text-align: center;
+  position: relative;
+
+  h3 {
+    text-transform: uppercase;
+    text-align: left;
+    font-size: 0.9vw;
+    font-weight: 500;
+    line-height: 2em;
+  }
+
+  .number {
+    position: absolute;
+    bottom: 33%;
+    width: 100%;
+
+    .cuantity {
+      font-size: 6vw;
+      color: $base-color;
+      margin: 1vw auto;
+
+    }
+
+    div:nth-child(2) {
+      margin-top: 3vw;
+      font-size: 1.2vw;
+      font-weight: 300;
+    }
+  }
+
+  .info {
+    position: absolute;
+    width: 100%;
+    bottom: 10%;
+
+    span {
+      font-size: 0.7vw;
+      margin-right: 1.5em;
+      position: relative;
+
+      &::after {
+        content: '';
+        position: absolute;
+        top: 0.35vw;
+        right: -0.7vw;
+        width: 5px;
+        height: 5px;
+        border-radius: 50%;
+        background-color: $base-color
+      }
+    }
+  }
+
+}

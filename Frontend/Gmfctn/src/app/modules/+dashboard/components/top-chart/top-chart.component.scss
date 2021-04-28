@@ -1,0 +1,127 @@
+@import '../../../../shared/styles/common.scss';
+
+.content {
+  margin: 1em 1.5em;
+  color: #eee;
+
+  .main {
+    display: flex;
+  }
+
+  .main>div {
+    display: block;
+
+  }
+
+  h3 {
+    text-transform: uppercase;
+    text-align: left;
+    font-size: 0.9vw;
+    font-weight: 500;
+    line-height: 35px;
+    margin-bottom: 0;
+  }
+
+  .topchart {
+    margin-top: 0;
+    font-size: 12px;
+    width: 60%;
+
+    >p {
+      border-bottom: 1px solid $base-color;
+      color: $base-color;
+      width: 100%;
+      position: relative;
+
+      >span {
+        font-size: 0.8vw;
+        font-weight: 400;
+
+        &:nth-child(2) {
+          position: absolute;
+          right: 0;
+        }
+      }
+    }
+
+    .toplist {
+      width: 100%;
+
+      .item {
+        position: relative;
+        display: flex;
+        align-items: center;
+        margin-bottom: 0.8vw;
+        width: 100%;
+        height: 2.2vw;
+
+        >div {
+          display: inline-block;
+        }
+
+        .img {
+          text-align: center;
+          display: inline-block;
+          cursor: pointer;
+          height: 1.5vw;
+          width: 1.5vw;
+          max-width: 1.8vw;
+          max-height: 1.8vw;
+          background-color: #626770;
+          border-radius: 50%;
+          border: 2px solid #aaa;
+          margin-right: 10px;
+          color: $base-color;
+          line-height: 1.5vw;
+          overflow: hidden;
+
+          img {
+            width: 100%;
+          }
+
+          &:hover {
+            box-shadow: rgba(0, 0, 0, 0.16) 0px 10px 36px 0px, rgba(0, 0, 0, 0.16) 0px 0px 0px 1px;
+          }
+        }
+
+        .description {
+          font-weight: 400;
+          font-size: 0.8vw;
+          height: 40px;
+          color: #eee;
+          line-height: 16px;
+          margin-top: 10px;
+
+          >p {
+            height: 10px;
+            margin-bottom: 5px;
+
+            &:nth-child(2) {
+              line-height: 0.9vw;
+            }
+          }
+        }
+
+        .exp {
+          position: absolute;
+          right: 0.8vw;
+          margin-top: 10px;
+
+        }
+      }
+    }
+  }
+
+  .top-diagram {
+    width: 100%;
+    margin: 0.8vw 0.8vw 0 0.8vw;
+    padding-top: 30px;
+    line-height: 50px;
+
+    .bars {
+      height: 1.2vw;
+      position: relative;
+      margin-bottom: 1.8vw;
+    }
+  }
+}

@@ -1,0 +1,35 @@
+<div class="wrapper">
+  <div class="content">
+    <span class="material-icons" (click)="close()">
+      close
+    </span>
+
+    <div class="user-info">
+      <div class="user-data">
+        <div class="img">
+          <img [src]="user.avatarId" *ngIf="user.avatarId; else letters">
+
+          <ng-template #letters><span class="letters">{{user.firstName[0]}}{{user.lastName[0]}}</span></ng-template>
+        </div>
+
+        <div class="user-name">
+          <p>{{user.firstName}} {{user.lastName}}</p>
+
+          <p><span>EXP:</span> {{user.xp}} XP</p>
+        </div>
+      </div>
+      <div class="badges">
+        <div class="badge" *ngFor="let badge of badgesQuantity">
+
+          <div class="quantity">{{badge[1]}}</div>
+
+          <div class="icon"><img [src]="badge[0].icon" alt=""></div>
+
+          <div class="name">{{badge[0].name}}</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <button mat-button color="basic" (click)="openModal()">Say thanks</button>
+</div>

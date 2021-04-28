@@ -1,0 +1,16 @@
+<div class="content">
+  <div class="head">
+    <button mat-button color="basic" (click)="openModal()">Edit</button>
+  </div>
+
+  <div class="img">
+    <img [src]="user.avatarId" *ngIf="user.avatarId; else letters">
+
+    <ng-template #letters><span class="letters">{{user.firstName[0]}}{{user.lastName[0]}}</span></ng-template>
+  </div>
+  <div class="user-name">
+    <p>{{user.firstName}} {{user.lastName}}</p>
+
+    <p>{{user.status}}</p>
+  </div>
+</div>

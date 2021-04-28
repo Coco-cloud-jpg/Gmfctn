@@ -6,9 +6,5 @@ import { Component } from '@angular/core';
   styleUrls: ['./app.component.scss'],
 })
 export class AppComponent {
-  private title = 'Gmfctn';
-  public user = {
-    name: 'Aezakmi',
-    surname: 'Houston',
-  };
+
 }

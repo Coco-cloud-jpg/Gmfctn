@@ -1,0 +1,47 @@
+<mat-toolbar color="primary" *ngIf="!!user">
+  <button mat-icon-button (click)="open()">
+    <mat-icon>menu</mat-icon>
+  </button>
+
+  <span>GMFCTN!</span>
+
+  <div class="navigation">
+    <a class="navigation-item" routerLink="dashboard" routerLinkActive="active"
+      [routerLinkActiveOptions]="{exact:true}">
+      Dashboard
+    </a>
+
+    <a class="navigation-item" routerLink="badges" routerLinkActive="active" [routerLinkActiveOptions]="{exact:true}">
+      Badges
+    </a>
+
+    <a class="navigation-item" routerLink="c" routerLinkActive="active" [routerLinkActiveOptions]="{exact:true}">
+      Order
+    </a>
+  </div>
+
+  <div class="img">
+    <img [src]="user.avatarId" *ngIf="user.avatarId; else letters">
+
+    <ng-template #letters><span class="letters">{{user.firstName[0]}}{{user.lastName[0]}}</span></ng-template>
+  </div>
+  <span class="name">{{user.firstName}} {{user.lastName}}</span>
+
+  <button mat-icon-button [matMenuTriggerFor]="menu">
+    <mat-icon>arrow_drop_down</mat-icon>
+  </button>
+
+  <mat-menu class="customize" #menu="matMenu">
+    <button mat-menu-item>
+      <span (click)="editProfile()">Edit profile</span>
+    </button>
+
+    <button mat-menu-item>
+      <span>Change password</span>
+    </button>
+
+    <button mat-menu-item>
+      <span>Loggout</span>
+    </button>
+  </mat-menu>
+</mat-toolbar>
