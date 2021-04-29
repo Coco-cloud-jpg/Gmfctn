@@ -1,4 +1,5 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using Data_.Interfaces;
+using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Threading;
@@ -6,10 +7,10 @@ using System.Threading.Tasks;
 
 namespace Data_
 {
-    public class GenericRepository<TEntity> where TEntity : BaseEntity
+    public class GenericRepository<TEntity> : IGenericRepository<TEntity> where TEntity : BaseEntity
     {
-        public GmfctnContext Context;
-        public DbSet<TEntity> DbSet;
+        public GmfctnContext Context { get; set; }
+        public DbSet<TEntity> DbSet { get; set; }
 
         public GenericRepository(GmfctnContext Context)
         {

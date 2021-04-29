@@ -38,6 +38,7 @@ namespace Gmfctn
             {
                 mc.AddProfile(new AchievementProfile());
                 mc.AddProfile(new UserProfile());
+                mc.AddProfile(new ThankProfile()); 
             });
 
 
@@ -69,17 +70,23 @@ namespace Gmfctn
                Options.TokenValidationParameters = TokenValidationParameters;
            });
 
-            services.AddTransient<GenericRepository<Achievement>>();
-            services.AddTransient<GenericRepository<Role>>();
-            services.AddTransient<GenericRepository<User>>();
-            services.AddTransient<GenericRepository<Thank>>();
+            services.AddTransient<IGenericRepository<Achievement>,GenericRepository<Achievement>>();
+            services.AddTransient<IGenericRepository<Role>, GenericRepository<Role>>();
+            services.AddTransient<IGenericRepository<User>, GenericRepository<User>>();
+            services.AddTransient<IGenericRepository<Thank>, GenericRepository<Thank>>(); 
+            services.AddTransient<IGenericRepository<RequestAchievement>, GenericRepository<RequestAchievement>>();
+            services.AddTransient<IGenericRepository<Event>, GenericRepository<Event>>();
 
             services.AddTransient<IUnitOfWork, UnitOfWork>();
             services.AddTransient<IJwtAuthenticationService, JwtAuthenticationService>();
             services.AddTransient<IThankService, ThankService>();
             services.AddTransient<IProfileService, ProfileService>();
+            services.AddTransient<IFileService, FileService>(); 
+            services.AddTransient<IMailService, MailService>();
+            services.AddTransient<IRequestAchievementService, RequestAchievementService>(); 
 
-            services.AddControllers();
+            services.AddControllers().AddNewtonsoftJson(options =>
+                options.SerializerSettings.ReferenceLoopHandling = Newtonsoft.Json.ReferenceLoopHandling.Ignore);
             services.AddCors();
             services.AddAuthorization();
             services.AddSwaggerGen(c =>
@@ -133,6 +140,8 @@ namespace Gmfctn
             app.UseAuthentication();
 
             app.UseAuthorization();
+
+            app.UseStaticFiles();
 
             app.UseEndpoints(endpoints =>
             {

@@ -5,10 +5,11 @@ using Microsoft.Extensions.Configuration;
 using Services.Interfaces;
 using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
+using Microsoft.Net.Http.Headers;
 using System.Threading;
 using System.Threading.Tasks;
+using Data_.Dtos;
+using Microsoft.AspNetCore.Authorization;
 
 namespace Gmfctn.Controllers
 {
@@ -17,12 +18,15 @@ namespace Gmfctn.Controllers
     public class AuthController : ControllerBase
     {
         private IJwtAuthenticationService JwtAuthenticationService;
-        public AuthController(IJwtAuthenticationService _JwtAuthenticationService)
+        private IMailService MailService;
+        public AuthController(IJwtAuthenticationService _JwtAuthenticationService, IMailService _MailService)
         {
             JwtAuthenticationService = _JwtAuthenticationService;
+            MailService = _MailService;
         }
         [HttpPost("login")]
-        public async Task<ActionResult<List<string>>> AuthenticateWithUserName(Credentials Credentials, CancellationToken Cancel)
+        [AllowAnonymous]
+        public async Task<ActionResult<List<string>>> AuthorizeWithLogin(Credentials Credentials, CancellationToken Cancel)
         {
             try
             {
@@ -49,6 +53,34 @@ namespace Gmfctn.Controllers
                 return Ok(new List<string> { newTokens.Item1, newTokens.Item2, newTokens.Item3 });
             }
             catch 
+            {
+                return BadRequest();
+            }
+        }
+        [HttpPost("send-request")]
+        public async Task<ActionResult> SendRequestToResetPassword(string Email, CancellationToken Cancel)
+        {
+            try
+            {
+                await MailService.SendRequest(Email, Cancel);
+
+                return Ok();
+            }
+            catch
+            {
+                return BadRequest();
+            }
+        }
+        [HttpPost("reset")]
+        public async Task<ActionResult> ResetPassword(PasswordResetData DataToReset, CancellationToken Cancel)
+        {
+            try
+            {
+                await JwtAuthenticationService.ResetPassword(DataToReset.NewPassword, DataToReset.Hash, Cancel);
+
+                return Ok();
+            }
+            catch
             {
                 return BadRequest();
             }

@@ -7,10 +7,14 @@ namespace Data_.Interfaces
 {
     public interface IUnitOfWork
     {
-        GenericRepository<Achievement> AchievementRepository { get; }
-        GenericRepository<User> UserRepository { get; }
-        GenericRepository<Role> RoleRepository { get; }
-        GenericRepository<Thank> ThankRepository { get; }
+        IGenericRepository<Achievement> AchievementRepository { get; }
+        IGenericRepository<User> UserRepository { get; }
+        IGenericRepository<Role> RoleRepository { get; }
+        IGenericRepository<Thank> ThankRepository { get; }
+        IGenericRepository<Event> EventRepository { get; }
+        IGenericRepository<File> FileRepository { get; }
+        IGenericRepository<PasswordResetRequest> PasswordResetRequestRepository { get; }
+        IGenericRepository<RequestAchievement> RequestAchievementRepository { get; }
         Task SaveChangesAsync(CancellationToken cancel);
     }
 }

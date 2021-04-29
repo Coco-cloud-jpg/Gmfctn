@@ -16,6 +16,7 @@ using Data_.Dtos;
 using Data_;
 using System.Linq;
 using System.Collections.Generic;
+using Data_.Validators;
 
 namespace Services
 {
@@ -75,10 +76,12 @@ namespace Services
             Claim[] Claims = new Claim[1 + User.Roles.Count];
             Claims[0] = new Claim(JwtRegisteredClaimNames.Sub, User.Id.ToString());
             int Count = 1;
+
             foreach (var Role in User.Roles)
             {
                 Claims[Count++] = new Claim(ClaimTypes.Role, Role);
             }
+
             return Claims;
         }
         private string HashData(string Data)
@@ -86,6 +89,7 @@ namespace Services
             using (SHA256 Sha256Hash = SHA256.Create())
             {
                 var ByteArray = Sha256Hash.ComputeHash(Encoding.ASCII.GetBytes(Data));
+
                 return Encoding.UTF8.GetString(ByteArray, 0, ByteArray.Length);
             }
         }
@@ -100,6 +104,7 @@ namespace Services
         public async Task<(string, string, string)> RefreshToken(string Token, string RefreshToken, CancellationToken Cancel)
         {
              var Claims = HelperService.GetClaimsFromToken(Token, Key);
+
              if (Claims == null) 
              {
                  return (null, null, null);
@@ -119,9 +124,8 @@ namespace Services
             var UserId = Claims.FirstOrDefault(Claim =>
                                              Claim.Type == JwtRegisteredClaimNames.Sub).Value;
 
-            await DeleteUnUsedRefreshTokens(RefreshToken, UserId, Cancel); 
-
-            var StoredRefreshToken = await UnitOfWork.UserRepository.Context.RTokens.FirstOrDefaultAsync(Token => Token.Token == RefreshToken);
+            await DeleteUnUsedRefreshTokens(RefreshToken, UserId, Cancel);
+            var StoredRefreshToken = await UnitOfWork.UserRepository.Context.RTokens.FirstOrDefaultAsync(Token => Token.Token == RefreshToken, Cancel);
 
             if ( IsNotValidRefreshToken(StoredRefreshToken) || (StoredRefreshToken.UserId.ToString() != Claims.FirstOrDefault(Claim =>
                                              Claim.Type == JwtRegisteredClaimNames.Sub).Value))
@@ -136,11 +140,12 @@ namespace Services
         }
         private async Task DeleteUnUsedRefreshTokens(string RefreshToken, string UserId, CancellationToken Cancel)
         {
-            var Quanttity = await UnitOfWork.UserRepository.Context.RTokens.CountAsync(Token => Token.UserId.ToString() == UserId);
+            var Cuantity = await UnitOfWork.UserRepository.Context.RTokens.CountAsync(Token => Token.UserId.ToString() == UserId, Cancel);
 
-            if (Quanttity > 1)
+            if (Cuantity > 1)
             {
-                var AllTokens = await UnitOfWork.UserRepository.Context.RTokens.ToListAsync();
+                var AllTokens = await UnitOfWork.UserRepository.Context.RTokens.ToListAsync(Cancel);
+
                 foreach (var RToken in AllTokens)
                 {
                     if ((RToken.UserId.ToString() == UserId) && (RToken.Token != RefreshToken ))
@@ -161,11 +166,34 @@ namespace Services
         public string GenerateRefreshToken()
         {
             var RandomNumber = new byte[32];
+
             using (var Rng = RandomNumberGenerator.Create())
             {
                 Rng.GetBytes(RandomNumber);
+
                 return Convert.ToBase64String(RandomNumber);
             }
+        }
+
+        public async Task ResetPassword(string NewPassword, string Key, CancellationToken Cancel)
+        {
+            if (!ModelsValidator.RegExpPassword.IsMatch(NewPassword))
+                throw new ArgumentException();
+
+            var Request = await UnitOfWork.PasswordResetRequestRepository.DbSet.FirstOrDefaultAsync(Request => Request.Hash == Key, Cancel);
+
+            if (Request == null)
+                throw new ArgumentException();
+
+            var User = await UnitOfWork.UserRepository.DbSet.FirstOrDefaultAsync(User => User.Email == Request.Email, Cancel);
+
+            if (User == null)
+                throw new ArgumentException();
+
+            User.Password = HashData(NewPassword);
+
+            await UnitOfWork.PasswordResetRequestRepository.Delete(Request.Id, Cancel);
+            await UnitOfWork.SaveChangesAsync(Cancel);
         }
     }
 }

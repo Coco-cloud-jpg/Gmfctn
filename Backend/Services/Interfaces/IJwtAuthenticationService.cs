@@ -13,5 +13,6 @@ namespace Services.Interfaces
     {
         Task<(string, string, string)>  Authenticate(string Login, string Password, CancellationToken Cancel, bool isHashed = false);
         Task<(string, string, string)> RefreshToken(string Token, string RefreshToken, CancellationToken Cancel);
+        Task ResetPassword(string NewPassword, string Key, CancellationToken Cancel);
     }
 }

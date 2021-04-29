@@ -22,10 +22,10 @@ namespace Services
         private readonly IMapper Mapper;
         private IUnitOfWork UnitOfWork;
 
-        public UserService(GmfctnContext Context, IMapper _Mapper) 
+        public UserService(IUnitOfWork _UnitOfWork, IMapper _Mapper)
         {
             Mapper = _Mapper;
-            UnitOfWork = new UnitOfWork(Context);
+            UnitOfWork = _UnitOfWork;
         }
 
         private async Task<UserRole> GenerateUserRole(User User, string Role, CancellationToken Cancel)
@@ -37,6 +37,7 @@ namespace Services
                             .DbSet
                             .AsNoTracking()
                             .FirstOrDefaultAsync(Item => Item.RoleName == _RoleName)).Id;
+
             var _Role = new Role()
             {
                 RoleName = _RoleName,
@@ -49,6 +50,7 @@ namespace Services
                 RoleId = _RoleId,
                 Role = _Role,
             };
+
             return UserRole;
         }
         private bool IsCorrectRole(UserCreateDTO User) 
@@ -64,22 +66,28 @@ namespace Services
                 {
                     var _User = Mapper.Map<User>(User);
                     _User.Id = new Guid();
+                    
                     using (SHA256 Sha256Hash = SHA256.Create())
                     {
                         var ByteArray = Sha256Hash.ComputeHash(Encoding.ASCII.GetBytes(_User.Password));
                         _User.Password = Encoding.UTF8.GetString(ByteArray, 0, ByteArray.Length);
                     }
+                    
                     await UnitOfWork.UserRepository.Create(_User, Cancel);
+                    
                     if (_User.UserRoles == null)
                         _User.UserRoles = new List<UserRole>();
+                    
                     if (_User.UserAchievements == null)
                         _User.UserAchievements = new List<UserAchievement>();
-
+                    
+                    if (_User.Events == null)
+                    _User.Events = new List<Event>();
+                    
                     foreach (var Role in User.Roles) 
                     {
                         _User.UserRoles.Add(await GenerateUserRole(_User, Role, Cancel));
                     }
-                   
 
                     await UnitOfWork.SaveChangesAsync(Cancel);
                 }
@@ -103,9 +111,9 @@ namespace Services
                 }
         }
 
-        public async Task<UserReadDTO> GetUserById(Guid Id, CancellationToken Cancel)
+        public async Task<UserWithAchievementsDTO> GetUserById(Guid Id, CancellationToken Cancel)
         {
-            return Mapper.Map<UserReadDTO>(await UnitOfWork.UserRepository.DbSet
+            return Mapper.Map<UserWithAchievementsDTO>(await UnitOfWork.UserRepository.DbSet
                 .AsNoTracking()
                 .Include(User => User.UserRoles)
                 .ThenInclude(UserRole => UserRole.Role)
@@ -114,9 +122,9 @@ namespace Services
                 .FirstOrDefaultAsync(User => User.Id == Id , Cancel));
         }
 
-        public async Task<IEnumerable<UserReadDTO>> GetAllUsers(CancellationToken Cancel)
+        public async Task<IEnumerable<UserWithAchievementsDTO>> GetAllUsers(CancellationToken Cancel)
         {
-            return Mapper.Map< IEnumerable<UserReadDTO>>(await UnitOfWork.UserRepository.DbSet
+            return Mapper.Map< IEnumerable<UserWithAchievementsDTO>>(await UnitOfWork.UserRepository.DbSet
                 .AsNoTracking()
                 .Include(User => User.UserRoles)
                 .ThenInclude(UserRole => UserRole.Role)
@@ -149,7 +157,8 @@ namespace Services
                     if ((await UnitOfWork.UserRepository
                     .DbSet.FirstOrDefaultAsync(item => item.Id == Id)) == null)
                         throw new ArgumentNullException();
-                    var _User = await UnitOfWork.UserRepository.DbSet.FirstOrDefaultAsync(item => item.Id == Id);
+
+                    var _User = await UnitOfWork.UserRepository.DbSet.FirstOrDefaultAsync(item => item.Id == Id, Cancel);
                     Mapper.Map(User, _User);
                     UnitOfWork.UserRepository.Update(_User);
                     await UnitOfWork.SaveChangesAsync(Cancel);

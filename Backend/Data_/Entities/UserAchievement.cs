@@ -4,7 +4,7 @@ using System.Text;
 
 namespace Data_.Entities
 {
-    public class UserAchievement
+    public class UserAchievement: BaseEntity
     {
         public Guid UserId { get; set; }
         public User User { get; set; }

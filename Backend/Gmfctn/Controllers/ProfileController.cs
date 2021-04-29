@@ -4,7 +4,6 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Net.Http.Headers;
 using Services.Interfaces;
-using System.Collections;
 using System.Collections.Generic;
 using System.Threading;
 using System.Threading.Tasks;
@@ -24,7 +23,7 @@ namespace Gmfctn.Controllers
         }
 
         [HttpGet("user_info")]
-        public async Task<ActionResult<UserReadDTO>> GetCurrentUser(CancellationToken Cancel)
+        public async Task<ActionResult<UserWithAchievementsDTO>> GetCurrentUser(CancellationToken Cancel)
         {
             try
             {
@@ -50,6 +49,36 @@ namespace Gmfctn.Controllers
             catch
             {
                 return  BadRequest();
+            }
+        }
+
+        [HttpPut("update")]
+        public async Task<ActionResult> UpdateCurrentUser(UserUpdateDTO NewUser, CancellationToken Cancel)
+        {
+            try
+            {
+                var AccessToken = Request.Headers[HeaderNames.Authorization].ToString().Substring("Bearer".Length + 1);
+                await ProfileService.UpdateCurrentUser(AccessToken, NewUser, Cancel);
+                return Ok();
+            }
+            catch
+            {
+                return BadRequest();
+            }
+        }
+
+        [HttpPut("change-password")]
+        public async Task<ActionResult> ChangePassword(Passwords Passwords, CancellationToken Cancel)
+        {
+            try
+            {
+                var AccessToken = Request.Headers[HeaderNames.Authorization].ToString().Substring("Bearer".Length + 1);
+                await ProfileService.ChangePassword(AccessToken, Passwords.OldPassword, Passwords.NewPassword, Cancel);
+                return Ok();
+            }
+            catch
+            {
+                return BadRequest();
             }
         }
 

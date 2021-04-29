@@ -17,15 +17,39 @@ namespace Data_.Profiles
             CreateMap<User, UserReadDTO>().ForMember("Roles", src =>
                     src.MapFrom(opt => ConvertRoles(opt)));
             CreateMap<User, UserReadShortDTO>();
+            CreateMap<User, UserWithAchievementsDTO>()
+                .ForMember("Roles", src =>
+                src.MapFrom(opt => ConvertRoles(opt)))
+                .ForMember("Achievements", src => 
+                    src.MapFrom(opt => ConvertAchievements(opt)));
         }
         private ICollection<string> ConvertRoles(User User)
         {
             var Result = new List<string>();
+
             foreach (var Item in User?.UserRoles)
             {
                 Result.Add(Item.Role.RoleName.ToString());
             }
+
             return Result;
+        }
+
+        private ICollection<Achievement> ConvertAchievements(User User)
+        {
+            if (User?.UserAchievements == null)
+            {
+                return null;
+            }
+
+            List<Achievement> Achievements = new List<Achievement>();
+            foreach (var UserAchievement in User.UserAchievements)
+            {
+                UserAchievement.Achievement.UserAchievements = null;
+                Achievements.Add(UserAchievement.Achievement);
+            }
+
+            return Achievements;
         }
     }
 }
