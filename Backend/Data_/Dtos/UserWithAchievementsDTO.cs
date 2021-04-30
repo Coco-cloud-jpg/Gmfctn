@@ -14,7 +14,9 @@ namespace Data_.Dtos
         public string Password { get; set; }
         public int Xp { get; set; }
         public Guid? AvatarId { get; set; }
+        public string Status { get; set; }
         public ICollection<string> Roles { get; set; }
         public ICollection<Achievement> Achievements { get; set; }
+        public ICollection<string>  DatesCreation{ get; set; }
     }
 }

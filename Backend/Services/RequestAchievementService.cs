@@ -107,7 +107,7 @@ namespace Services
             var Event = new Event
             {
                 CreatedTime = DateTime.UtcNow,
-                Description = $"User - {User.UserName} got achievement {Achievement.Name}",
+                Description = $"Got achievement {Achievement.Name}",
                 Id = new Guid(),
                 Type = EventType.Records,
                 User = null,
