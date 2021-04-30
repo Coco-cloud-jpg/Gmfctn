@@ -1,4 +1,4 @@
-<div class="badges">
+<div class="badges" *ngIf="!!user">
   <mat-grid-list cols="3" [gutterSize]="margin" [rowHeight]="height">
 
     <mat-grid-tile class="tile" [colspan]="1" [rowspan]="1">
@@ -6,7 +6,7 @@
     </mat-grid-tile>
 
     <mat-grid-tile class="tile" [colspan]="1" [rowspan]="1">
-      <app-total-achievements-xp [userBadges]="0" [userXp]="user.xp"></app-total-achievements-xp>
+      <app-total-achievements-xp [userBadges]="user.badges" [userXp]="user.xp"></app-total-achievements-xp>
     </mat-grid-tile>
 
     <mat-grid-tile class="tile" [colspan]="1" [rowspan]="1">

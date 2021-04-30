@@ -1,34 +1,43 @@
-import { Component } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { SayThankModalComponent } from '../say-thank-modal/say-thank-modal.component';
 import { Roles, User } from '../../models/user';
+import { ThankService } from 'src/app/core/services/thank-service/thank.service';
+import { Thank } from '../../models/thank';
+import { UserSI } from '../../models/user-short-info';
+import { UserService } from 'src/app/core/services/users-service/user.service';
+import { THIS_EXPR } from '@angular/compiler/src/output/output_ast';
+import { Subscription } from 'rxjs';
 
 @Component({
   selector: 'app-thank-you',
   templateUrl: './thank-you.component.html',
   styleUrls: ['./thank-you.component.scss']
 })
-export class ThankYouComponent{
+export class ThankYouComponent implements OnInit, OnDestroy {
+  thank!: Thank;
+  noContent = false;
+  subscription = new Subscription();
 
-  user: User = {
-    firstName: 'Petro',
-    lastName: 'Poroshenko',
-    userName: 'Petya',
-    xp: 100,
-    avatarId: '../../../../assets/5.jpg',
-    status: '',
-    email: 'asdqweqw@gmail.com',
-    id: 'asdqwe',
-    roles: [Roles.User]
-  };
+  constructor(public dialog: MatDialog, private thankService: ThankService, private userService: UserService) {}
 
-  constructor(public dialog: MatDialog) {}
+  ngOnInit(): void {
+    this.subscription.add(this.thankService.getLastThank().subscribe(thank => {
+      this.thank = thank;
+      this.noContent = !thank;
+      console.log(thank);
+    }));
+  }
+
+  ngOnDestroy(): void {
+    this.subscription.unsubscribe();
+  }
 
   openModal(): void {
     this.dialog.open(SayThankModalComponent, {
       width: '50%',
       panelClass: 'custom-modalbox',
-      data: this.user
+      data: this.thank.fromUser
     });
   }
 }

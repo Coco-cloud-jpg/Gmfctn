@@ -1,4 +1,4 @@
-<div class="content">
+<div class="content" *ngIf="!!thank">
   <h3>Thank you</h3>
 
   <div class="star">
@@ -11,11 +11,15 @@
 
   <div class="info">
     <div class="img" (click)="openModal()">
-      <img [src]="user.avatarId">
+      <img [src]="thank.fromUser.avatarId">
 
-      <span>{{user.firstName[0]}}{{user.lastName[0]}}</span>
+      <span>{{thank.fromUser.firstName[0]}}{{thank.fromUser.lastName[0]}}</span>
     </div>
 
-    <span>{{user.firstName}} {{user.lastName}}</span>
+    <span>{{thank.fromUser.firstName}} {{thank.fromUser.lastName}}</span>
   </div>
+</div>
+<div class="no-content" *ngIf="noContent">
+  <img src="../../../../assets/no-content3.jpg">
+  <h2>Nobody thanked you...</h2>
 </div>

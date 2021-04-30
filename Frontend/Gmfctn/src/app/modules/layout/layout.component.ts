@@ -22,6 +22,9 @@ export class LayoutComponent implements OnInit, OnDestroy{
           .getUserInfo().pipe(take(1)).subscribe(user => {
               this.user = user;
           }));
+    this.profileService.currentUser$.subscribe(user => {
+      this.user = user;
+    });
   }
 
   ngOnDestroy(): void {

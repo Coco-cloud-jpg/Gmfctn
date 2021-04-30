@@ -14,11 +14,12 @@ export class BadgesComponent implements OnInit, OnDestroy {
   height = 0;
   margin = '';
   user!: User;
+
   constructor(private profileService: ProfileService) {}
 
   ngOnInit(): void {
     this.calculateSize();
-    this.subscription.add(this.profileService.currentUser$.subscribe( user => this.user = {...user}));
+    this.subscription.add(this.profileService.currentUser$.subscribe( user => this.user = user));
   }
 
   ngOnDestroy(): void {

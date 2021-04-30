@@ -79,3 +79,26 @@
     }
   }
 }
+
+.no-content {
+  margin: 0 auto;
+  text-align: center;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  align-items: center;
+
+  img {
+    margin-top: 5em;
+    width: 20em;
+    border: 4px solid $base-color;
+    border-radius: 5px;
+  }
+
+  h2 {
+    color: #eee;
+    font-size: 2em;
+    font-weight: 300;
+  }
+}

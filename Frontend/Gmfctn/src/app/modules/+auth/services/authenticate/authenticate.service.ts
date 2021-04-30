@@ -1,9 +1,10 @@
 import { HttpClient, HttpErrorResponse } from '@angular/common/http';
 import { Injectable, OnDestroy } from '@angular/core';
+import { UrlTree } from '@angular/router';
 import { BehaviorSubject, Observable, of, Subject } from 'rxjs';
 import { catchError, take, tap } from 'rxjs/operators';
 import { apiUrl } from 'src/environments/environment';
-import { Tokens } from '../../../shared/models/token';
+import { Tokens } from '../../../../shared/models/token';
 
 
 @Injectable({
@@ -36,5 +37,34 @@ export class AuthenticateService implements OnDestroy{
 
         this.tokens$.next(newTokens);
       }, catchError( (err: HttpErrorResponse) => of(err))), take(1));
+  }
+
+  isLoggedIn(): boolean {
+    if (this.isTokenStillActive())
+    {
+      const tokens: Tokens = {
+        token: localStorage.getItem('AToken') ?? '',
+        aTTL: localStorage.getItem('UTC_TTL') ?? '',
+        refreshToken: localStorage.getItem('RToken') ?? '',
+      };
+
+      if (tokens.token === '' || tokens.aTTL === '' || tokens.refreshToken === '') {
+        return false;
+      }
+      else {
+        this.tokens$.next(tokens);
+
+        return true;
+      }
+    }
+
+    return false;
+  }
+
+  isTokenStillActive(): boolean {
+    const expiringDate = new Date(new Date(localStorage.getItem('UTC_TTL') + '').toUTCString());
+    const now = new Date(new Date().toUTCString());
+
+    return expiringDate > now;
   }
 }

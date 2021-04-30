@@ -7,5 +7,5 @@ import { Component, Input } from '@angular/core';
 })
 export class TotalAchievementsXpComponent {
   @Input() userXp = 0;
-  @Input() userBadges = 0;
+  @Input() userBadges: number | undefined = 0;
 }

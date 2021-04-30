@@ -2,8 +2,8 @@ import { Component, EventEmitter, OnDestroy, OnInit, Output } from '@angular/cor
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { Subscription } from 'rxjs';
-import { finalize, take } from 'rxjs/operators';
-import { AuthenticateService } from '../../services/authenticate.service';
+import { finalize, take, tap } from 'rxjs/operators';
+import { AuthenticateService } from '../../services/authenticate/authenticate.service';
 
 @Component({
   selector: 'app-sign-in',
@@ -43,5 +43,9 @@ export class SignInComponent implements OnInit, OnDestroy {
             this.router.navigate(['/home']);
       }));
       this.loading = false;
+  }
+
+  useRefreshToken(): void {
+
   }
 }

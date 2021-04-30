@@ -1,4 +1,4 @@
-import { NgModule } from '@angular/core';
+import { ModuleWithProviders, NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
@@ -9,8 +9,11 @@ import { LayoutModule } from './modules/layout/layout.module';
 import { SharedModule } from './shared/shared.module';
 import { AuthModule } from './modules/+auth/auth.module';
 import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
-import { SignInGuard } from './core/guards/sign-in.guard';
+import { SignInGuard } from './core/guards/sign-in/sign-in.guard';
 import { AuthHttpInterceptor } from './core/interceptors/http/auth-http.interseptor';
+import { LoggedInGuard } from './core/guards/logged-in/logged-in.guard';
+
+
 @NgModule({
   declarations: [
     AppComponent,
@@ -27,6 +30,7 @@ import { AuthHttpInterceptor } from './core/interceptors/http/auth-http.intersep
     HttpClientModule
   ],
   providers: [
+    LoggedInGuard,
     SignInGuard,
     {
       provide: HTTP_INTERCEPTORS,

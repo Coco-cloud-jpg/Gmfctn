@@ -4,8 +4,11 @@
   <button mat-button color="basic" (click)="openModal()">Request</button>
 </div>
 <div class="content">
-  <div class="info">
-    <div class="item" *ngFor="let item of achList"><img [src]="item.icon">
+  <div class="info" *ngIf="!!achList">
+    <div class="item" *ngFor="let item of achList">
+      <img [src]="item.iconId" *ngIf="!!item.iconId; else default">
+
+      <ng-template #default><img [src]="'../../../../assets/phoenix.png'"></ng-template>
 
       <div class="description">
         <p>{{item.name}}</p>
@@ -17,5 +20,9 @@
         <p>+ {{item.xp}} xp</p>
       </div>
     </div>
+  </div>
+  <div *ngIf="notFound" class="no-content">
+    <img src="../../../../assets/no-content.jpg">
+    <h2>You don't have any...</h2>
   </div>
 </div>

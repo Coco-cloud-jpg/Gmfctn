@@ -1,59 +1,36 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
+import { Subscription } from 'rxjs';
+import { EventIS } from 'src/app/shared/models/event';
 import { SayThankModalComponent } from '../../../../shared/components/say-thank-modal/say-thank-modal.component';
+import { EventServiceService } from '../../services/event-service/event-service.service';
 
 @Component({
   selector: 'app-exoft-achievements',
   templateUrl: './exoft-achievements.component.html',
   styleUrls: ['./exoft-achievements.component.scss'],
 })
-export class ExoftAchievementsComponent implements OnInit {
-  achList = [
-    {
-      name: 'Pepe',
-      surname: 'Jodgi',
-      icon: '../../../../assets/phoenix.png',
-      eventText: 'Exoft turbo power',
-      time: new Date('March 17, 2021 03:24:00'),
-    },
-    {
-      name: 'Petro',
-      surname: 'Poroshenko',
-      icon: '../../../../assets/5.jpg',
-      eventText: 'Exoft party power',
-      time: new Date('April 2, 2021 03:24:00'),
-    },
-    {
-      name: 'Shrek',
-      surname: 'Bolothnyi',
-      icon: '',
-      eventText: 'Exoft corporate power',
-      time: new Date('March 27, 2021 03:24:00'),
-    },
-    {
-      name: 'Mr.',
-      surname: 'Heisenberg',
-      icon: '',
-      eventText: 'Exoft skylark power',
-      time: new Date('March 17, 2021 03:24:00'),
-    },
-    {
-      name: 'Ihor',
-      surname: 'Da',
-      icon: '',
-      eventText: 'Exoft turbo power',
-      time: new Date('December 17, 2005 03:24:00'),
-    },
-  ];
+export class ExoftAchievementsComponent implements OnInit, OnDestroy {
+  events!: EventIS[];
+  subscription = new Subscription();
 
-  constructor(public dialog: MatDialog) {}
+  constructor(public dialog: MatDialog, private eventService: EventServiceService) {}
 
   ngOnInit(): void {
-    this.fillData();
+    this.subscription.add(this.eventService.getAllEvents().subscribe(res => {
+      this.events = res;
+      if (res) {
+        this.fillData();
+      }
+    }));
+  }
+
+  ngOnDestroy(): void {
+    this.subscription.unsubscribe();
   }
 
   private fillData(): void {
-    this.achList.sort((a, b) => b.time.getTime() - a.time.getTime());
+    this.events.sort((a, b) => b.date.getTime() - a.date.getTime());
   }
 
   openModal(user: object): void {

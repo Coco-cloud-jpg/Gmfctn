@@ -1,72 +1,20 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { SayThankModalComponent } from '../../../../shared/components/say-thank-modal/say-thank-modal.component';
 import { Roles, User } from 'src/app/shared/models/user';
 import { Graph } from 'src/app/shared/models/graph';
+import { UserService } from 'src/app/core/services/users-service/user.service';
+import { UserSI } from 'src/app/shared/models/user-short-info';
+import { THIS_EXPR } from '@angular/compiler/src/output/output_ast';
+import { Subscription } from 'rxjs';
 
 @Component({
   selector: 'app-top-chart',
   templateUrl: './top-chart.component.html',
   styleUrls: ['./top-chart.component.scss'],
 })
-export class TopChartComponent implements OnInit {
-  users: User[] = [
-    {
-      firstName: 'Petro',
-      lastName: 'Poroshenko',
-      userName: 'Petya',
-      xp: 120,
-      avatarId: '../../../../assets/5.jpg',
-      status: '',
-      email: 'asdqweqw@gmail.com',
-      id: 'asdqwe',
-      roles: [Roles.User],
-    },
-    {
-      firstName: 'Petro',
-      lastName: 'Poroshenko',
-      userName: 'Petya',
-      xp: 1020,
-      avatarId: '../../../../assets/5.jpg',
-      status: '',
-      email: 'asdqweqw@gmail.com',
-      id: 'asdqwe',
-      roles: [Roles.User],
-    },
-    {
-      firstName: 'Petro',
-      lastName: 'Poroshenko',
-      userName: 'Petya',
-      xp: 100,
-      avatarId: '../../../../assets/5.jpg',
-      status: '',
-      email: 'asdqweqw@gmail.com',
-      id: 'asdqwe',
-      roles: [Roles.User],
-    },
-    {
-      firstName: 'Petro',
-      lastName: 'Poroshenko',
-      userName: 'Petya',
-      xp: 1,
-      avatarId: '../../../../assets/5.jpg',
-      status: '',
-      email: 'asdqweqw@gmail.com',
-      id: 'asdqwe',
-      roles: [Roles.User],
-    },
-    {
-      firstName: 'Petro',
-      lastName: 'Poroshenko',
-      userName: 'Petya',
-      xp: 10,
-      avatarId: '../../../../assets/5.jpg',
-      status: '',
-      email: 'asdqweqw@gmail.com',
-      id: 'asdqwe',
-      roles: [Roles.User],
-    },
-  ];
+export class TopChartComponent implements OnInit, OnDestroy {
+  users: UserSI[] = [];
   bars: Graph[] = [
     {
       Value: 0,
@@ -90,14 +38,30 @@ export class TopChartComponent implements OnInit {
     },
   ];
 
-  constructor(public dialog: MatDialog) {}
+  subscription = new Subscription();
+
+  constructor(public dialog: MatDialog, private userService: UserService) {}
 
   ngOnInit(): void {
-    this.calculateGraphsLength();
+    if (!this.userService.usersList$.value) {
+      this.subscription.add(this.userService.getTopFiveUsers().subscribe(users => {
+        this.users = users;
+        this.calculateGraphsLength();
+      }));
+    }
+    else {
+      this.subscription.add(this.userService.usersList$.subscribe(users => {
+        this.users = users;
+        this.calculateGraphsLength();
+      }));
+    }
+  }
+
+  ngOnDestroy(): void {
+    this.subscription.unsubscribe();
   }
 
   private calculateGraphsLength(): void {
-    this.users.sort((a, b) => b.xp - a.xp);
     const maxLength = this.users[0].xp;
 
     for (let i = 0; i < this.bars.length; ++i) {
@@ -105,7 +69,7 @@ export class TopChartComponent implements OnInit {
     }
   }
 
-  openModal(user: User): void {
+  openModal(user: UserSI): void {
     this.dialog.open(SayThankModalComponent, {
       width: '40%',
       panelClass: 'custom-modalbox',

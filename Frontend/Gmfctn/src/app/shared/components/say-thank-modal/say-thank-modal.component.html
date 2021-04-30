@@ -23,9 +23,17 @@
 
           <div class="quantity">{{badge[1]}}</div>
 
-          <div class="icon"><img [src]="badge[0].icon" alt=""></div>
+          <div class="icon">
+            <img [src]="badge[0].iconId" *ngIf="!!badge[0].iconId; else default">
+
+            <ng-template #default><img [src]="'../../../../assets/phoenix.png'"></ng-template>
+          </div>
 
           <div class="name">{{badge[0].name}}</div>
+        </div>
+        <div *ngIf="notFound" class="no-content">
+          <img src="../../../../assets/no-content2.jpg">
+          <h2>There aren't any...</h2>
         </div>
       </div>
     </div>

@@ -1,9 +1,9 @@
 import { HttpErrorResponse, HttpEvent, HttpHandler, HttpInterceptor, HttpRequest } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Router } from '@angular/router';
-import { Observable, of, throwError } from 'rxjs';
+import { EMPTY, Observable, of, throwError } from 'rxjs';
 import { catchError, skip, switchMap, take } from 'rxjs/operators';
-import { AuthenticateService } from 'src/app/modules/+auth/services/authenticate.service';
+import { AuthenticateService } from 'src/app/modules/+auth/services/authenticate/authenticate.service';
 
 
 @Injectable()
@@ -14,15 +14,16 @@ export class AuthHttpInterceptor implements HttpInterceptor {
     if (err.status === 401 || err.status === 403) {
         this.authenticateService.isErrorInAuthorization$.next(true);
         this.router.navigateByUrl(`/auth/sign-in`);
+
         return of(err.message);
     }
 
     return throwError(err);
-}
+  }
 
   intercept(req: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
     this.authenticateService.isErrorInAuthorization$.next(false);
-    return this.authenticateService.tokens$.pipe(take(1),switchMap((tokens) => {
+    return this.authenticateService.tokens$.pipe(take(1), switchMap((tokens) => {
       if (!tokens) {
         return next.handle(req).pipe(catchError(x => this.handleAuthError(x)));
       }
@@ -30,10 +31,9 @@ export class AuthHttpInterceptor implements HttpInterceptor {
       const setHeaders = {
         authorization: 'Bearer ' + tokens.token
       };
-
       const finalReq = req.clone({ setHeaders });
 
-      return next.handle(finalReq);
+      return next.handle(finalReq).pipe(catchError(x => this.handleAuthError(x)));
     }));
   }
 

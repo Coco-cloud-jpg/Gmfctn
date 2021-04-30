@@ -1,7 +1,7 @@
-<div class="content">
+<div class="content" *ngIf="!!achList">
   <h3>Full list of achievements</h3>
 
-  <p>
+  <p *ngIf="!noContent">
     <span>Achievement</span>
 
     <span>EXP points</span>
@@ -10,12 +10,22 @@
   </p>
 
   <div class="item" *ngFor="let item of achList">
-    <div class="img"><img [src]="item.icon"></div>
+    <div class="img">
+      <img [src]="item.iconId" *ngIf="!!item.iconId; else default">
+
+      <ng-template #default><img [src]="'../../../../assets/phoenix.png'"></ng-template>
+    </div>
 
     <div class="name">{{item.name}}</div>
 
     <div class="points">+{{item.xp}} XP</div>
 
     <div class="date">{{item.time | passedTimePipe}}</div>
+  </div>
+
+  <div *ngIf="noContent" class="no-content">
+    <img src="../../../../assets/no-content2.jpg">
+
+    <h2>You don't have any...</h2>
   </div>
 </div>
