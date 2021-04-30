@@ -1,10 +1,10 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable, OnDestroy } from '@angular/core';
-import { BehaviorSubject, EMPTY, Observable, of } from 'rxjs';
+import { BehaviorSubject, EMPTY, Observable } from 'rxjs';
 import { catchError, map, tap } from 'rxjs/operators';
-import { Achievement } from 'src/app/shared/models/achievement';
 import { UserSI } from 'src/app/shared/models/user-short-info';
 import { apiUrl } from 'src/environments/environment';
+import { FileService } from '../file-service/file.service';
 
 @Injectable({
   providedIn: 'root'
@@ -12,7 +12,7 @@ import { apiUrl } from 'src/environments/environment';
 export class UserService implements OnDestroy{
   usersList$: BehaviorSubject<UserSI[]> = new BehaviorSubject(null as unknown as UserSI[]);
 
-  constructor(private httpClient: HttpClient) { }
+  constructor(private httpClient: HttpClient, private fileService: FileService) { }
 
   ngOnDestroy(): void {
     this.usersList$.complete();
@@ -32,37 +32,22 @@ export class UserService implements OnDestroy{
   }
 
   loadUserExtraData(users: UserSI[]): UserSI[] {
-    const usersWithAvatar = users;
-
-    usersWithAvatar.forEach(user => {
-      this.httpClient
-      .post<any>(`${apiUrl}api/files/get-by-id?Id=${user.avatarId}`, '')
-      .pipe(catchError(() => {
-        user.avatarId = '';
-
-        return EMPTY;
-      }))
-      .subscribe(res => user.avatarId = !!res ? `${apiUrl}${res.url}` : '');
+    users.forEach(user => {
+      this.fileService.loadFile(user.avatarId)
+      .subscribe(res => user.avatarId = !!res.url ? `${apiUrl}${res.url}` : '');
     });
 
-    return usersWithAvatar;
+    return users;
   }
 
   getUserById(id: string): Observable<UserSI> {
     return this.httpClient.get<UserSI>(`${apiUrl}api/user/get_user?Id=${id}`)
     .pipe(
       map(user => {
-        const userWithAvatar = user;
-        this.httpClient
-        .post<any>(`${apiUrl}api/files/get-by-id?Id=${userWithAvatar.avatarId}`, '')
-        .pipe(catchError(() => {
-          userWithAvatar.avatarId = '';
+        this.fileService.loadFile(user.avatarId)
+        .subscribe(res => user.avatarId = !! res.url ? `${apiUrl}${res.url}` : '');
 
-          return EMPTY;
-        }))
-        .subscribe(res => userWithAvatar.avatarId = !! res ? `${apiUrl}${res.url}` : '');
-
-        return userWithAvatar;
+        return user;
       })
     );
   }

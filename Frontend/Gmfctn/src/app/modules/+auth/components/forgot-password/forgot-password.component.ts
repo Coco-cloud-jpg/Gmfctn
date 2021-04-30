@@ -1,7 +1,8 @@
-import { Component, OnInit, SimpleChanges } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { Router } from '@angular/router';
+import { take } from 'rxjs/operators';
 import { SuccesfullyResetComponent } from 'src/app/shared/components/succesfully-reset/succesfully-reset.component';
 import { ResetPasswordService } from '../../services/reset-password/reset-password.service';
 
@@ -13,6 +14,7 @@ import { ResetPasswordService } from '../../services/reset-password/reset-passwo
 export class ForgotPasswordComponent implements OnInit {
   email = '';
   resetPasswordForm = new FormGroup({});
+  emailForm = new FormGroup({});
   dataToReset = {newPassword: '', hash: ''};
   errorOccured = false;
   isMessageSent = false;
@@ -23,7 +25,12 @@ export class ForgotPasswordComponent implements OnInit {
               private router: Router, private snackBar: MatSnackBar) { }
 
   ngOnInit(): void {
-    document.querySelector('#mail')?.addEventListener('keydown', this.emailValidator.bind(this));
+    this.emailForm = this.fb.group({
+      email: this.fb.control(this.email, [
+        Validators.required,
+        Validators.pattern(this.emailRegexp),
+      ])
+    });
     this.resetPasswordForm = this.fb.group({
       hash: this.fb.control(this.dataToReset.hash, Validators.required),
       newPassword: this.fb.control(this.dataToReset.newPassword,
@@ -34,12 +41,9 @@ export class ForgotPasswordComponent implements OnInit {
     });
   }
 
-  emailValidator(): void {
-    this.isValid = this.emailRegexp.test(this.email);
-  }
-
   sendRequest(): void {
-    this.resetPasswordService.sendRequest(this.email).subscribe(res => {
+    this.email = this.emailForm.value.email;
+    this.resetPasswordService.sendRequest(this.email).pipe(take(1)).subscribe(res => {
        this.errorOccured = res === 'error';
        this.isMessageSent = res !== 'error';
     });
@@ -48,7 +52,7 @@ export class ForgotPasswordComponent implements OnInit {
   resetPassword(): void {
     if (this.resetPasswordForm.valid) {
       this.dataToReset = this.resetPasswordForm.value;
-      this.resetPasswordService.resetPassword(this.dataToReset).subscribe(res => {
+      this.resetPasswordService.resetPassword(this.dataToReset).pipe(take(1)).subscribe(res => {
         this.errorOccured = res === 'error';
         if (res !== 'error') {
           this.snackBar.openFromComponent(SuccesfullyResetComponent, {

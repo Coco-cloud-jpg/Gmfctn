@@ -2,7 +2,7 @@ import { Component, OnDestroy, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { MatDialogRef } from '@angular/material/dialog';
 import { Subscription } from 'rxjs';
-import { AchievementServiceService } from 'src/app/core/services/achievement-service/achievement-service.service';
+import { AchievementService } from 'src/app/core/services/achievement-service/achievement.service';
 import { Achievement } from '../../models/achievement';
 
 @Component({
@@ -20,7 +20,7 @@ export class RequestModalComponent implements OnInit, OnDestroy {
   subscription = new Subscription();
 
   constructor(private readonly fb: FormBuilder, private dialogRef: MatDialogRef<RequestModalComponent>,
-              private achievementServiceService: AchievementServiceService) { }
+              private achievementServiceService: AchievementService) { }
 
   ngOnInit(): void {
     this.userForm = this.fb.group({

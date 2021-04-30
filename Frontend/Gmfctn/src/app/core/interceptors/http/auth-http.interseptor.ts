@@ -1,8 +1,8 @@
 import { HttpErrorResponse, HttpEvent, HttpHandler, HttpInterceptor, HttpRequest } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Router } from '@angular/router';
-import { EMPTY, Observable, of, throwError } from 'rxjs';
-import { catchError, skip, switchMap, take } from 'rxjs/operators';
+import { Observable, of, throwError } from 'rxjs';
+import { catchError, switchMap, take } from 'rxjs/operators';
 import { AuthenticateService } from 'src/app/modules/+auth/services/authenticate/authenticate.service';
 
 

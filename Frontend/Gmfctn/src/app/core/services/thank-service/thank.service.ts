@@ -1,9 +1,10 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable, OnDestroy } from '@angular/core';
 import { BehaviorSubject, EMPTY, Observable } from 'rxjs';
-import { catchError, map, tap } from 'rxjs/operators';
+import { catchError, map } from 'rxjs/operators';
 import { Thank } from 'src/app/shared/models/thank';
 import { apiUrl } from 'src/environments/environment';
+import { FileService } from '../file-service/file.service';
 
 @Injectable({
   providedIn: 'root'
@@ -11,7 +12,7 @@ import { apiUrl } from 'src/environments/environment';
 export class ThankService implements OnDestroy {
   thank$: BehaviorSubject<Thank> = new BehaviorSubject(null as unknown as Thank);
 
-  constructor(private httpClient: HttpClient) { }
+  constructor(private httpClient: HttpClient, private fileService: FileService) { }
 
   ngOnDestroy(): void {
     this.thank$.complete();
@@ -28,14 +29,8 @@ export class ThankService implements OnDestroy {
       const thankWithUserAvatar = thank;
 
       if ( thankWithUserAvatar ) {
-      this.httpClient
-      .post<any>(`${apiUrl}api/files/get-by-id?Id=${thankWithUserAvatar.fromUser.avatarId}`, '')
-      .pipe(catchError(() => {
-        thankWithUserAvatar.fromUser.avatarId = '';
-
-        return EMPTY;
-      }))
-      .subscribe(res => thankWithUserAvatar.fromUser.avatarId = !! res ? `${apiUrl}${res.url}` : '');
+      this.fileService.loadFile(thankWithUserAvatar.fromUser.avatarId)
+      .subscribe(res => thankWithUserAvatar.fromUser.avatarId = !! res.url ? `${apiUrl}${res.url}` : '');
       }
 
       return thankWithUserAvatar;

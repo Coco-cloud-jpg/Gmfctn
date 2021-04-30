@@ -1,11 +1,9 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { SayThankModalComponent } from '../../../../shared/components/say-thank-modal/say-thank-modal.component';
-import { Roles, User } from 'src/app/shared/models/user';
 import { Graph } from 'src/app/shared/models/graph';
 import { UserService } from 'src/app/core/services/users-service/user.service';
 import { UserSI } from 'src/app/shared/models/user-short-info';
-import { THIS_EXPR } from '@angular/compiler/src/output/output_ast';
 import { Subscription } from 'rxjs';
 
 @Component({

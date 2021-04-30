@@ -2,6 +2,7 @@ import { Component, OnDestroy, OnInit } from '@angular/core';
 import { AbstractControl, FormBuilder, FormGroup, ValidationErrors, Validators } from '@angular/forms';
 import { MatDialogRef } from '@angular/material/dialog';
 import { Subscription } from 'rxjs';
+import { take } from 'rxjs/operators';
 import { UserService } from 'src/app/core/services/users-service/user.service';
 
 @Component({
@@ -9,11 +10,10 @@ import { UserService } from 'src/app/core/services/users-service/user.service';
   templateUrl: './change-password.component.html',
   styleUrls: ['./change-password.component.scss']
 })
-export class ChangePasswordComponent implements OnInit, OnDestroy {
+export class ChangePasswordComponent implements OnInit {
   passForm: FormGroup = new FormGroup({});
   passwords = {oldPassword : '' , newPassword : '', confirmedPassword: ''};
   private readonly passwordRegex: RegExp = /^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])[0-9a-zA-Z]{8,32}$/;
-  subscription = new Subscription();
 
   constructor(
     private readonly fb: FormBuilder,
@@ -27,10 +27,6 @@ export class ChangePasswordComponent implements OnInit, OnDestroy {
       newPassword: this.fb.control(this.passwords.newPassword, this.passwordValidator.bind(this)),
       confpassword: this.fb.control(this.passwords.confirmedPassword, this.isEqual.bind(this))
     });
-  }
-
-  ngOnDestroy(): void {
-    this.subscription.unsubscribe();
   }
 
   passwordValidator(control: AbstractControl): ValidationErrors | null {
@@ -55,7 +51,7 @@ export class ChangePasswordComponent implements OnInit, OnDestroy {
     if (this.passForm.valid) {
       this.passwords = this.passForm.value;
       const data = {oldPassword : this.passwords.oldPassword , newPassword : this.passwords.newPassword};
-      this.subscription.add(this.userService.passwordChange(data).subscribe());
+      this.userService.passwordChange(data).pipe(take(1)).subscribe();
     }
   }
 

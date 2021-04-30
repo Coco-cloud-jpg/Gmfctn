@@ -3,8 +3,7 @@ import { MatDialog } from '@angular/material/dialog';
 
 import { ProfileSettingModalComponent } from '../../../../shared/components/profile-setting-modal/profile-setting-modal.component';
 
-import { Roles, User } from 'src/app/shared/models/user';
-import { defaultUser } from 'src/app/shared/models/dafault-user';
+import { User } from 'src/app/shared/models/user';
 import { ProfileService } from 'src/app/core/services/profile-service/profile.service';
 import { Subscription } from 'rxjs';
 

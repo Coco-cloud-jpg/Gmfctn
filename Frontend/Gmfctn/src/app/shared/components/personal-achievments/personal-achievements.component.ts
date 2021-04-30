@@ -1,10 +1,9 @@
 import { Component, Input, OnDestroy, OnInit } from '@angular/core';
 import '../../models/achievement';
-import { MatDialog, MatDialogRef } from '@angular/material/dialog';
+import { MatDialog } from '@angular/material/dialog';
 import { RequestModalComponent } from '../request-modal/request-modal.component';
 import { Achievement } from '../../models/achievement';
 import { ProfileService } from 'src/app/core/services/profile-service/profile.service';
-import { AchievementServiceService } from 'src/app/core/services/achievement-service/achievement-service.service';
 import { Subscription } from 'rxjs';
 
 @Component({

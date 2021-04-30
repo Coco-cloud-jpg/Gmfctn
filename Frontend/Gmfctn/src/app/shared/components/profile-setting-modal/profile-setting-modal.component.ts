@@ -1,7 +1,8 @@
-import { Component, inject, Inject, InjectFlags, OnDestroy, OnInit, Type } from '@angular/core';
+import { Component, Inject, OnDestroy, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { Subscription } from 'rxjs';
+import { take } from 'rxjs/operators';
 import { ProfileService } from 'src/app/core/services/profile-service/profile.service';
 import { User } from '../../models/user';
 
@@ -10,9 +11,8 @@ import { User } from '../../models/user';
   templateUrl: './profile-setting-modal.component.html',
   styleUrls: ['./profile-setting-modal.component.scss'],
 })
-export class ProfileSettingModalComponent implements OnInit, OnDestroy {
+export class ProfileSettingModalComponent implements OnInit {
   userForm: FormGroup = new FormGroup({});
-  subscription = new Subscription();
 
   constructor(
     private readonly fb: FormBuilder,
@@ -33,10 +33,6 @@ export class ProfileSettingModalComponent implements OnInit, OnDestroy {
     });
   }
 
-  ngOnDestroy(): void {
-    this.subscription.unsubscribe();
-  }
-
   updateUser(): void {
     if (this.userForm.valid) {
       this.user = {...this.user, ...this.userForm.value };
@@ -49,7 +45,7 @@ export class ProfileSettingModalComponent implements OnInit, OnDestroy {
         status: status
       };
 
-      this.subscription.add(this.profileService.updateUser(data).subscribe());
+      this.profileService.updateUser(data).pipe(take(1)).subscribe();
       this.close();
     }
   }

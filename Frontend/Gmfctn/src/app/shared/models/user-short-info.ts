@@ -1,7 +1,3 @@
-export interface UserSI {
-    id: string;
-    firstName: string;
-    lastName: string;
-    xp: number;
-    avatarId: string;
-}
+import { User } from "./user";
+
+export type UserSI = Pick<User, 'id' | 'firstName' | 'lastName' | 'xp' | 'avatarId'>

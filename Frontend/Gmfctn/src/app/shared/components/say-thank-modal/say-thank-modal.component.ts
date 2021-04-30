@@ -2,8 +2,7 @@ import { Component, Inject, OnDestroy, OnInit } from '@angular/core';
 import { MatDialog, MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { LeaveTheCommentComponent } from '../leave-the-comment/leave-the-comment.component';
 import { Achievement } from '../../models/achievement';
-import { User } from '../../models/user';
-import { AchievementServiceService } from 'src/app/core/services/achievement-service/achievement-service.service';
+import { AchievementService } from 'src/app/core/services/achievement-service/achievement.service';
 import { UserSI } from '../../models/user-short-info';
 import { Subscription } from 'rxjs';
 
@@ -24,7 +23,7 @@ export class SayThankModalComponent implements OnInit, OnDestroy {
     public dialog: MatDialog,
     private dialogRef: MatDialogRef<SayThankModalComponent>,
     @Inject(MAT_DIALOG_DATA) public user: UserSI,
-    private achivementService: AchievementServiceService
+    private achivementService: AchievementService
   ) {}
 
   ngOnInit(): void {

@@ -1,7 +1,6 @@
 import { HttpClient, HttpErrorResponse } from '@angular/common/http';
 import { Injectable, OnDestroy } from '@angular/core';
-import { UrlTree } from '@angular/router';
-import { BehaviorSubject, Observable, of, Subject } from 'rxjs';
+import { BehaviorSubject, Observable, of } from 'rxjs';
 import { catchError, take, tap } from 'rxjs/operators';
 import { apiUrl } from 'src/environments/environment';
 import { Tokens } from '../../../../shared/models/token';
@@ -62,8 +61,8 @@ export class AuthenticateService implements OnDestroy{
   }
 
   isTokenStillActive(): boolean {
-    const expiringDate = new Date(new Date(localStorage.getItem('UTC_TTL') + '').toUTCString());
-    const now = new Date(new Date().toUTCString());
+    const expiringDate = new Date(localStorage.getItem('UTC_TTL') + '').getTime();
+    const now = Date.now();
 
     return expiringDate > now;
   }

@@ -1,16 +1,16 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable, OnDestroy } from '@angular/core';
-import { BehaviorSubject, EMPTY, Observable, of } from 'rxjs';
-import { catchError, count, map, tap } from 'rxjs/operators';
+import { BehaviorSubject, EMPTY, Observable } from 'rxjs';
+import { catchError, map, tap } from 'rxjs/operators';
 import { Achievement } from 'src/app/shared/models/achievement';
 import { apiUrl } from 'src/environments/environment';
 
 @Injectable({
   providedIn: 'root'
 })
-export class AchievementServiceService implements OnDestroy {
+export class AchievementService implements OnDestroy {
 
-  achievements$: BehaviorSubject<Achievement[]> = new BehaviorSubject(null as unknown as Achievement[]);
+  achievements$: BehaviorSubject<Achievement[] | null> = new BehaviorSubject(null as unknown as Achievement[] | null);
 
   constructor(private httpClient: HttpClient) { }
 
@@ -36,9 +36,7 @@ export class AchievementServiceService implements OnDestroy {
   }
 
   loadAchievementsIcons(achievements: Achievement[]): Achievement[] {
-    const achievementsWithIcon = achievements;
-
-    achievementsWithIcon.forEach(achievement => {
+    achievements.forEach(achievement => {
       this.httpClient
       .post<any>(`${apiUrl}api/files/get-by-id?Id=${achievement.iconId}`, '')
       .pipe(catchError(() => {
@@ -49,6 +47,6 @@ export class AchievementServiceService implements OnDestroy {
       .subscribe(res => achievement.iconId = !!res ? `${apiUrl}${res.url}` : '');
     });
 
-    return achievementsWithIcon;
+    return achievements;
   }
 }

@@ -1,7 +1,7 @@
 import { HttpClient, HttpErrorResponse } from '@angular/common/http';
 import { Injectable, OnDestroy } from '@angular/core';
 import { BehaviorSubject, Observable, of } from 'rxjs';
-import { catchError, take } from 'rxjs/operators';
+import { catchError } from 'rxjs/operators';
 import { apiUrl } from 'src/environments/environment';
 
 @Injectable({
@@ -22,6 +22,7 @@ export class ResetPasswordService implements OnDestroy{
     .post<string>(`${apiUrl}api/auth/send-request?Email=${email}`, '')
     .pipe(catchError( err => {
       this.error$.next(err);
+
       return of('error');
     }));
   }
@@ -31,6 +32,7 @@ export class ResetPasswordService implements OnDestroy{
     .post<string>(`${apiUrl}api/auth/reset`, body)
     .pipe(catchError( err => {
       this.error$.next(err);
+
       return of('error');
     }));
   }

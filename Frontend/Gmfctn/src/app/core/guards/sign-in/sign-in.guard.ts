@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { CanActivate, UrlTree, Router } from '@angular/router';
-import { Observable, of } from 'rxjs';
-import { map, take, tap } from 'rxjs/operators';
+import { Observable } from 'rxjs';
+import { map, take } from 'rxjs/operators';
 import { AuthenticateService } from 'src/app/modules/+auth/services/authenticate/authenticate.service';
 
 @Injectable({
