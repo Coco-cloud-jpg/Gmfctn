@@ -11,6 +11,14 @@
 /Frontend/Gmfctn/out-tsc
 
 /Frontend/Gmfctn/bazel-out
+/Backend/Data_/bin
+/Backend/Data_/obj
+/Backend/Files/bin
+/Backend/Files/obj
+/Backend/Services/obj
+/Backend/Services/bin
+/Backend/UnitTests/obj
+/Backend/UnitTests/bin
 
 /Frontend/Gmfctn/chrome-profiler-events*.json
 /Frontend/Gmfctn/speed-measure-plugin*.json

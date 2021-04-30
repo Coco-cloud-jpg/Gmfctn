@@ -21,10 +21,15 @@ namespace Data_.Profiles
                 .ForMember("Roles", src =>
                 src.MapFrom(opt => ConvertRoles(opt)))
                 .ForMember("Achievements", src => 
-                    src.MapFrom(opt => ConvertAchievements(opt)));
+                    src.MapFrom(opt => ConvertAchievements(opt)))
+                .ForMember("DatesCreation", src =>
+                src.MapFrom(opt => ConvertDates(opt)));
         }
         private ICollection<string> ConvertRoles(User User)
         {
+            if (User?.UserRoles == null)
+                return null;
+
             var Result = new List<string>();
 
             foreach (var Item in User?.UserRoles)
@@ -34,6 +39,22 @@ namespace Data_.Profiles
 
             return Result;
         }
+
+        private ICollection<string> ConvertDates(User User)
+        {
+            if (User?.UserAchievements == null)
+                return null;
+
+            var Result = new List<string>();
+
+            foreach (var Item in User?.UserAchievements)
+            {
+                Result.Add(Item.AddedTime.ToString("yyyy-MM-ddTHH:mm:ssZ"));
+            }
+
+            return Result;
+        }
+
 
         private ICollection<Achievement> ConvertAchievements(User User)
         {

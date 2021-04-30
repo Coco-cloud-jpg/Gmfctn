@@ -42,12 +42,13 @@ namespace Gmfctn.Controllers
                 return BadRequest();
             }
         }
+
         [HttpPost("get-by-id")]
-        public async Task<ActionResult<string>> GetById(Guid Id, CancellationToken Cancel)
+        public async Task<ActionResult<FileUrl>> GetById(Guid Id, CancellationToken Cancel)
         {
             try
             {
-                return Ok(await FileService.GetFileById(Id, Cancel));
+                return Ok(new FileUrl{ Url = await FileService.GetFileById(Id, Cancel)});
             }
             catch
             {

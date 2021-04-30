@@ -120,7 +120,7 @@ namespace Services
             var Event = new Event
             {
                 CreatedTime = DateTime.UtcNow,
-                Description = $"User - {User.UserName} got achievement {Achievement.Name}",
+                Description = $"Got achievement {Achievement.Name}",
                 Id = new Guid(),
                 Type = EventType.Records,
                 User = null,
@@ -139,7 +139,7 @@ namespace Services
                 .ThenInclude(UserRole => UserRole.Role)
                 .Include(User => User.UserAchievements)
                 .ThenInclude(UserAchievement => UserAchievement.Achievement)
-                .FirstOrDefaultAsync(User => User.Id == UserId, Cancel)).Achievements;
+                .FirstOrDefaultAsync(User => User.Id == UserId, Cancel))?.Achievements;
         }
 
         public async Task<Achievement> GetAchievementByUserId(Guid UserId, Guid AchievementId, CancellationToken Cancel)
@@ -150,7 +150,7 @@ namespace Services
                 .ThenInclude(UserRole => UserRole.Role)
                 .Include(User => User.UserAchievements)
                 .ThenInclude(UserAchievement => UserAchievement.Achievement)
-                .FirstOrDefaultAsync(User => User.Id == UserId, Cancel)).Achievements.FirstOrDefault(Achievement => Achievement.Id == AchievementId);
+                .FirstOrDefaultAsync(User => User.Id == UserId, Cancel))?.Achievements.FirstOrDefault(Achievement => Achievement.Id == AchievementId);
         }
     }
 }

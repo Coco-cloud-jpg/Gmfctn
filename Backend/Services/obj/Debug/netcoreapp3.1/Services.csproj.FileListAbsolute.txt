@@ -10,3 +10,15 @@ C:\Users\Acer\Desktop\Trainee_project\Gmfctn\Backend\Services\obj\Debug\netcorea
 C:\Users\Acer\Desktop\Trainee_project\Gmfctn\Backend\Services\obj\Debug\netcoreapp3.1\Services.csproj.CopyComplete
 C:\Users\Acer\Desktop\Trainee_project\Gmfctn\Backend\Services\obj\Debug\netcoreapp3.1\Services.dll
 C:\Users\Acer\Desktop\Trainee_project\Gmfctn\Backend\Services\obj\Debug\netcoreapp3.1\Services.pdb
+C:\Users\Acer\Desktop\Trainee_project\a\Backend\Services\bin\Debug\netcoreapp3.1\Services.deps.json
+C:\Users\Acer\Desktop\Trainee_project\a\Backend\Services\bin\Debug\netcoreapp3.1\Services.dll
+C:\Users\Acer\Desktop\Trainee_project\a\Backend\Services\bin\Debug\netcoreapp3.1\Services.pdb
+C:\Users\Acer\Desktop\Trainee_project\a\Backend\Services\bin\Debug\netcoreapp3.1\Data_.dll
+C:\Users\Acer\Desktop\Trainee_project\a\Backend\Services\bin\Debug\netcoreapp3.1\Data_.pdb
+C:\Users\Acer\Desktop\Trainee_project\a\Backend\Services\obj\Debug\netcoreapp3.1\Services.csprojAssemblyReference.cache
+C:\Users\Acer\Desktop\Trainee_project\a\Backend\Services\obj\Debug\netcoreapp3.1\Services.AssemblyInfoInputs.cache
+C:\Users\Acer\Desktop\Trainee_project\a\Backend\Services\obj\Debug\netcoreapp3.1\Services.AssemblyInfo.cs
+C:\Users\Acer\Desktop\Trainee_project\a\Backend\Services\obj\Debug\netcoreapp3.1\Services.csproj.CoreCompileInputs.cache
+C:\Users\Acer\Desktop\Trainee_project\a\Backend\Services\obj\Debug\netcoreapp3.1\Services.csproj.CopyComplete
+C:\Users\Acer\Desktop\Trainee_project\a\Backend\Services\obj\Debug\netcoreapp3.1\Services.dll
+C:\Users\Acer\Desktop\Trainee_project\a\Backend\Services\obj\Debug\netcoreapp3.1\Services.pdb

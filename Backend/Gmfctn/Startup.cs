@@ -39,6 +39,7 @@ namespace Gmfctn
                 mc.AddProfile(new AchievementProfile());
                 mc.AddProfile(new UserProfile());
                 mc.AddProfile(new ThankProfile()); 
+                mc.AddProfile(new EventProfile());
             });
 
 
@@ -82,8 +83,9 @@ namespace Gmfctn
             services.AddTransient<IThankService, ThankService>();
             services.AddTransient<IProfileService, ProfileService>();
             services.AddTransient<IFileService, FileService>(); 
-            services.AddTransient<IMailService, MailService>();
-            services.AddTransient<IRequestAchievementService, RequestAchievementService>(); 
+            services.AddTransient<IMailService, MailService>(); 
+            services.AddTransient<IRequestAchievementService, RequestAchievementService>();
+            services.AddTransient<IEventService, EventService>();
 
             services.AddControllers().AddNewtonsoftJson(options =>
                 options.SerializerSettings.ReferenceLoopHandling = Newtonsoft.Json.ReferenceLoopHandling.Ignore);

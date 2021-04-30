@@ -11,6 +11,7 @@ using System.Linq;
 using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
+using Data_.Dtos;
 
 namespace Gmfctn.Controllers
 {
@@ -39,7 +40,7 @@ namespace Gmfctn.Controllers
             }
         }
         [HttpGet]
-        public async Task<ActionResult<Thank>> GetThank( CancellationToken Cancel)
+        public async Task<ActionResult<ThankReadDTO>> GetThank( CancellationToken Cancel)
         {
             try
             {
