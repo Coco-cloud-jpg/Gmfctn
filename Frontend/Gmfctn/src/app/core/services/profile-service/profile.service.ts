@@ -27,11 +27,11 @@ export class ProfileService implements OnDestroy  {
   loadUserExtraData(user: User): User {
     this.fileService.loadFile(user.avatarId)
       .subscribe(res => user.avatarId = !!res.url ? `${apiUrl}${res.url}` : '');
-      user.badges = user.achievements?.length;
+    user.badges = user.achievements?.length;
 
-      user.achievements?.forEach(achievement => {
+    user.achievements?.forEach(achievement => {
       this.fileService.loadFile(achievement.iconId)
-      .subscribe(res => achievement.iconId = !!res.url ? `${apiUrl}${res.url}` : '');
+        .subscribe(res => achievement.iconId = !!res.url ? `${apiUrl}${res.url}` : '');
     });
 
     for (let i = 0; i < (user.achievements?.length ?? 0); ++i) {

@@ -1,7 +1,7 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { EMPTY, Observable } from 'rxjs';
-import { catchError, map } from 'rxjs/operators';
+import { Observable } from 'rxjs';
+import { map } from 'rxjs/operators';
 import { FileService } from 'src/app/core/services/file-service/file.service';
 import { EventIS } from 'src/app/shared/models/event';
 import { apiUrl } from 'src/environments/environment';
@@ -9,7 +9,7 @@ import { apiUrl } from 'src/environments/environment';
 @Injectable({
   providedIn: 'root'
 })
-export class EventServiceService {
+export class EventService {
 
   constructor(private httpClient: HttpClient, private fileService: FileService) { }
 

@@ -20,14 +20,14 @@ export class RequestModalComponent implements OnInit, OnDestroy {
   subscription = new Subscription();
 
   constructor(private readonly fb: FormBuilder, private dialogRef: MatDialogRef<RequestModalComponent>,
-              private achievementServiceService: AchievementService) { }
+              private achievementService: AchievementService) { }
 
   ngOnInit(): void {
     this.userForm = this.fb.group({
       achievement: this.fb.control(this.request.achievementId, Validators.required),
       message: this.fb.control(this.request.message, Validators.required),
     });
-    this.subscription.add(this.achievementServiceService.getAllAchievements().subscribe(achhievements => this.achList = achhievements));
+    this.subscription.add(this.achievementService.getAllAchievements().subscribe(achhievements => this.achList = achhievements));
   }
 
   ngOnDestroy(): void {
@@ -38,7 +38,7 @@ export class RequestModalComponent implements OnInit, OnDestroy {
     if (this.userForm.valid) {
         this.request = this.userForm.value;
         this.request.achievementId = this.achList.find(achievement => achievement.name === this.userForm.value.achievement)?.id ?? '';
-        this.subscription.add(this.achievementServiceService.sendRequest(this.request).subscribe());
+        this.subscription.add(this.achievementService.sendRequest(this.request).subscribe());
         this.close();
     }
   }

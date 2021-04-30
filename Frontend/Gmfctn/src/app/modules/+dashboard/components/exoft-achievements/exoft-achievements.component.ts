@@ -3,7 +3,7 @@ import { MatDialog } from '@angular/material/dialog';
 import { Subscription } from 'rxjs';
 import { EventIS } from 'src/app/shared/models/event';
 import { SayThankModalComponent } from '../../../../shared/components/say-thank-modal/say-thank-modal.component';
-import { EventServiceService } from '../../services/event-service/event-service.service';
+import { EventService } from '../../services/event-service/event.service';
 
 @Component({
   selector: 'app-exoft-achievements',
@@ -14,7 +14,7 @@ export class ExoftAchievementsComponent implements OnInit, OnDestroy {
   events!: EventIS[];
   subscription = new Subscription();
 
-  constructor(public dialog: MatDialog, private eventService: EventServiceService) {}
+  constructor(public dialog: MatDialog, private eventService: EventService) {}
 
   ngOnInit(): void {
     this.subscription.add(this.eventService.getAllEvents().subscribe(res => {

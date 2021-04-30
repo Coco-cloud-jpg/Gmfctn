@@ -14,6 +14,6 @@ export class FileService {
   loadFile(id: string): Observable<any> {
     return this.httpClient
       .post<any>(`${apiUrl}api/files/get-by-id?Id=${id}`, '')
-      .pipe(catchError(() => of({url: ''}))).pipe();
+      .pipe(catchError(() => of({url: ''})));
   }
 }
