@@ -2,22 +2,22 @@
   <div class="head">
     <h3>Exoft achievements</h3>
 
-    <span>80</span>
+    <span *ngIf="!!events">{{events.length}}</span>
   </div>
-  <div class="info">
-    <div class="item" *ngFor="let item of achList">
-      <div class="img" (click)="openModal(item)">
-        <img [src]="item.icon">
+  <div class="info" *ngIf="!!events">
+    <div class="item" *ngFor="let item of events">
+      <div class="img" (click)="openModal(item.user)">
+        <img [src]="item.user.avatarId">
 
-        <span>{{item.name[0]}}{{item.surname[0]}}</span>
+        <span>{{item.user.firstName[0]}}{{item.user.lastName[0]}}</span>
       </div>
 
       <div class="description">
-        <span>{{item.name}} {{item.surname}}</span>
+        <span>{{item.user.firstName}} {{item.user.lastName}}</span>
 
-        <span>{{item.time|passedTimePipe}}</span>
+        <span>{{item.date|passedTimePipe}}</span>
 
-        <p>Got achievement {{item.name}}</p>
+        <p>{{item.description}}</p>
 
         <span class="record">Records</span>
       </div>

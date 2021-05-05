@@ -1,9 +1,8 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
-import { Subject, Subscription } from 'rxjs';
+import { Subscription } from 'rxjs';
 import { take } from 'rxjs/operators';
 import { ProfileService } from 'src/app/core/services/profile-service/profile.service';
-import { Roles, User } from 'src/app/shared/models/user';
-import { defaultUser } from 'src/app/shared/models/dafault-user';
+import { User } from 'src/app/shared/models/user';
 
 @Component({
   selector: 'app-layout',
@@ -22,6 +21,9 @@ export class LayoutComponent implements OnInit, OnDestroy{
           .getUserInfo().pipe(take(1)).subscribe(user => {
               this.user = user;
           }));
+    this.profileService.currentUser$.subscribe(user => {
+      this.user = user;
+    });
   }
 
   ngOnDestroy(): void {

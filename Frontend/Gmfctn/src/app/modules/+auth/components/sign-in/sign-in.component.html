@@ -2,6 +2,7 @@
   <div class="content">
     <div class="form">
       <mat-error *ngIf="!!errorMessage">{{errorMessage}}</mat-error>
+
       <form [formGroup]="initialFormData">
         <mat-form-field>
           <mat-label>User name</mat-label>
@@ -12,15 +13,16 @@
         <mat-form-field>
           <mat-label>Password</mat-label>
 
-          <input matInput formControlName="password" class="text">
+          <input matInput formControlName="password" class="text" type="password">
         </mat-form-field>
       </form>
 
-      <a href="#">Forgot password ?</a>
+      <a routerLink="../reset-password">Forgot password ?</a>
 
       <button mat-button color="basic" [disabled]="initialFormData.invalid || loading" (click)="signIn()">Sign
         in</button>
     </div>
+
     <div class="logo">
       <img src="../../../assets/exoft-logo-image.png">
     </div>

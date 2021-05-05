@@ -37,10 +37,10 @@
     </button>
 
     <button mat-menu-item>
-      <span>Change password</span>
+      <span (click)="changePassword()">Change password</span>
     </button>
 
-    <button mat-menu-item>
+    <button mat-menu-item (click)="loggout()">
       <span>Loggout</span>
     </button>
   </mat-menu>

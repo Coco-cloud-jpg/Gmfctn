@@ -1,3 +1,5 @@
+import { Achievement } from './achievement';
+
 export enum Roles {
     User = 'User',
     Admin = 'Admin'
@@ -16,4 +18,6 @@ export interface User {
     roles: Roles[];
     badges?: number;
     avatarId: string;
+    achievements?: Achievement[];
+    datesCreation?: string[];
   }

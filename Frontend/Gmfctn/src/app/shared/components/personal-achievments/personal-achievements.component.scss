@@ -97,4 +97,22 @@
 
   }
 
+  .no-content {
+    margin: 0 auto;
+    text-align: center;
+
+    img {
+      width: 15em;
+      border: 4px solid $base-color;
+      border-radius: 5px;
+    }
+
+    h2 {
+      color: #eee;
+      font-size: 2em;
+      font-weight: 300;
+      text-align: center;
+    }
+  }
+
 }

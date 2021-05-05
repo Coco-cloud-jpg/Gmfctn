@@ -1,4 +1,4 @@
-<div class="dashboard">
+<div class="dashboard" *ngIf="!!user">
   <mat-grid-list cols="5" [gutterSize]="margin" [rowHeight]="height">
 
     <mat-grid-tile class="tile" [colspan]="4" [rowspan]="1">
@@ -23,7 +23,7 @@
     </mat-grid-tile>
 
     <mat-grid-tile class="tile" [colspan]="1" [rowspan]="3">
-      <app-badges></app-badges>
+      <app-badges [badges]="user.badges"></app-badges>
     </mat-grid-tile>
 
     <mat-grid-tile class="tile" [colspan]="3" [rowspan]="3">

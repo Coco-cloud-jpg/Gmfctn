@@ -1,8 +1,7 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { Subscription } from 'rxjs';
 import { ProfileService } from 'src/app/core/services/profile-service/profile.service';
-import { Roles, User } from 'src/app/shared/models/user';
-import { defaultUser } from 'src/app/shared/models/dafault-user';
+import { User } from 'src/app/shared/models/user';
 
 @Component({
   selector: 'app-badges',
@@ -14,11 +13,12 @@ export class BadgesComponent implements OnInit, OnDestroy {
   height = 0;
   margin = '';
   user!: User;
+
   constructor(private profileService: ProfileService) {}
 
   ngOnInit(): void {
     this.calculateSize();
-    this.subscription.add(this.profileService.currentUser$.subscribe( user => this.user = {...user}));
+    this.subscription.add(this.profileService.currentUser$.subscribe( user => this.user = user));
   }
 
   ngOnDestroy(): void {

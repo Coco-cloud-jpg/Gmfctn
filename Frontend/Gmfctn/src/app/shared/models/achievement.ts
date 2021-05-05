@@ -1,7 +1,8 @@
 export interface Achievement {
-    icon: string;
+    iconId: string;
     name: string;
     description: string;
     xp: number;
     time: Date;
+    id: string;
 }

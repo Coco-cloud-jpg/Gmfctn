@@ -12,6 +12,9 @@ import { ThankYouComponent } from './components/thank-you/thank-you.component';
 import { PersonalAchievmentsComponent } from './components/personal-achievments/personal-achievements.component';
 
 import { PassedTimePipePipe } from './pipes/passed-time-pipe/passed-time-pipe.pipe';
+import { SuccesfullyResetComponent } from './components/succesfully-reset/succesfully-reset.component';
+import { ChangePasswordComponent } from './components/change-password/change-password.component';
+import { NotFoundComponent } from './components/not-found/not-found.component';
 
 
 @NgModule({
@@ -23,6 +26,9 @@ import { PassedTimePipePipe } from './pipes/passed-time-pipe/passed-time-pipe.pi
     RequestModalComponent,
     PersonalAchievmentsComponent,
     PassedTimePipePipe,
+    SuccesfullyResetComponent,
+    ChangePasswordComponent,
+    NotFoundComponent,
   ],
   imports: [
     CommonModule,

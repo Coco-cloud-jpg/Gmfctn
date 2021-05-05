@@ -1,77 +1,44 @@
-import { Component, Inject, OnInit } from '@angular/core';
+import { Component, Inject, OnDestroy, OnInit } from '@angular/core';
 import { MatDialog, MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { LeaveTheCommentComponent } from '../leave-the-comment/leave-the-comment.component';
 import { Achievement } from '../../models/achievement';
-import { User } from '../../models/user';
+import { AchievementService } from 'src/app/core/services/achievement-service/achievement.service';
+import { UserSI } from '../../models/user-short-info';
+import { Subscription } from 'rxjs';
 
 @Component({
   selector: 'app-say-thank-modal',
   templateUrl: './say-thank-modal.component.html',
   styleUrls: ['./say-thank-modal.component.scss'],
 })
-export class SayThankModalComponent implements OnInit {
+export class SayThankModalComponent implements OnInit, OnDestroy {
   achList: Achievement[] = [
-    {
-      icon: '../../../../assets/phoenix.png',
-      name: 'Exoft turbo power',
-      description: '',
-      xp: 5,
-      time: new Date('December 17, 2005 03:24:00'),
-    },
-    {
-      icon: '../../../../assets/phoenix.png',
-      name: 'Exoft skylark power',
-      description: '',
-      xp: 5,
-      time: new Date(),
-    },
-    {
-      icon: '../../../../assets/phoenix.png',
-      name: 'Exoft corporate power',
-      description: '',
-      xp: 5,
-      time: new Date('March 27, 2021 22:24:00'),
-    },
-    {
-      icon: '../../../../assets/phoenix.png',
-      name: 'Exoft corporate power',
-      description: '',
-      xp: 5,
-      time: new Date('March 27, 2021 22:24:00'),
-    },
-    {
-      icon: '../../../../assets/phoenix.png',
-      name: 'Exoft owl power',
-      description: '',
-      xp: 5,
-      time: new Date('March 27, 2021 22:24:00'),
-    },
-    {
-      icon: '../../../../assets/phoenix.png',
-      name: 'Exoft mentor power',
-      description: '',
-      xp: 5,
-      time: new Date('March 27, 2021 22:24:00'),
-    },
-    {
-      icon: '../../../../assets/phoenix.png',
-      name: 'Exoft party power',
-      description: '',
-      xp: 5,
-      time: new Date('March 27, 2021 22:24:00'),
-    },
   ];
 
+  notFound = false;
   badgesQuantity: [Achievement, number][] = [];
+  subscription = new Subscription();
 
   constructor(
     public dialog: MatDialog,
     private dialogRef: MatDialogRef<SayThankModalComponent>,
-    @Inject(MAT_DIALOG_DATA) public user: User
+    @Inject(MAT_DIALOG_DATA) public user: UserSI,
+    private achivementService: AchievementService
   ) {}
 
   ngOnInit(): void {
-    this.calculateBadges();
+    this.subscription.add(this.achivementService.getUserAchievementsById(this.user.id)
+    .subscribe(achievements => {
+      this.achList = achievements;
+      this.calculateBadges();
+      if ( achievements.length === 0) {
+        this.notFound = true;
+      }
+    }));
+  }
+
+  ngOnDestroy(): void {
+    this.subscription.unsubscribe();
   }
 
   close(): void {
@@ -92,6 +59,7 @@ export class SayThankModalComponent implements OnInit {
     this.dialog.open(LeaveTheCommentComponent, {
       width: '21%',
       panelClass: 'custom-modalbox',
+      data: this.user.id
     });
   }
 }

@@ -1,9 +1,9 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
-import { SignInGuard } from './core/guards/sign-in.guard';
-import { AuthComponent } from './modules/+auth/auth.component';
-import { SignInComponent } from './modules/+auth/components/sign-in/sign-in.component';
+import { LoggedInGuard } from './core/guards/logged-in/logged-in.guard';
+import { SignInGuard } from './core/guards/sign-in/sign-in.guard';
 import { LayoutComponent } from './modules/layout/layout.component';
+import { NotFoundComponent } from './shared/components/not-found/not-found.component';
 
 const routes: Routes = [
   {
@@ -11,6 +11,7 @@ const routes: Routes = [
 
     loadChildren: () =>
       import('./modules/+auth/auth.module').then(module => module.AuthModule),
+    canActivate: [LoggedInGuard]
   },
   {
       path: 'home',
@@ -32,13 +33,21 @@ const routes: Routes = [
             pathMatch: 'full'
         },
       ],
-      canActivate: [SignInGuard]  
+      canActivate: [SignInGuard]
+  },
+  {
+    path: '404',
+    component: NotFoundComponent
   },
   {
     path : '',
     redirectTo: 'home',
     pathMatch: 'full',
    },
+   {
+     path: '**',
+     redirectTo: '/404'
+   }
 ];
 
 @NgModule({
